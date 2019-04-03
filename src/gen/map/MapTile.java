@@ -1,24 +1,15 @@
 package gen.map;
 
-//Job: Describes a dungeon map tile
-public class MapTile {
-    private Object occupyingObject;
-    private boolean occupied;
+public enum MapTile {
+    EMPTY("#"),
+    TREE("^"),
+    FORESTFLOOR("."),
+    CLIFF("x"),
+    TALLCLIFF("X");
 
-    public MapTile() {
+    public final String render;
 
-    }
-
-    public boolean isOccupied() {
-        return this.occupied;
-    }
-
-    public void setOccupied(boolean isOccupied) {
-        this.setOccupied(isOccupied, null);
-    }
-
-    public void setOccupied(boolean isOccupied, Object occupyingObject) {
-        this.occupied = isOccupied;
-        this.occupyingObject = occupyingObject;
+    MapTile(String render) {
+        this.render = render;
     }
 }
