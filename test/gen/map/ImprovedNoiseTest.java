@@ -92,9 +92,6 @@ public class ImprovedNoiseTest {
                 max = curr > max ? curr : max;
             }
         }
-        System.out.println("Min:" + min + " Max:" + max);
-        System.out.println("bigseed:" + big.seed);
-        System.out.println("smallseed:" + small.seed);
 
         PerlinUtils.exportPerlin(perlinsum, 127);
         double ratio = 0.9;
@@ -103,10 +100,6 @@ public class ImprovedNoiseTest {
             cutoff = ratio * (max - min) + min;
             ratio -= 0.025;
         } while (PerlinUtils.getLargestSquareArea(perlinsum, cutoff) < squareFieldRequirement);
-        System.out.println("--------");
-        System.out.println("Cutoff:" + cutoff);
-        System.out.println("Largest field:" + PerlinUtils.getLargestContiguousArea(perlinsum, cutoff));
-        System.out.println("Largest square field:" + PerlinUtils.getLargestSquareArea(perlinsum, cutoff));
         PerlinUtils.exportBicolorPerlin(perlinsum, cutoff);
     }
 }

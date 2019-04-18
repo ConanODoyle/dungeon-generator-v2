@@ -166,7 +166,7 @@ public class SurfaceLayer extends MapLayer {
 
     //Generate a path between the two points, preferring higher values in noise
     public void generateForestPath(int sx, int sy, int dx, int dy, double[][] noise) {
-        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
+//        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
         Queue<Point> search = new PriorityQueue<>((o1, o2) -> {
             double o1value = Math.sqrt(Math.pow(dx - o1.x, 2) + Math.pow(dy - o1.y, 2)) + (noise[o1.x][o1.y] + 1) * 6;
             double o2value = Math.sqrt(Math.pow(dx - o2.x, 2) + Math.pow(dy - o2.y, 2)) + (noise[o2.x][o2.y] + 1) * 6;
