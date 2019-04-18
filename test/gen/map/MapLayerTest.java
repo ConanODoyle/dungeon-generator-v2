@@ -21,8 +21,6 @@ public class MapLayerTest {
         var height = 10;
         MapLayer l = new SurfaceLayer(width, height);
 
-        l.printRender();
-
         var render = l.render();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -43,8 +41,6 @@ public class MapLayerTest {
         System.out.println("Using seed " + seed + " for generation...\n");
         l.setSeed(seed);
         l.generate();
-
-//        l.printRender();
 
         assertTrue(l.validateGeneration());
     }
