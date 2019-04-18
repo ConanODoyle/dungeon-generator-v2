@@ -15,7 +15,7 @@ public abstract class MapLayer {
     private final int id;
     protected final int height;
     protected final int width;
-    protected MapTile[][] tiles;
+    protected final MapTile[][] tiles;
     protected boolean hasGenerated = false;
 
     public long seed;
@@ -158,5 +158,13 @@ public abstract class MapLayer {
         }
         int foundx = closest.x, foundy = closest.y;
         return Math.abs(foundx - x) + Math.abs(foundy - y);
+    }
+
+    protected int getTotalAccessibleArea() {
+        int total = 0;
+        for (int i = 0; i < this.width; i++)
+            for (int j = 0; j < this.height; j++)
+                if (tiles[i][j].passable) total++;
+        return total;
     }
 }

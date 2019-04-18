@@ -80,7 +80,8 @@ public class SurfaceLayer extends MapLayer {
         generatePaths(noise, rand);
 
         //extra pass to clean up inaccessible areas
-        if (this.removeInaccessibleAreas() < 0.2 * this.height * this.width) {
+        removeInaccessibleAreas();
+        if (this.getTotalAccessibleArea() < 0.2 * this.height * this.width) {
             System.out.println("Generation did not generate a large enough map! Changing seed...");
             this.seed = rand.nextLong();
             this.generate();
@@ -95,13 +96,12 @@ public class SurfaceLayer extends MapLayer {
         this.hasGenerated = true;
     }
 
-    private int removeInaccessibleAreas() {
+    public int removeInaccessibleAreas() {
         boolean[][] mask = new boolean[this.width][this.height];
         int startx = this.width / 2, starty = this.height / 2; //town always in center
         ArrayList<Point> queue = new ArrayList<>();
         queue.add(new Point(startx, starty));
 
-        int totalAccessible = 0;
         while (queue.size() > 0) {
             Point curr = queue.remove(0);
             mask[curr.x][curr.y] = true;
@@ -114,17 +114,18 @@ public class SurfaceLayer extends MapLayer {
                     queue.add(p);
                 }
             }
-            totalAccessible++;
         }
 
+        int totalRemoved = 0;
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (!mask[i][j] && tiles[i][j].passable) {
                     tiles[i][j] = MapTile.FOREST;
+                    totalRemoved++;
                 }
             }
         }
-        return totalAccessible;
+        return totalRemoved;
     }
 
     private void generatePaths(double[][] noise, Random rand) {
