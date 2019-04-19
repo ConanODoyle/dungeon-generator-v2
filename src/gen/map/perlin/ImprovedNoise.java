@@ -8,8 +8,8 @@ package gen.map.perlin;
 import java.util.*;
 
 public final class ImprovedNoise {
-    final int p[] = new int[512];
-    boolean hasPermutation = false;
+    private final int p[] = new int[512];
+    private boolean hasPermutation = false;
     public long seed;
 
     public ImprovedNoise() {
@@ -67,7 +67,7 @@ public final class ImprovedNoise {
     }
 
     private void generatePermutation() {
-        List<Integer> permutation = new ArrayList<Integer>();
+        List<Integer> permutation = new ArrayList<>();
         for (int i = 0; i < 255; i++) {
             permutation.add(i);
         }
@@ -90,11 +90,13 @@ public final class ImprovedNoise {
     }
 
     private static double grad(int hash, double x, double y, double z) {
-        return grad(hash, x, y);
-//        int h = hash & 15;                      // CONVERT LO 4 BITS OF HASH CODE
-//        double u = h<8 ? x : y,                 // INTO 12 GRADIENT DIRECTIONS.
-//                v = h<4 ? y : h==12||h==14 ? x : z;
-//        return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
+        if (Math.abs(z - 0) < 0.0000001) {
+            return grad(hash, x, y);
+        }
+        int h = hash & 15;                      // CONVERT LO 4 BITS OF HASH CODE
+        double u = h<8 ? x : y,                 // INTO 12 GRADIENT DIRECTIONS.
+                v = h<4 ? y : h==12||h==14 ? x : z;
+        return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
     }
 
     private static double grad(int hash, double x, double y) {
@@ -111,8 +113,4 @@ public final class ImprovedNoise {
             default: return 0;
         }
     }
-    //0000
-    //111# -> u = y, v = x/z
-    //001# -> u = x, v = y
-    //011# -> u = y, v = z
 }

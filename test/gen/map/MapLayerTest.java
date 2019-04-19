@@ -1,13 +1,11 @@
 package gen.map;
 
 import gen.map.surface.SurfaceLayer;
+import gen.map.surface.SurfaceTile;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Random;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MapLayerTest {
 
@@ -38,8 +36,9 @@ public class MapLayerTest {
         var height = 160;
         MapLayer l = new SurfaceLayer(width, height);
 
-        Random r = new Random();
-        long seed = r.nextLong();//1920513116741714457L;
+//        Random r = new Random();
+//        long seed = r.nextLong();
+        long seed = 5241523343413506799L;
         System.out.println("Using seed " + seed + " for generation...\n");
         l.setSeed(seed);
         l.generate();
@@ -52,8 +51,8 @@ public class MapLayerTest {
         var width = 12;
         var height = 12;
         SurfaceLayer l = new SurfaceLayer(width, height);
-        var X = MapTile.FOREST;
-        var o = MapTile.FORESTFLOOR;
+        var X = SurfaceTile.FOREST;
+        var o = SurfaceTile.FORESTFLOOR;
 
         MapTile[][] src = new MapTile[][]{
                 {X, X, o, X, X, X, X, X, X, o, o, o},

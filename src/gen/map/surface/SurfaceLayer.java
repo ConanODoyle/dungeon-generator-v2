@@ -10,14 +10,6 @@ import java.util.*;
 
 //Job: Understands how to generate the surface layer
 public class SurfaceLayer extends MapLayer {
-    private static final MapTile[] validTiles = {
-            MapTile.TALLCLIFF,
-            MapTile.CLIFF,
-            MapTile.FORESTFLOOR,
-            MapTile.FOREST,
-            MapTile.FORESTPATH,
-            MapTile.TOWN
-    };
     private final int TOWNSIZE = 10;
 
     public SurfaceLayer(int width, int height) {
@@ -34,13 +26,13 @@ public class SurfaceLayer extends MapLayer {
 
         //first create a border
         for (int i = 0; i < this.width; i++) {
-            this.tiles[i][0] = MapTile.TALLCLIFF;
-            this.tiles[i][this.height - 1] = MapTile.TALLCLIFF;
+            this.tiles[i][0] = SurfaceTile.TALLCLIFF;
+            this.tiles[i][this.height - 1] = SurfaceTile.TALLCLIFF;
         }
 
         for (int i = 0; i < this.height; i++) {
-            this.tiles[0][i] = MapTile.TALLCLIFF;
-            this.tiles[this.width - 1][i] = MapTile.TALLCLIFF;
+            this.tiles[0][i] = SurfaceTile.TALLCLIFF;
+            this.tiles[this.width - 1][i] = SurfaceTile.TALLCLIFF;
         }
 
         //generate a map for forest fields
@@ -66,9 +58,9 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 1; i < noise.length - 1; i++) {
             for (int j = 1; j < noise[0].length - 1; j++) {
                 if (noise[i][j] > cutoff) {
-                    this.tiles[i][j] = MapTile.FORESTFLOOR;
+                    this.tiles[i][j] = SurfaceTile.FORESTFLOOR;
                 } else {
-                    this.tiles[i][j] = MapTile.FOREST;
+                    this.tiles[i][j] = SurfaceTile.FOREST;
                 }
             }
         }
@@ -77,7 +69,7 @@ public class SurfaceLayer extends MapLayer {
         generateTown();
 
         //generate paths
-        generatePaths(noise, rand);
+        generatePaths(rand);
 
         //extra pass to clean up inaccessible areas
         removeInaccessibleAreas();
@@ -120,7 +112,7 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (!mask[i][j] && tiles[i][j].passable) {
-                    tiles[i][j] = MapTile.FOREST;
+                    tiles[i][j] = SurfaceTile.FOREST;
                     totalRemoved++;
                 }
             }
@@ -128,8 +120,9 @@ public class SurfaceLayer extends MapLayer {
         return totalRemoved;
     }
 
-    private void generatePaths(double[][] noise, Random rand) {
-        int totalPaths = rand.nextInt((int) (4 + Math.ceil(Math.sqrt(this.width * this.height) / 40))) + 8;
+    private void generatePaths(Random rand) {
+        int mod = (int) Math.ceil(Math.sqrt(this.width * this.height) / 40);
+        int totalPaths = rand.nextInt(4 + mod) + 8 + mod / 2;
         double bigstep = 0.024;
         double smallstep = 0.16;//03 / 2;
         double bigmul = 1;
@@ -166,7 +159,7 @@ public class SurfaceLayer extends MapLayer {
     }
 
     //Generate a path between the two points, preferring higher values in noise
-    public void generateForestPath(int sx, int sy, int dx, int dy, double[][] noise) {
+    private void generateForestPath(int sx, int sy, int dx, int dy, double[][] noise) {
 //        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
         Queue<Point> search = new PriorityQueue<>((o1, o2) -> {
             double o1value = Math.sqrt(Math.pow(dx - o1.x, 2) + Math.pow(dy - o1.y, 2)) + (noise[o1.x][o1.y] + 1) * 6;
@@ -204,8 +197,8 @@ public class SurfaceLayer extends MapLayer {
         }
 
         for (Point p : path) {
-            if (tiles[p.x][p.y] != MapTile.TOWN && tiles[p.x][p.y] != MapTile.FORESTFLOOR) {
-                tiles[p.x][p.y] = MapTile.FORESTPATH;
+            if (tiles[p.x][p.y] != SurfaceTile.TOWN && tiles[p.x][p.y] != SurfaceTile.FORESTFLOOR) {
+                tiles[p.x][p.y] = SurfaceTile.FORESTPATH;
             }
         }
     }
@@ -218,14 +211,14 @@ public class SurfaceLayer extends MapLayer {
 
         //check for border cliffs
         for (int i = 0; i < this.width; i++) {
-            if (this.tiles[i][0] != MapTile.TALLCLIFF
-                    || this.tiles[i][this.height - 1] != MapTile.TALLCLIFF) {
+            if (this.tiles[i][0] != SurfaceTile.TALLCLIFF
+                    || this.tiles[i][this.height - 1] != SurfaceTile.TALLCLIFF) {
                 return false;
             }
         }
         for (int i = 0; i < this.height; i++) {
-            if (this.tiles[0][i] != MapTile.TALLCLIFF
-                    || this.tiles[this.width - 1][i] != MapTile.TALLCLIFF) {
+            if (this.tiles[0][i] != SurfaceTile.TALLCLIFF
+                    || this.tiles[this.width - 1][i] != SurfaceTile.TALLCLIFF) {
                 return false;
             }
         }
@@ -233,7 +226,7 @@ public class SurfaceLayer extends MapLayer {
         //check for town at center
         int wCenter = this.width / 2 + (this.width + 1) % 2 - 1;
         int hCenter = this.width / 2 + (this.width + 1) % 2 - 1;
-        if (this.tiles[wCenter][hCenter] != MapTile.TOWN) {
+        if (this.tiles[wCenter][hCenter] != SurfaceTile.TOWN) {
             return false;
         }
 
@@ -247,7 +240,7 @@ public class SurfaceLayer extends MapLayer {
                 }
 
                 //check for pathtiles (should have at least some)
-                if (this.tiles[i][j] == MapTile.FORESTPATH) {
+                if (this.tiles[i][j] == SurfaceTile.FORESTPATH) {
                     pathCount++;
                 }
 
@@ -272,7 +265,7 @@ public class SurfaceLayer extends MapLayer {
         int hCenter = this.width / 2 + (this.width + 1) % 2 - 1;
         for (int i = 0; i < TOWNSIZE; i++) {
             for (int j = 0; j < TOWNSIZE; j++) {
-                this.tiles[wCenter - TOWNSIZE/2 + i][hCenter - TOWNSIZE/2 + j] = MapTile.TOWN;
+                this.tiles[wCenter - TOWNSIZE/2 + i][hCenter - TOWNSIZE/2 + j] = SurfaceTile.TOWN;
             }
         }
     }
