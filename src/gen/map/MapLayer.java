@@ -10,8 +10,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 //Job: Understands basic MapLayer operations
+@SuppressWarnings("WeakerAccess")
 public abstract class MapLayer {
-    public static final int PIXELSIZE = 10;
+    private static final int PIXELSIZE = 10;
     private final int id;
     protected final int height;
     protected final int width;
@@ -58,8 +59,14 @@ public abstract class MapLayer {
                 Color tileColor = tiles[i][j].color;
                 g2d.setColor(tileColor);
                 g2d.fillRect(j * PIXELSIZE, i * PIXELSIZE, PIXELSIZE, PIXELSIZE);
-                g2d.setColor(Color.ORANGE);
-                g2d.drawRect(j * PIXELSIZE, i * PIXELSIZE, PIXELSIZE, PIXELSIZE);
+            }
+        }
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (j % 2 == i % 2 && j % 2 == 0) {
+                    g2d.setColor(Color.ORANGE);
+                    g2d.drawRect(j * PIXELSIZE, i * PIXELSIZE, 2 * PIXELSIZE, 2 * PIXELSIZE);
+                }
             }
         }
 
@@ -73,6 +80,7 @@ public abstract class MapLayer {
 
     protected abstract String getName();
 
+    @SuppressWarnings("unused")
     public void printRender() {
         System.out.println("----------------");
 
@@ -130,6 +138,7 @@ public abstract class MapLayer {
 
     public abstract boolean validateGeneration();
 
+    @SuppressWarnings("unused")
     protected int distanceToClosestTile(int x, int y, MapTile tileType) {
         int[] xmod = {0, 1, 1, 1, 0, -1, -1, -1};
         int[] ymod = {1, 1, 0, -1, -1, -1, 0, 1};

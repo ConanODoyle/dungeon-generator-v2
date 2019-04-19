@@ -36,15 +36,35 @@ public class SurfaceLayer extends MapLayer {
         }
 
         //generate a map for forest fields
+        generateForest(rand);
+        generateCliffs(rand);
+        generateTown();
+        generatePaths(rand);
+        removeInaccessibleAreas();
+
+        //check if map is big enough, if not, retry generation
+        if (this.getTotalAccessibleArea() < 0.2 * this.height * this.width) {
+            System.out.println("Generation did not generate a large enough map! Changing seed...");
+            this.seed = rand.nextLong();
+            this.generate();
+            return;
+        }
+
+        this.exportAsImage();
+
+        this.hasGenerated = true;
+    }
+
+    private double[][] generateForest(Random rand) {
         ImprovedNoise base = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust2 = new ImprovedNoise(rand.nextLong());
         double weight1 = 2, step1 = 0.11;
         double weight2 = 0.7, step2 = 0.015;
-        double weight3 = 2, step3 = 0.11, xoffset3 = 0.05, yoffset3 = 0.05;
+        double weight3 = 2, step3 = 0.11, xOffset3 = 0.05, yOffset3 = 0.05;
         double[][] baseNoise = base.generate2DNoise(this.width, this.height, step1);
         double[][] adjustNoise = adjust.generate2DNoise(this.width, this.height, step2);
-        double[][] adjust2Noise = adjust2.generate2DNoise(this.width, this.height, step3, xoffset3, yoffset3);
+        double[][] adjust2Noise = adjust2.generate2DNoise(this.width, this.height, step3, xOffset3, yOffset3);
         double[][] noise = PerlinUtils.getNoiseWeightedSum(baseNoise, weight1, adjustNoise, weight2);
         noise = PerlinUtils.getNoiseWeightedSum(noise, weight1 + weight2, adjust2Noise, weight3);
 
@@ -65,24 +85,44 @@ public class SurfaceLayer extends MapLayer {
             }
         }
 
-        generateTown();
-        generatePaths(rand);
-        removeInaccessibleAreas();
-
-        //check if map is big enough, if not, retry generation
-        if (this.getTotalAccessibleArea() < 0.2 * this.height * this.width) {
-            System.out.println("Generation did not generate a large enough map! Changing seed...");
-            this.seed = rand.nextLong();
-            this.generate();
-            return;
-        }
-
-        //debug/utility exports
         PerlinUtils.exportBicolorPerlin(noise, cutoff);
         PerlinUtils.exportPerlin(noise, 50);
-        this.exportAsImage();
 
-        this.hasGenerated = true;
+        return noise;
+    }
+
+    private double[][] generateCliffs(Random rand) {
+        ImprovedNoise base = new ImprovedNoise(rand.nextLong());
+        ImprovedNoise adjust = new ImprovedNoise(rand.nextLong());
+        ImprovedNoise adjust2 = new ImprovedNoise(rand.nextLong());
+        double weight1 = 2, step1 = 0.05;
+        double weight2 = 0.7, step2 = 0.005;
+        double weight3 = 2, step3 = 0.05, xOffset3 = 0.045, yOffset3 = 0.045;
+        double[][] baseNoise = base.generate2DNoise(this.width, this.height, step1);
+        double[][] adjustNoise = adjust.generate2DNoise(this.width, this.height, step2);
+        double[][] adjust2Noise = adjust2.generate2DNoise(this.width, this.height, step3, xOffset3, yOffset3);
+        double[][] noise = PerlinUtils.getNoiseWeightedSum(baseNoise, weight1, adjustNoise, weight2);
+        noise = PerlinUtils.getNoiseWeightedSum(noise, weight1 + weight2, adjust2Noise, weight3);
+
+        //adjust the cutoff value until we get a map of an appropriate size
+        double cutoff = 0.99; //range of perlin noise is -1 to 1
+        double minArea = rand.nextDouble() * 0.09 + 0.04;
+        while (PerlinUtils.getTotalCutoffArea(noise, cutoff) < minArea * this.width * this.height) {
+            cutoff -= 0.02;
+        }
+
+        for (int i = 1; i < noise.length - 1; i++) {
+            for (int j = 1; j < noise[0].length - 1; j++) {
+                if (noise[i][j] > cutoff) {
+                    this.tiles[i][j] = SurfaceTile.CLIFF;
+                }
+            }
+        }
+
+//        PerlinUtils.exportBicolorPerlin(noise, cutoff);
+//        PerlinUtils.exportPerlin(noise, 50);
+
+        return noise;
     }
 
     public int removeInaccessibleAreas() {
@@ -159,8 +199,8 @@ public class SurfaceLayer extends MapLayer {
     private void generateForestPath(int sx, int sy, int dx, int dy, double[][] noise) {
 //        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
         Queue<Point> search = new PriorityQueue<>((o1, o2) -> {
-            double o1value = Math.sqrt(Math.pow(dx - o1.x, 2) + Math.pow(dy - o1.y, 2)) + (noise[o1.x][o1.y] + 1) * 6;
-            double o2value = Math.sqrt(Math.pow(dx - o2.x, 2) + Math.pow(dy - o2.y, 2)) + (noise[o2.x][o2.y] + 1) * 6;
+            double o1value = Math.sqrt(Math.pow(dx - o1.x, 2) + Math.pow(dy - o1.y, 2)) * (4 + (noise[o1.x][o1.y] + 1) * 2);
+            double o2value = Math.sqrt(Math.pow(dx - o2.x, 2) + Math.pow(dy - o2.y, 2)) * (4 + (noise[o2.x][o2.y] + 1) * 2);
             return Double.compare(o1value, o2value);
         });
         boolean[][] checked = new boolean[this.width][this.height];
