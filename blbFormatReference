@@ -1,0 +1,41 @@
+Brick Data:
+2x4" 3.5 2 1.1 0 0 16 * 0 0 1 1 1	    -	Brick UIName
+2x4" [3.5 2 1.1] 0 0 16 * 0 0 1 1 1	    -	Position
+2x4" 3.5 2 1.1 [0] 0 16 * 0 0 1 1 1	    -	Angle ID
+2x4" 3.5 2 1.1 0 [0] 16 * 0 0 1 1 1	    -	Is Baseplate
+2x4" 3.5 2 1.1 0 0 16 * 0 0 1 1 1	    -	Color ID
+2x4" 3.5 2 1.1 0 0 16 * 0 0 1 1 1	    -	Print ID (an empty space unless the brick has a print in it)
+2x4" 3.5 2 1.1 0 0 16 * [0] 0 1 1 1	    -	Color FX ID
+2x4" 3.5 2 1.1 0 0 16 * 0 [0] 1 1 1	    -	Shape FX ID
+2x4" 3.5 2 1.1 0 0 16 * 0 0 [1 1 1]	    -	Raycasting, Colliding, and Rendering, respectively
+
+Owner Data:
++-OWNER 27690	-	Field name (owner)
++-OWNER 27690	-	Owner's BL_ID
+
+Event Data:
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Field name (event)
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Delay
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Enabled
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Input
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Unknown
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Target
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Output
++-EVENT 0 1 onActivate 0 Self disappear 5	-	Event Output Field
+
+Emitter Data:
++-EMITTER Brick Explosion" 2	-	Field name (emitter)
++-EMITTER Brick Explosion" 2	-	Emitter UIName
++-EMITTER Brick Explosion" 2	-	Direction
+
+Light Data:
++-LIGHT Blue Fire Light" 1	-	Field name (light)
++-LIGHT Blue Fire Light" 1	-	Light UIName
++-LIGHT Blue Fire Light" 1	-	Unknown
+
+Item Data:
++-ITEM Multitool" 2 2 4000	-	Field name (item)
++-ITEM Multitool" 2 2 4000	-	Item UIName
++-ITEM Multitool" 2 2 4000	-	Direction
++-ITEM Multitool" 2 2 4000	-	Position
++-ITEM Multitool" 2 2 4000	-	Item Respawn Time
