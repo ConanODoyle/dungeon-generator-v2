@@ -14,7 +14,9 @@ public class SurfaceTile extends MapTile {
     public static SurfaceTile CLIFF = new SurfaceTile("x", new Color(110,110,110), false);
     public static SurfaceTile TALLCLIFF = new SurfaceTile("X", new Color(80,80,80), false);
     public static SurfaceTile TOWN = new SurfaceTile("T", new Color(160, 100, 220), true);
-    public static SurfaceTile GLEN = new SurfaceTile("G", new Color(0, 160, 180), true);
+    public static SurfaceTile GLEN = new SurfaceTile("G", new Color(0, 200, 220), true);
+    public static SurfaceTile CAVE = new SurfaceTile("C", new Color(150,150,150), true);
+
 
     public SurfaceTile(String render, Color color, boolean passable) {
         super(render, color, passable);
