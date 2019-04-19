@@ -65,14 +65,11 @@ public class SurfaceLayer extends MapLayer {
             }
         }
 
-        //generate town in center of map
         generateTown();
-
-        //generate paths
         generatePaths(rand);
-
-        //extra pass to clean up inaccessible areas
         removeInaccessibleAreas();
+
+        //check if map is big enough, if not, retry generation
         if (this.getTotalAccessibleArea() < 0.2 * this.height * this.width) {
             System.out.println("Generation did not generate a large enough map! Changing seed...");
             this.seed = rand.nextLong();
@@ -90,9 +87,9 @@ public class SurfaceLayer extends MapLayer {
 
     public int removeInaccessibleAreas() {
         boolean[][] mask = new boolean[this.width][this.height];
-        int startx = this.width / 2, starty = this.height / 2; //town always in center
+        int startX = this.width / 2, startY = this.height / 2; //town always in center
         ArrayList<Point> queue = new ArrayList<>();
-        queue.add(new Point(startx, starty));
+        queue.add(new Point(startX, startY));
 
         while (queue.size() > 0) {
             Point curr = queue.remove(0);
@@ -123,17 +120,17 @@ public class SurfaceLayer extends MapLayer {
     private void generatePaths(Random rand) {
         int mod = (int) Math.ceil(Math.sqrt(this.width * this.height) / 40);
         int totalPaths = rand.nextInt(4 + mod) + 8 + mod / 2;
-        double bigstep = 0.024;
-        double smallstep = 0.16;//03 / 2;
-        double bigmul = 1;
-        double smallmul = 5;
+        double bigStep = 0.024;
+        double smallStep = 0.16;//03 / 2;
+        double bigMul = 1;
+        double smallMul = 5;
 
         ImprovedNoise big = new ImprovedNoise(rand.nextLong());//1297618227837464957L);
         ImprovedNoise small = new ImprovedNoise(rand.nextLong());//1297618227837464957L);
 
-        double[][] perlinbig = big.generate2DNoise(this.width, this.height, bigstep);
-        double[][] perlinsmall = small.generate2DNoise(this.width, this.height, smallstep, smallstep / 2, smallstep / 2);
-        double[][] perlinsum = PerlinUtils.getNoiseWeightedSum(perlinbig, bigmul, perlinsmall, smallmul);
+        double[][] perlinBig = big.generate2DNoise(this.width, this.height, bigStep);
+        double[][] perlinSmall = small.generate2DNoise(this.width, this.height, smallStep, smallStep / 2, smallStep / 2);
+        double[][] perlinSum = PerlinUtils.getNoiseWeightedSum(perlinBig, bigMul, perlinSmall, smallMul);
 
         int sx = this.width / 2, sy = this.height / 2, dx, dy;
 //        sx = rand.nextInt(this.width - 2) + 1;
@@ -147,7 +144,7 @@ public class SurfaceLayer extends MapLayer {
                 dx = rand.nextInt(this.width - 2) + 1;
                 dy = rand.nextInt(this.height - 2) + 1;
             } while (Math.abs(dx - sx) + Math.abs(dy - sy) < 8);
-            generateForestPath(sx, sy, dx, dy, perlinsum);
+            generateForestPath(sx, sy, dx, dy, perlinSum);
             sx = dx;
             sy = dy;
         }
