@@ -4,6 +4,8 @@ import gen.map.surface.SurfaceLayer;
 import gen.map.surface.SurfaceTile;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -21,7 +23,7 @@ public class MapLayerTest {
         var height = 10;
         MapLayer l = new SurfaceLayer(width, height);
 
-        var render = l.render();
+        var render = MapExport.exportAsString(l);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 //Default no-tile-present should print #
@@ -36,14 +38,16 @@ public class MapLayerTest {
         var height = 160;
         MapLayer l = new SurfaceLayer(width, height);
 
-//        Random r = new Random();
-//        long seed = r.nextLong();
-        long seed = 5241523343413506799L;
+        Random r = new Random();
+        long seed = r.nextLong();
+//        long seed = 5241523343413506799L;
         System.out.println("Using seed " + seed + " for generation...\n");
         l.setSeed(seed);
         l.generate();
 
         assertTrue(l.validateGeneration());
+
+        MapExport.exportAsImage(l, "SurfaceLayer", 5, 0);
     }
 
     @Test

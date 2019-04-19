@@ -12,7 +12,6 @@ import java.util.Random;
 //Job: Understands basic MapLayer operations
 @SuppressWarnings("WeakerAccess")
 public abstract class MapLayer {
-    private static final int PIXELSIZE = 10;
     private final int id;
     protected final int height;
     protected final int width;
@@ -25,7 +24,7 @@ public abstract class MapLayer {
         this.id = new Random().nextInt();
         this.width = width;
         this.height = height;
-        tiles = new MapTile[width][height];
+        this.tiles = new MapTile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = MapTile.EMPTY;
@@ -36,55 +35,11 @@ public abstract class MapLayer {
 
     public abstract void generate();
 
-    public String[][] render() {
-        String[][] render = new String[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (tiles[i][j] == null) {
-                    throw new RuntimeException("Encountered null tile!");
-                }
-                render[i][j] = tiles[i][j].renderString;
-            }
-        }
-        return render;
-    }
-
-    public void exportAsImage() {
-        BufferedImage img = new BufferedImage(this.width * PIXELSIZE, this.height * PIXELSIZE, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = img.createGraphics();
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, this.width * PIXELSIZE, this.height * PIXELSIZE);
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                Color tileColor = tiles[i][j].color;
-                g2d.setColor(tileColor);
-                g2d.fillRect(j * PIXELSIZE, i * PIXELSIZE, PIXELSIZE, PIXELSIZE);
-            }
-        }
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                if (j % 2 == i % 2 && j % 2 == 0) {
-                    g2d.setColor(Color.ORANGE);
-                    g2d.drawRect(j * PIXELSIZE, i * PIXELSIZE, 2 * PIXELSIZE, 2 * PIXELSIZE);
-                }
-            }
-        }
-
-        File imgfile = new File(this.getName() + "_Export.png");
-        try {
-            ImageIO.write(img, "png", imgfile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected abstract String getName();
-
     @SuppressWarnings("unused")
     public void printRender() {
         System.out.println("----------------");
 
-        String[][] render = this.render();
+        String[][] render = MapExport.exportAsString(this);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 System.out.print(render[i][j] + " ");
@@ -95,29 +50,54 @@ public abstract class MapLayer {
         System.out.println("----------------");
     }
 
-    protected Point[] getOrthoAdjacent(int x, int y) {
-        Point[] search = new Point[4];
+    public ArrayList<Point> getOrthoAdjacent(int x, int y) {
+        ArrayList<Point> result = new ArrayList<>();
 
         int[] xOffset = {0, 1, 0, -1};
         int[] yOffset = {1, 0, -1, 0};
-        int curr = 0;
 
-        for (int i = 0; i < 4; i++) {
-            if (x + xOffset[i] > 0 && x + xOffset[i] < this.width
-                    && y + yOffset[i] > 0 && y + yOffset[i] < this.height) {
-                search[curr++] = new Point(x + xOffset[i], y + yOffset[i]);
+        for (int i = 0; i < xOffset.length; i++) {
+            if (x + xOffset[i] > 0 && x + xOffset[i] < width
+                    && y + yOffset[i] > 0 && y + yOffset[i] < height) {
+                result.add(new Point(x + xOffset[i], y + yOffset[i]));
             }
         }
 
-        //remove null fields
-        Point[] result = new Point[curr];
-        System.arraycopy(search, 0, result, 0, result.length);
+        return result;
+    }
+
+    public ArrayList<Point> getAdjacent(int x, int y) {
+        ArrayList<Point> result = new ArrayList<>();
+
+        int[] xOffset = {1, 1,  -1, -1};
+        int[] yOffset = {1, -1, -1,  1};
+
+        for (int i = 0; i < xOffset.length; i++) {
+            if (x + xOffset[i] > 0 && x + xOffset[i] < width
+                    && y + yOffset[i] > 0 && y + yOffset[i] < height) {
+                result.add(new Point(x + xOffset[i], y + yOffset[i]));
+            }
+        }
+        result.addAll(getOrthoAdjacent(x, y));
+        return result;
+    }
+
+    public ArrayList<Point> getTilesByType(MapTile t) {
+        ArrayList<Point> result = new ArrayList<>();
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (tiles[i][j] == t) {
+                    result.add(new Point(i, j));
+                }
+            }
+        }
 
         return result;
     }
 
     public void setSeed(long seed) {
-        this.seed = seed;
+        seed = seed;
     }
 
     @Override
@@ -127,7 +107,7 @@ public abstract class MapLayer {
         } else {
             MapLayer l = (MapLayer) o;
 
-            return Arrays.deepEquals(this.tiles, l.tiles);
+            return Arrays.deepEquals(tiles, l.tiles);
         }
     }
 
@@ -154,8 +134,8 @@ public abstract class MapLayer {
             for (int mod = 0; mod < xmod.length; mod++) {
                 int xadj = curr.x + xmod[mod];
                 int yadj = curr.y + ymod[mod];
-                if (xadj > 0 && xadj < this.width && yadj > 0 && yadj < this.height
-                        && this.tiles[xadj][yadj] != tileType) {
+                if (xadj > 0 && xadj < width && yadj > 0 && yadj < height
+                        && tiles[xadj][yadj] != tileType) {
                     if (!checked.contains(new Point(xadj, yadj)))
                         checked.add(new Point(xadj, yadj));
                 } else {
@@ -171,8 +151,8 @@ public abstract class MapLayer {
 
     protected int getTotalAccessibleArea() {
         int total = 0;
-        for (int i = 0; i < this.width; i++)
-            for (int j = 0; j < this.height; j++)
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
                 if (tiles[i][j].passable) total++;
         return total;
     }
