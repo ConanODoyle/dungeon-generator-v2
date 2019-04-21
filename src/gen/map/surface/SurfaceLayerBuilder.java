@@ -1,6 +1,6 @@
 package gen.map.surface;
 
-import gen.map.BlsBuilder;
+import gen.map.export.BlsBuilder;
 import gen.map.MapTile;
 
 import java.awt.*;
@@ -22,8 +22,8 @@ public class SurfaceLayerBuilder extends BlsBuilder {
         }
     }
 
-    public Point offset;
-    public SurfaceLayer layer;
+    private Point offset;
+    private SurfaceLayer layer;
     private MapTile[][] copy;
     public static final double STARTING_HEIGHT = 100;
 
@@ -55,8 +55,8 @@ public class SurfaceLayerBuilder extends BlsBuilder {
 
         int currSize;
         ArrayList<Point> curr = new ArrayList<>();
-        for (int s = 0; s < sizes.length; s++) {
-            currSize = sizes[s];
+        for (int size : sizes) {
+            currSize = size;
             System.out.println("Calculating cliff coverage: size " + currSize);
             for (int i = 0; i < copy.length; i++) {
                 for (int j = 0; j < copy[i].length; j++) {
@@ -93,8 +93,8 @@ public class SurfaceLayerBuilder extends BlsBuilder {
 
         int currSize;
         ArrayList<Point> curr = new ArrayList<>();
-        for (int s = 0; s < sizes.length; s++) {
-            currSize = sizes[s];
+        for (int size : sizes) {
+            currSize = size;
             System.out.println("Calculating tree coverage: size " + currSize);
             for (int i = 0; i < copy.length; i++) {
                 for (int j = 0; j < copy[i].length; j++) {

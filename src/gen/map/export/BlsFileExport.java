@@ -1,11 +1,12 @@
-package gen.map;
+package gen.map.export;
+
+import gen.map.export.BlsBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 //Job: Understands how to create a .bls file
-@SuppressWarnings("WeakerAccess")
 public class BlsFileExport {
     private ArrayList<String> description = new ArrayList<>();
     private ArrayList<String> colorset = new ArrayList<>();

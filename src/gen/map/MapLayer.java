@@ -1,5 +1,7 @@
 package gen.map;
 
+import gen.map.export.MapExport;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,9 +11,9 @@ import java.util.Random;
 @SuppressWarnings("WeakerAccess")
 public abstract class MapLayer {
     private final int id;
-    protected final int height;
-    protected final int width;
-    protected final MapTile[][] tiles;
+    public final int height;
+    public final int width;
+    public final MapTile[][] tiles;
     protected boolean hasGenerated = false;
 
     public long seed;
@@ -35,7 +37,7 @@ public abstract class MapLayer {
     public void printRender() {
         System.out.println("----------------");
 
-        String[][] render = MapExport.exportAsString(this);
+        String[][] render = MapExport.exportAsStringArray(this);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 System.out.print(render[i][j] + " ");
@@ -103,7 +105,7 @@ public abstract class MapLayer {
     }
 
     public void setSeed(long seed) {
-        seed = seed;
+        this.seed = seed;
     }
 
     @Override

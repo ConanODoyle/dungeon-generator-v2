@@ -1,10 +1,10 @@
 package gen.map;
 
-import gen.map.surface.SurfaceLayer;
+import gen.map.export.BlsBuilder;
+import gen.map.export.BlsFileExport;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -99,7 +99,6 @@ public class MapExportTest {
     @Test
     public void BlsFileExportTest() {
         BlsFileExport bls = new BlsFileExport();
-//        bls.addToDescription("Test file");
 
         bls.setColorset("colorSet.txt");
 

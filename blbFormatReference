@@ -39,3 +39,25 @@ Item Data:
 +-ITEM Multitool" 2 2 4000	-	Direction
 +-ITEM Multitool" 2 2 4000	-	Position
 +-ITEM Multitool" 2 2 4000	-	Item Respawn Time
+
+
+function rotationFromAngleID(%angle)
+{
+	switch(%angle)
+	{
+		case 0:
+			%rotation = "1 0 0 0";
+		case 1:
+			%rotation = "0 0 1 90";
+		case 2:
+			%rotation = "0 0 1 180";
+		default:
+			%rotation = "0 0 -1 90";
+	}
+	return %rotation;
+}
+
+function uiNameToBrickData(%string)
+{
+	return(isObject(%data = $uiNameTable[%string]) ? %data : -1);
+}

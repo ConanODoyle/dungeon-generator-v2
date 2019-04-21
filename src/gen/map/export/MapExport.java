@@ -1,4 +1,6 @@
-package gen.map;
+package gen.map.export;
+
+import gen.map.MapLayer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.io.IOException;
 //Job: Understands how to export MapLayers in various formats
 public class MapExport {
 
-    public static String[][] exportAsString(MapLayer map) {
+    public static String[][] exportAsStringArray(MapLayer map) {
         String[][] render = new String[map.width][map.height];
         for (int i = 0; i < map.width; i++) {
             for (int j = 0; j < map.height; j++) {

@@ -1,5 +1,6 @@
 package gen.map;
 
+import gen.map.export.MapExport;
 import gen.map.surface.SurfaceLayer;
 import gen.map.surface.SurfaceTile;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class MapLayerTest {
         var height = 10;
         MapLayer l = new SurfaceLayer(width, height);
 
-        var render = MapExport.exportAsString(l);
+        var render = MapExport.exportAsStringArray(l);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 //Default no-tile-present should print #
