@@ -21,5 +21,4 @@ public class SurfaceTile extends MapTile {
     public SurfaceTile(String render, Color color, boolean passable) {
         super(render, color, passable);
     }
-
 }

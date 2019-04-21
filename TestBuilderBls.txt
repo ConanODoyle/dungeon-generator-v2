@@ -1,0 +1,1460 @@
+Linecount 695
+0.25x0.25 Edge" 2.25 -0.25 0.3 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.75 -0.25 0.3 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.25 -0.25 0.9 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.75 -0.25 0.9 3 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.25 0.25 0.3 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.75 0.25 0.3 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.25 0.25 0.9 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 2.25 0 1.3 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" 2.75 0.25 0.9 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 2.75 0 1.3 3 0 60  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 2.25 0 1.9 1 0 45 2x2f/vent 0 0 1 1 1
++-OWNER 4928
++-EVENT	0	1	onActivate	0	Client		CenterPrint	<color:ffff00>It's Conan's Birthday! <br><color:ffffff>Click the <color:ff0000>[ ! ]<color:ffffff> in the oven to become a cake!	3
+0.5x0.5F No Overlap" 21.25 0.25 2.5 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 8.25 -2.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -2.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 -2.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -2.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -1.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 -1.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -1.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 -1.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x0.5 Edge" 7.75 -2.25 1.5 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x0.5 Edge" 8.25 -2.25 1.5 2 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 -0.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -0.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 -0.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 -0.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 0.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 0.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 0.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 0.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+1x7" 10.25 -2.75 2.1 1 1 48  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+2x12" 8 0 2.1 0 0 48  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+6x10F" 10 0 1.9 0 1 8  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+6x10F" 10 0 2.1 0 0 8  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2" 12.75 -2 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 -3 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+1x10" 15.5 -3.25 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 12.75 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 -1 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 -2 1.9 0 1 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x12" 13.25 0 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -2.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole T" 13.25 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x10x2" 16 -3.5 1.2 1 0 45  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -1.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -1.75 2.1 1 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 0 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 -2 1.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -1.25 2.1 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -0.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -0.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+2x16x2" 13 0 1.2 0 0 45  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -0.75 2.1 1 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -0.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -0.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -0.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -0.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 0 1.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+8x12" 15.5 0 1.5 0 0 45  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -0.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -0.25 2.1 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -0.75 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -0.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 0 1.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -2.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -1.75 2.1 3 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 0.25 2.1 1 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x4F Tile" 17 -2 1.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x12" 12.25 0 2.1 0 1 48  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x10F" 11.75 0 1.9 0 1 8  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+Block Pole Horiz" 15.75 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -0.75 2.1 3 1 27  4 0 1 1 1
++-OWNER 4928
+2x12x5" 15.5 -3.5 3.3 1 0 45  0 0 1 1 1
++-OWNER 4928
+1x10F" 11.75 0 2.1 0 0 8  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+Block Pole Horiz C" 16.75 -0.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 0.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x4F Tile" 17 0 1.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 0.25 2.1 3 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 -2 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 -3 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 19.25 -3.75 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 -1 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 18.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 0 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+1x12" 18.75 0 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.5 -3.75 0.3 0 1 53  0 0 1 1 1
++-OWNER 4928
+2x16x2" 19 0 1.2 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 2.3 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x16x5" 19 0 3.3 0 0 45  0 0 1 1 1
++-OWNER 4928
+2x12x5" 18 0 3.3 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 7.75 2.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 2.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 2.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 2.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x0.5 Edge" 8.25 2.25 1.5 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x0.5 Edge" 7.75 2.25 1.5 0 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 1.5 0.9 1 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 1.5 0.9 3 1 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 8.25 1.5 1.1 3 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2F" 7.75 1.5 1.1 1 0 49  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+1x7" 10.25 2.75 2.1 1 1 48  0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _ovenopen
+0.5x2" 14.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 12.75 3.75 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 3 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+1x1H" 12.75 4.25 0.2 0 1 60  0 0 1 1 1
++-OWNER 4928
+1x10" 15.5 3.25 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+1x1H" 13.25 4.25 1 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 2 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+2x4H" 13 5 0.6 2 0 60  0 0 1 1 1
++-OWNER 4928
+1x1H" 13.75 4.25 1.8 0 1 60  0 0 1 1 1
++-OWNER 4928
+2x4H" 13.5 5 1.4 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+2x10x2" 16 3.5 1.2 1 0 45  0 0 1 1 1
++-OWNER 4928
+1x1H" 12.75 5.75 0.2 0 1 60  0 0 1 1 1
++-OWNER 4928
+1x1H" 13.25 5.75 1 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 12.75 1 0.3 1 1 53  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 2 1.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 2.3 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole T" 13.25 2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 2.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 2.3 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 2.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+2x4H" 14 5 2.2 2 0 60  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 2.25 2.1 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 2 1.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+1x1H" 13.75 5.75 1.8 0 0 60  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 1.75 2.1 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 1.25 2.1 1 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 2.3 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 2.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 0.75 2.1 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 2.25 2.1 3 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 2.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 1.25 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x12x5" 15.5 3.5 3.3 1 0 45  0 0 1 1 1
++-OWNER 4928
+2x4F Tile" 17 2 1.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 1.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 1.25 2.1 3 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 0.75 2.1 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 19.25 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 3 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 18.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 2 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.5 3.75 0.3 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 19.25 1 0.3 3 1 53  0 0 1 1 1
++-OWNER 4928
+1x1x5" 18.25 5.75 1.5 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 2.3 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x1 Inverted Ramp" -1.25 11 0.6 0 1 7  0 0 1 1 1
++-OWNER 4928
+1x1 half-round 90" -1.25 10.75 1.1 3 0 7  0 0 1 1 1
++-OWNER 4928
+1x1 half-round 90" -1.25 11.25 1.7 3 1 7  0 0 1 1 1
++-OWNER 4928
+1x4" -0.5 11.25 1.1 3 0 7  0 0 1 1 1
++-OWNER 4928
+1x1F Round Full" 2.75 9.75 0.1 3 1 60  0 0 1 1 1
++-OWNER 4928
+2x8F Tile" 1 10 0.5 2 1 7  0 0 1 1 1
++-OWNER 4928
++-EMITTER Emote - Love" 0
+4x8F" 1 10.5 0.3 3 0 7  0 0 1 1 1
++-OWNER 4928
+1x1F Round Full" 2.75 11.25 0.1 3 1 60  0 0 1 1 1
++-OWNER 4928
+2x8F Tile" 1 11 0.5 2 0 7  0 0 1 1 1
++-OWNER 4928
+25° Ramp 1x" 1.25 11.25 1.1 1 1 7  0 0 1 1 1
++-OWNER 4928
+1x6F" 0.5 11.25 0.7 3 0 7  0 0 1 1 1
++-OWNER 4928
+1x1F Round Full" -0.75 9.75 0.1 3 1 60  0 0 1 1 1
++-OWNER 4928
+1x1" 3.25 8.75 2.1 3 1 17  2 0 0 0 1
++-OWNER 4928
++-LIGHT Red Amb."
+1x3F" -0.75 10.25 0.7 0 0 7  0 0 1 1 1
++-OWNER 4928
+2x1 half-round 90" -0.75 10 1.1 1 0 7  0 0 1 1 1
++-OWNER 4928
+1x1F Round Full" -0.75 11.25 0.1 3 1 60  0 0 1 1 1
++-OWNER 4928
+25° Ramp 1x" 0.25 11.25 1.7 1 0 7  0 0 1 1 1
++-OWNER 4928
+1x1 half-round 90" -0.75 10.75 1.1 1 0 7  0 0 1 1 1
++-OWNER 4928
+1x1" -0.75 11.25 1.7 1 0 7  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 2.25 0 2.5 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 2.75 0 2.5 3 0 60  0 0 1 1 1
++-OWNER 4928
+2x2F Print" 11 0 2.5 3 1 28 Letters/-bang 0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _exit
+0.5x2" 14 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 14 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole T" 13.25 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 -2 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 13 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 15 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -1.75 5.7 1 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -1.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -1.25 5.7 2 0 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 -2 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -2.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x12x3" 15.5 -3.5 5.7 1 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -0.75 5.7 1 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 16 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x6F Tile" 12.25 -1.5 6.3 3 1 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+Block Pole Horiz" 14.25 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -2.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+1x1x5" 12.25 -2.75 3.9 0 0 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+Block Pole Horiz" 14.75 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 -0.25 5.7 2 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x1" 11.75 -1.75 5.9 0 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+1x2 Vert Round A" 12.25 -3 7.1 0 1 47  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+4x4f Round" 14 -2 7.9 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 14.5 -2.25 2.9 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 13.5 -2.25 2.9 2 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 0 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+1x2 Vert Round A" 12.25 -1.5 7.1 0 1 47  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x1F" 16.75 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.25 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 -0.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -1.75 5.7 3 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 0.25 5.7 1 0 27  4 0 1 1 1
++-OWNER 4928
+2x10x2" 16 -3.5 7.2 1 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 15.5 -2.25 2.9 2 1 53  0 0 1 1 1
++-OWNER 4928
+1x12" 12.75 0 6.3 0 0 45  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 0 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.75x2" 11.25 -1.5 5.9 1 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+0.5x2F No Overlap" 15.25 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -1.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+1x12" 12.25 0 5.7 0 0 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+2x4F Tile" 17 -2 5.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+8x10F" 15 0 3.9 0 1 17  2 0 0 0 1
++-OWNER 4928
++-LIGHT Orange Amb. Dim"
+1x12F" 12.25 0 6.1 0 0 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+Block Pole Horiz" 16.25 -0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+2x16x2" 13 0 7.2 0 0 45  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -0.75 5.7 3 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.25 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+1x10x5" 12.25 0 3.9 0 0 8  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+0.5x2F No Overlap" 15.25 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.75x2" 11.25 -0.5 5.9 1 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+1x2 Vert Round A" 12.25 0 7.1 0 1 47  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.25 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+2x2F Print" 15 0 3.1 1 0 28 Letters/-bang 0 0 1 1 0
++-OWNER 4928
++-NTOBJECTNAME _ovencenter
++-EVENT	0	1	onActivate	0	Self		doPlayerTeleport	ovencenter	4	0	0
++-EVENT	1	1	onActivate	0	Self		becomeACake
++-EVENT	2	1	onActivate	1000	-1	_ovenclosed	disappear	0
++-EVENT	3	1	onActivate	1000	-1	_ovenopen	disappear	-1
++-EVENT	4	1	onActivate	6000	-1	_ovenclosed	disappear	-1
++-EVENT	5	1	onActivate	6000	-1	_ovenopen	disappear	0
++-EVENT	6	1	onActivate	0	Self		disappear	10
++-EVENT	7	1	onActivate	0	Client		CenterPrint	<color:ffff00>You have become a beautiful cake, and are being baked.	6
++-EVENT	8	1	onActivate	6000	Client		CenterPrint	<color:ffff00>Your moist, soft body is now ready for the world to behold!	3
+0.5x2F" 16.5 -2.25 2.9 2 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 0.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 -0.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+8x12" 15.5 0 7.5 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.75 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+4x4f Round" 15.5 0 7.9 0 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.75 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 0.25 5.7 3 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.25 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+2x4F Tile" 17 0 5.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+4x4f Round" 17 -2 7.9 0 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 0.5 2.9 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.25 0.5 2.9 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.75x2" 11.25 0.5 5.9 1 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+0.5x2F No Overlap" 16.75 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+1x6F Tile" 12.25 1.5 6.3 3 0 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+0.5x2F No Overlap" 16.25 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.75 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 5.3 2 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F Corner" 17.25 -2.75 5.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 17.25 -2 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x16x5" 19 0 6.3 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 4.7 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 4.1 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 17.25 -1 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x12x3" 18 0 5.7 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 3.5 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 -1.5 8.3 1 1 51  0 0 1 1 1
++-OWNER 4928
+2x12" 18 0 6.9 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 18.25 -2.25 8.5 0 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 -2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 -2.75 2.9 2 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 17.25 0 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -2 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x12" 18 0 7.5 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 -1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 -0.5 8.3 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 -1 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 -0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+2x16x3" 19 0 8.7 0 0 48  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 0 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 0.5 8.3 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 0.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 5.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 14 2.75 5.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 4.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 5.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 5.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 15 2.75 5.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 13 2.75 5.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 4.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 4.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole T" 13.25 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 4.1 0 0 52  0 0 1 1 1
++-OWNER 4928
+2x12x3" 15.5 3.5 5.7 1 0 45  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" 13.5 2 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 4.1 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 4.1 0 0 52  0 0 1 1 1
++-OWNER 4928
+1x1H" 15.25 4.25 4.2 0 1 60  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 1.75 5.7 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+1x1H" 15.75 4.25 5 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 3.5 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 5.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 16 2.75 5.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 2.25 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+4x4F Tile" 15.5 2 5.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 4.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+1x1H" 14.75 4.25 3.4 0 1 60  0 0 1 1 1
++-OWNER 4928
+2x4H" 15.5 5 4.6 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 3.5 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 3.5 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 1.25 5.7 1 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x1H" 16.25 4.25 5.8 0 1 60  0 0 1 1 1
++-OWNER 4928
+2x4H" 15 5 3.8 2 0 60  0 0 1 1 1
++-OWNER 4928
+1x1x5" 12.25 2.75 3.9 0 0 48  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+1x2 Vert Round A" 12.25 3 7.1 0 1 47  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+2x4H" 16 5 5.4 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 4.1 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 2.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 14 2.75 2.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+2x10x2" 16 3.5 7.2 1 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 13.75 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.25 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2" 13 2.75 2.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 15 2.75 2.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 13.5 2.25 2.9 0 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 14.5 2.25 2.9 0 1 53  0 0 1 1 1
++-OWNER 4928
+1x1H" 15.25 5.75 4.2 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 5.3 0 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 3.5 0 0 52  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 14.75 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 1.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 13.25 0.75 5.7 2 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x1F" 16.75 2.75 5.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+2x4H" 14.5 5 3 2 0 60  0 0 1 1 1
++-OWNER 4928
+1x1H" 15.75 5.75 5 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x1" 11.75 1.75 5.9 2 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+1x1H" 14.25 4.25 2.6 0 0 60  0 0 1 1 1
++-OWNER 4928
+4x4f Round" 14 2 7.9 0 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 4.7 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.25 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+2x4H" 16.5 5 6.2 2 0 60  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 2.25 5.7 3 1 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.25 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x1H" 16.75 4.25 6.6 0 0 60  0 0 1 1 1
++-OWNER 4928
+1x1H" 14.75 5.75 3.4 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 4.1 0 0 52  0 0 1 1 1
++-OWNER 4928
+1x2 Vert Round A" 12.25 1.5 7.1 0 1 47  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 15.5 2.25 2.9 0 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 1.25 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+1x1H" 16.25 5.75 5.8 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.25 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.75 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 15.75 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 1.75 5.7 0 1 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 13.25 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 14.75 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 16 2.75 2.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+2x4F Tile" 17 2 5.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 3.5 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.75x2" 11.25 1.5 5.9 1 1 49  0 0 0 0 0
++-OWNER 4928
++-NTOBJECTNAME _ovenclosed
+0.5x2F No Overlap" 15.25 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.25 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz" 16.25 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 1.25 5.7 3 0 27  4 0 1 1 1
++-OWNER 4928
+1x1H" 14.25 5.75 2.6 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 15.75 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+2x4H" 17 5 7 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 16.5 2.25 2.9 0 1 53  0 0 1 1 1
++-OWNER 4928
+1x1H" 16.75 5.75 6.6 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x1" 16.75 2.75 2.9 0 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.75 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+Block Pole Horiz C" 16.75 0.75 5.7 0 0 27  4 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.25 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+4x4f Round" 17 2 7.9 0 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 16.75 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F Corner" 17.25 2.75 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+2x4H" 18 5 7 0 1 60  0 0 1 1 1
++-OWNER 4928
+1x1" 18.25 5.75 6.3 0 1 60  0 0 1 1 1
++-OWNER 4928
+1x1x5" 18.25 5.75 4.5 0 0 60  0 0 1 1 1
++-OWNER 4928
+1x1F" 18.25 5.75 6.7 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 17.25 2 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 5.3 1 1 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 17.25 1 5.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 18.25 2.25 8.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 4.7 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Corner" 17.25 2.75 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 2.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 1.5 8.3 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 4.1 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 2 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 3.5 1 0 52  0 0 1 1 1
++-OWNER 4928
+0.5x2F No Overlap" 17.25 1.5 2.9 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x2" 17.25 1 2.9 1 0 52  0 0 1 1 1
++-OWNER 4928
+1x1" -1.75 7.75 2.7 3 1 17  2 0 0 0 1
++-OWNER 4928
++-LIGHT Red Amb."
+45° Ramp 4x" 19 -3 9.9 3 0 48  0 0 1 1 1
++-OWNER 4928
+45° Ramp 4x" 19 -1 9.9 3 0 48  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 18.25 -2.25 9.5 0 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 -1.5 9.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 18.25 -2.25 9.1 0 0 51  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 18.25 -1.5 8.9 1 0 49 Letters/6 0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _sec1
+0.5x2F" 18.25 -0.5 9.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 18.25 -0.5 8.9 1 0 49 Letters/2 0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _sec10
+45° Ramp 4x" 19 1 9.9 3 0 48  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 0.5 9.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 18.25 0.5 8.9 1 0 49 Letters/4 0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _sec100
+45° Ramp 4x" 19 3 9.9 3 0 48  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 18.25 2.25 9.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 18.25 2.25 9.1 1 0 51  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 18.25 1.5 9.5 1 1 51  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 18.25 1.5 8.9 1 0 49 Letters/0 0 0 1 1 1
++-OWNER 4928
++-NTOBJECTNAME _sec1000
+2x1 half-round 90" -1.25 10 1.1 3 1 7  0 0 1 1 1
++-OWNER 4928
+2x1 Inverted Ramp" -1.25 10 0.6 0 0 7  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.25 9.25 0.9 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.25 9.75 0.9 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x1 No Overlap" -4.75 10.75 1.9 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.75x2F No Overlap" 21.25 0.5 0.9 3 0 59  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 1.5 3 1 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 2.3 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 21.25 0.5 2.9 3 0 59  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -5.25 7.75 1.7 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x2F" 21.25 -0.5 2.9 3 0 59  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 2.3 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -4.75 7.75 1.3 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 1.5 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -5.25 10.75 2.1 1 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -7.25 10.25 0.3 3 1 60  0 0 1 0 1
++-OWNER 4928
+1F 2x2F Vertical Print" -5 7.75 1.9 2 0 60 Letters/-space 0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 2.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 2.7 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 2.1 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x1F" -4.75 9.75 2.1 0 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 1.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F No Overlap" -5.25 7.75 1.7 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge No Overlap" -4.75 7.75 1.3 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.75 10.25 0.9 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 2.5 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 2.7 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 2.3 3 0 45  0 0 1 1 1
++-OWNER 4928
+1x1 Flowers" -4.75 10.25 2.2 0 0 33  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.25 10.75 0.5 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 1.9 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -4.25 9.25 0.3 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 -0.75 1.9 2 0 59  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.75 9.25 0.5 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 1.5 2 1 53  0 0 1 1 1
++-OWNER 4928
+0.25x1 No Overlap" -5.25 10.25 1.9 1 1 45  0 0 1 1 1
++-OWNER 4928
+Easel" 20.5 0 1.8 3 1 59  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -4.25 10.75 2.1 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -4.75 7.75 1.7 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F No Overlap" -4.75 7.75 1.7 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -5.25 7.75 0.3 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.25 9.25 0.3 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -6.75 10.25 0.3 0 1 60  0 0 1 0 1
++-OWNER 4928
+0.5x0.5 Edge" -5.75 10.75 0.3 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 2.1 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x1F" -4.75 10.75 2.1 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 2.5 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 2.1 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 2.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 1.3 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 1.3 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 2.3 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.75 9.75 0.5 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 2.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+2x2F Tile" -5 8 0.9 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" -4.75 8.25 0.7 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 0.9 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 2.5 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -5.25 9.75 2.1 0 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 1.7 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.25 10.25 0.5 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 1.1 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -5.25 7.75 1.3 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 1.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -5.75 10.75 0.9 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.75 10.25 0.3 1 1 60  0 0 1 1 1
++-OWNER 4928
+1x1F Tile" -4.75 10.25 1.5 0 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -7.25 9.75 0.3 2 1 60  0 0 1 0 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 2.5 3 0 45  0 0 1 1 1
++-OWNER 4928
+1x1H" -4.75 10.25 1.8 1 1 59  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.75 10.75 0.3 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 1.3 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.75 9.75 1.1 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.75 9.25 1.1 0 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 1.9 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -5.25 8.25 0.3 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 1.3 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -4.25 9.25 0.9 3 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 1.1 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" -4.75 7.75 0.7 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 1.3 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 1.9 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -6.75 9.75 0.3 1 1 60  0 0 1 0 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 1.1 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -5.75 9.25 0.3 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 -0.75 2.5 2 0 59  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 1.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -4.25 10.75 0.3 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -4.25 10.75 0.9 2 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.75 10.75 0.9 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 2.7 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.75 1.7 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 1.5 2 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x1F" -5.25 10.25 2.1 1 1 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25F" -4.25 9.75 2.1 3 1 45  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.25 9.75 0.3 3 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 0.75 1.9 3 0 59  0 0 1 1 1
++-OWNER 4928
+4x4F Tile" -5 10 1.3 3 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -4.25 10.25 1.1 3 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 1.3 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 0.75 2.5 3 0 59  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 -0.75 1.3 2 1 59  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" -5.25 7.75 0.7 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" 21.25 0.75 1.3 3 1 59  0 0 1 1 1
++-OWNER 4928
+0.25x1 No Overlap" -4.75 9.75 1.9 0 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x1F" -4.25 10.25 2.1 3 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.25 2.3 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 1.5 3 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" -5.25 8.25 0.7 3 0 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5 Edge" -5.75 9.25 0.9 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 2.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 1.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -4.75 8.25 0.3 0 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 1.5 3 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 -0.75 1.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 2.5 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge No Overlap" -5.25 7.75 1.3 1 0 60  0 0 1 1 1
++-OWNER 4928
+0.25x1F No Overlap" -5.25 10.75 1.1 2 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 1.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 2.3 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.25x0.25 Edge" -4.75 7.75 0.3 1 1 60  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 1.7 2 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 2.7 3 0 45  0 0 1 1 1
++-OWNER 4928
+2x2F Vertical Print" 2.75 0 1.9 3 0 45 2x2f/vent 0 0 1 1 1
++-OWNER 4928
++-EVENT	0	1	onActivate	0	Client		CenterPrint	<color:ffff00>It's Conan's Birthday! <br><color:ffffff>Click the <color:ff0000>[ ! ]<color:ffffff> in the oven to become a cake!	3
+0.75x2F No Overlap" 21.25 -0.5 0.9 3 0 59  0 0 1 1 1
++-OWNER 4928
+0.25x1 No Overlap" -4.25 10.25 1.9 3 1 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 2.1 3 0 45  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 -0.25 1.9 3 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F" 21.25 0.25 1.9 2 0 53  0 0 1 1 1
++-OWNER 4928
+0.5x0.5F No Overlap" 21.25 0.25 1.9 3 0 53  0 0 1 1 1
++-OWNER 4928
+2x2F Tile" -7 10 0.7 2 0 60  0 0 1 0 1
++-OWNER 4928

@@ -1,10 +1,6 @@
 package gen.map;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -94,6 +90,16 @@ public abstract class MapLayer {
         }
 
         return result;
+    }
+
+    public MapTile[][] getTiles() {
+        MapTile[][] copy = new MapTile[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                copy[i][j] = tiles[i][j];
+            }
+        }
+        return copy;
     }
 
     public void setSeed(long seed) {

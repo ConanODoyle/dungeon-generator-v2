@@ -231,7 +231,7 @@ public class SurfaceLayer extends MapLayer {
         return totalRemoved;
     }
 
-    private ArrayList generatePaths(Random rand) {
+    private ArrayList<Point> generatePaths(Random rand) {
         ArrayList<Point> unlinkedEnds = new ArrayList<>();
         int mod = (int) Math.ceil(Math.sqrt(width * height) / 40);
         int totalPaths = rand.nextInt(4 + mod) + 8 + mod / 2;
