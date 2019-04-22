@@ -2,6 +2,7 @@ package gen.map;
 
 import gen.map.export.BlsBuilder;
 import gen.map.export.BlsFileExport;
+import gen.map.lib.PeekableScanner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +15,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MapExportTest {
+
+    @Test
+    public void PeekableScannerTest() {
+        String input = "The quick brown fox\n" +
+                "jumped over the lazy dog.\n";
+        PeekableScanner p = new PeekableScanner(input);
+
+        assertEquals("The quick brown fox", p.peek());
+        assertEquals("The quick brown fox", p.nextLine());
+        assertEquals("jumped over the lazy dog.", p.peek());
+        assertEquals("jumped over the lazy dog.", p.nextLine());
+    }
 
     @Test
     public void BlsFileHeaderTest() {

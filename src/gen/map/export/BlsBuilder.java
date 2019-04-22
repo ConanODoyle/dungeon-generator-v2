@@ -1,38 +1,41 @@
 package gen.map.export;
 
+import gen.map.lib.PeekableScanner;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public abstract class BlsBuilder {
     public static class TestBuilder extends BlsBuilder{
-        private Scanner s;
+        private PeekableScanner s;
 
         public TestBuilder() {
 
         }
 
         public TestBuilder(String input) {
-            this.s = new Scanner(input);
+            this.s = new PeekableScanner(input);
         }
 
         @Override
         public void generateBuild() {
-            try {
-                s = new Scanner(new File("TestBuilderBls.txt"));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            s = new PeekableScanner(new File("TestBuilderBls.txt"));
         }
 
         @Override
-        public String nextLine() {
+        public String nextBrick() {
             if (s == null) {
                 generateBuild();
             }
 
-            if (s.hasNext()) {
-                return s.nextLine();
+            if (s.hasNextLine()) {
+                StringBuilder builder = new StringBuilder();
+                builder.append(s.nextLine());
+                while (s.peek() != null && s.peek().substring(0, 2).equals("+-")) {
+                    builder.append("\n").append(s.nextLine());
+                }
+                return builder.toString();
             } else {
                 return null;
             }
@@ -40,6 +43,6 @@ public abstract class BlsBuilder {
     }
 
     public abstract void generateBuild();
-    public abstract String nextLine();
+    public abstract String nextBrick();
 
 }

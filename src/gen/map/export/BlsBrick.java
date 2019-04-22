@@ -8,6 +8,7 @@ public class BlsBrick {
     public String uiname;
     public double x;
     public double y;
+    public double z;
     public int angleID;
     public String rest;
     public ArrayList<String> modifiers;
@@ -22,10 +23,11 @@ public class BlsBrick {
      * Second and third lines are modifiers (copy directly into output save file)
      */
 
-    public BlsBrick(String uiname, double x, double y, int angleID, String rest) {
+    public BlsBrick(String uiname, double x, double y, double z, int angleID, String rest) {
         this.uiname = uiname;
         this.x = x;
         this.y = y;
+        this.z = z;
         this.angleID = angleID;
         this.rest = rest;
         this.modifiers = new ArrayList<>();
@@ -52,5 +54,29 @@ public class BlsBrick {
         }
         x = xDiff;
         y = yDiff;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append(uiname).append(" ");
+
+        //Truncate decimal portion of whole numbers
+        double[] pos = {x, y, z};
+        for (double d : pos) {
+            if (d % 1 == 0) {
+                result.append((int) d);
+            } else {
+                result.append(d);
+            }
+            result.append(" ");
+        }
+
+        result.append(angleID).append(rest);
+
+        for (String m : modifiers) {
+            result.append("\n").append(m);
+        }
+        return result.toString();
     }
 }

@@ -1,7 +1,5 @@
 package gen.map.export;
 
-import gen.map.export.BlsBuilder;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,7 +32,7 @@ public class BlsFileExport {
         while (reader.hasNextLine()) {
             count++;
             if (!reader.hasNextDouble()) {
-//                System.out.println("Skipping \"" + reader.nextLine() + "\" (line " + count + ")");
+//                System.out.println("Skipping \"" + reader.nextBrick() + "\" (line " + count + ")");
                 reader.nextLine();
                 continue;
             }
@@ -80,10 +78,11 @@ public class BlsFileExport {
         StringBuilder bricks = new StringBuilder();
         String curr;
         int count = 0;
-        while ((curr = builder.nextLine()) != null) {
+        while ((curr = builder.nextBrick()) != null) {
             bricks.append(curr).append("\n");
             count++;
         }
+        writer.write("Linecount " + count + "\n");
         writer.write(bricks.toString());
 
         writer.close();

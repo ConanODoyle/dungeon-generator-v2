@@ -51,7 +51,7 @@ public class TileBuildParserTest {
         assertTrue(new File("testExport.bls").exists());
 
         while (testScanner.hasNext()) {
-            assertEquals(testScanner.nextLine(), expectedScanner.nextLine());
+            assertEquals(expectedScanner.nextLine(), testScanner.nextLine());
         }
     }
 }

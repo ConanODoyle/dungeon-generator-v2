@@ -45,7 +45,7 @@ public class SurfaceLayerBuilder extends BlsBuilder {
     }
 
     @Override
-    public String nextLine() {
+    public String nextBrick() {
         return null;
     }
 

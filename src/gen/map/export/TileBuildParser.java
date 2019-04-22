@@ -33,14 +33,18 @@ public class TileBuildParser {
         Scanner ls;
         while (contents.hasNextLine()) {
             line = contents.nextLine();
-            ls = new Scanner(line);
-            name = ls.next();
-            if (!name.substring(name.length() - 1).equals("\"")) {
-                nextBrick = new BlsBrick(name, ls.nextDouble(), ls.nextDouble(),
+            if (!line.contains("\"") || line.substring(0, 2).equals("+-")) {
+                if (lastBrick != null) {
+                    lastBrick.addModifier(line);
+                }
+                continue;
+            }
+            name = line.substring(0, line.indexOf("\"") + 1);
+            ls = new Scanner(line.substring(line.indexOf("\"") + 2));
+            if (name.substring(name.length() - 1).equals("\"")) {
+                nextBrick = new BlsBrick(name, ls.nextDouble(), ls.nextDouble(), ls.nextDouble(),
                         ls.nextInt(), ls.nextLine());
                 break;
-            } else if (lastBrick != null) {
-                lastBrick.addModifier(line);
             }
         }
     }
