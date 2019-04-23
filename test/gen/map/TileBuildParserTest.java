@@ -3,7 +3,7 @@ package gen.map;
 import gen.map.export.BlsBrick;
 import gen.map.export.BlsBuilder;
 import gen.map.export.BlsFileExport;
-import gen.map.export.TileBuildParser;
+import gen.map.parser.BlsParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class TileBuildParserTest {
     @Test
     public void ParseBuildIntoBricksTest() {
-        TileBuildParser parser = new TileBuildParser("testExport_compare.bls");
+        BlsParser parser = new BlsParser("testExport_compare.bls");
 
         StringBuilder builder = new StringBuilder();
         while (parser.hasNextBrick()) {

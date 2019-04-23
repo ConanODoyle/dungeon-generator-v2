@@ -1,16 +1,18 @@
-package gen.map.export;
+package gen.map.parser;
+
+import gen.map.export.BlsBrick;
 
 import java.io.File;
 import java.util.Scanner;
 
-public class TileBuildParser {
-    private File bls;
+//Job: Understands how to parse a save file into bricks
+public class BlsParser {
     private Scanner contents;
     private BlsBrick lastBrick;
     private BlsBrick nextBrick;
 
-    public TileBuildParser(String s) {
-        bls = new File(s);
+    public BlsParser(String s) {
+        File bls = new File(s);
         try {
             contents = new Scanner(bls);
         } catch (Exception e) {
@@ -36,6 +38,9 @@ public class TileBuildParser {
             if (!line.contains("\"") || line.substring(0, 2).equals("+-")) {
                 if (lastBrick != null) {
                     lastBrick.addModifier(line);
+                    if (line.substring(0, 13).equals("+-NTOBJECTNAME")) {
+                        lastBrick.NTName = line.substring(15);
+                    }
                 }
                 continue;
             }

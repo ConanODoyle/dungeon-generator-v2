@@ -6,6 +6,7 @@ import java.util.ArrayList;
 @SuppressWarnings("WeakerAccess")
 public class BlsBrick {
     public String uiname;
+    public String NTName;
     public double x;
     public double y;
     public double z;
@@ -78,5 +79,24 @@ public class BlsBrick {
             result.append("\n").append(m);
         }
         return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BlsBrick)) {
+            return false;
+        }
+        BlsBrick b = (BlsBrick) o;
+        return Math.abs(this.x - b.x) < 0.001
+                && Math.abs(this.y - b.y) < 0.001
+                && Math.abs(this.z - b.z) < 0.001
+                && this.angleID == b.angleID
+                && this.uiname.equals(b.uiname)
+                && this.NTName.equals(b.NTName);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (this.uiname.hashCode() + (this.x + this.y + this.z));
     }
 }
