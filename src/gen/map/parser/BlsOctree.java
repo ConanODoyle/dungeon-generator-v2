@@ -3,18 +3,21 @@ package gen.map.parser;
 import gen.map.export.BlsBrick;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-//Job: Understands an octree of BlsBricks (for fast lookup and search)
+//Job: Understands an octree of BlsBricks (for fast search)
 @SuppressWarnings("FieldCanBeLocal")
 public class BlsOctree {
     private static int MAX_ELEMENTS = 32;
-    private static int MIN_SIZE = 2;
+    private static int MIN_SIZE = 4;
     private int x, y, z;
+    private int dimensions; //box dimensions = dimensions x dimensions x dimensions
+    private int size = 0;
+
     private ArrayList<BlsBrick> container;
     //+++, ++-, +-+, +--, -++, -+-, --+, --- (xyz diff)
     private BlsOctree[] subtrees = new BlsOctree[8];
-    private int dimensions; //box dimensions = dimensions x dimensions x dimensions
-    private int size = 0;
+    private HashMap<String, ArrayList<BlsBrick>> NTNameTable = new HashMap<>();
 
     public BlsOctree() {
         this(0, 0, 0, (int) Math.pow(2, 24));
@@ -30,6 +33,12 @@ public class BlsOctree {
 
     public void add(BlsBrick blsBrick) {
         container.add(blsBrick);
+        if (blsBrick.NTName != null) {
+            if (!NTNameTable.containsKey(blsBrick.NTName)) {
+                NTNameTable.put(blsBrick.NTName, new ArrayList<>());
+            }
+            NTNameTable.get(blsBrick.NTName).add(blsBrick);
+        }
         size++;
         if (size > MAX_ELEMENTS) {
             update();
@@ -96,7 +105,8 @@ public class BlsOctree {
         if (dimensions <= MIN_SIZE) {
             return;
         }
-        if (subtrees[0] == null && dimensions >= MIN_SIZE) {
+
+        if (subtrees[0] == null) {
             initializeSubtrees();
         }
 
@@ -129,5 +139,9 @@ public class BlsOctree {
     @Override
     public String toString() {
         return "{" + this.x + "," + this.y + "} (" + this.dimensions + ") size:" + size;
+    }
+
+    public ArrayList<BlsBrick> getBricksByName(String NTName) {
+        return NTNameTable.get(NTName);
     }
 }
