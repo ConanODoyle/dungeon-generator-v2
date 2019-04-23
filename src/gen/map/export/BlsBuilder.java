@@ -3,9 +3,8 @@ package gen.map.export;
 import gen.map.lib.PeekableScanner;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
+//Job: Understands how to return    bricks as strings for bls export
 public abstract class BlsBuilder {
     public static class TestBuilder extends BlsBuilder{
         private PeekableScanner s;

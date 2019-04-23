@@ -63,4 +63,12 @@ public class BlsParser {
         getNextBrick();
         return result;
     }
+
+    public BlsOctree parseToOctTree() {
+        BlsOctree result = new BlsOctree();
+        while (hasNextBrick()) {
+            result.add(nextBrick());
+        }
+        return result;
+    }
 }

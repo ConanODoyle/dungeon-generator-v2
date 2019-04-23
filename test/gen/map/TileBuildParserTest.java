@@ -4,6 +4,7 @@ import gen.map.export.BlsBrick;
 import gen.map.export.BlsBuilder;
 import gen.map.export.BlsFileExport;
 import gen.map.parser.BlsParser;
+import gen.map.parser.TileSearch;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -55,9 +56,10 @@ public class TileBuildParserTest {
         }
     }
 
-//    @Test
-//    public void ParseIntoTilesTest() {
-//        BlsParser parser = new BlsParser("testTileset.bls");
-//        BlsOctree
-//    }
+    @Test
+    public void ParseIntoTilesTest() {
+        TileSearch search = new TileSearch("tileTest.bls");
+        assertEquals(12, search.findTile("testTile0").getBricks().size());
+
+    }
 }
