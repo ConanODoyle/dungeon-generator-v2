@@ -38,7 +38,7 @@ public class BlsParser {
             if (!line.contains("\"") || line.substring(0, 2).equals("+-")) {
                 if (lastBrick != null) {
                     lastBrick.addModifier(line);
-                    if (line.substring(0, 13).equals("+-NTOBJECTNAME")) {
+                    if (line.substring(0, 4).equals("+-NT")) {
                         lastBrick.NTName = line.substring(15);
                     }
                 }
