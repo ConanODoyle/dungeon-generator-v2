@@ -54,4 +54,10 @@ public class TileBuildParserTest {
             assertEquals(expectedScanner.nextLine(), testScanner.nextLine());
         }
     }
+
+//    @Test
+//    public void ParseIntoTilesTest() {
+//        BlsParser parser = new BlsParser("testTileset.bls");
+//        BlsOctree
+//    }
 }

@@ -57,7 +57,7 @@ public class BlsOctree {
             return result;
         }
 
-        if (size > MAX_ELEMENTS && dimensions >= MIN_SIZE) {
+        if (size > MAX_ELEMENTS && dimensions > MIN_SIZE) {
 
             for (BlsOctree subtree : subtrees) {
                 result.addAll(subtree.containerBoxSearch(xyz, boxXYZ));
