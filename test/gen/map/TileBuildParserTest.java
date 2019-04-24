@@ -76,6 +76,18 @@ public class TileBuildParserTest {
 
         ArrayList<BlsBrick> tile0Bricks = test0.getRotatedBricks(1);
         ArrayList<BlsBrick> tile1Bricks = test1.getBricks();
+        checkBricksMatch(tile0Bricks, tile1Bricks);
+
+        tile0Bricks = test0.getRotatedBricks(3);
+        tile1Bricks = test1.getRotatedBricks(-2);
+        checkBricksMatch(tile0Bricks, tile1Bricks);
+
+        tile0Bricks = test0.getRotatedBricks(-2);
+        tile1Bricks = test1.getRotatedBricks(1);
+        checkBricksMatch(tile0Bricks, tile1Bricks);
+    }
+
+    private void checkBricksMatch(ArrayList<BlsBrick> tile0Bricks, ArrayList<BlsBrick> tile1Bricks) {
         for (BlsBrick curr : tile0Bricks) {
             curr.NTName = "";
             boolean match = false;
