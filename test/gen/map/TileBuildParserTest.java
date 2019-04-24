@@ -80,10 +80,8 @@ public class TileBuildParserTest {
             curr.NTName = "";
             boolean match = false;
 
-            System.out.println("-----\nSearching for \n" + curr.toString() + "\n" + "-----");
             for (BlsBrick tile1Brick : tile1Bricks) {
                 tile1Brick.NTName = "";
-                System.out.println(tile1Brick.toString());
                 if (curr.equals(tile1Brick)) {
                     match = true;
                     break;
