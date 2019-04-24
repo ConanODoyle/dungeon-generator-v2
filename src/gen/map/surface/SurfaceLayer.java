@@ -159,9 +159,6 @@ public class SurfaceLayer extends MapLayer {
             }
         }
 
-        PerlinUtils.exportBicolorPerlin(noise, cutoff);
-        PerlinUtils.exportPerlin(noise, 50);
-
         return noise;
     }
 
@@ -192,9 +189,6 @@ public class SurfaceLayer extends MapLayer {
                 }
             }
         }
-
-//        PerlinUtils.exportBicolorPerlin(noise, cutoff);
-//        PerlinUtils.exportPerlin(noise, 50);
 
         return noise;
     }
