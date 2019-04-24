@@ -42,7 +42,6 @@ public class BlsOctree {
         size++;
         if (size > MAX_ELEMENTS) {
             update();
-            int j = 1;
         }
     }
 

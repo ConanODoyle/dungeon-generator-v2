@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.Scanner;
 
 //Job: Understands how to parse a save file into bricks
+@SuppressWarnings("WeakerAccess")
 public class BlsParser {
     private Scanner contents;
     private BlsBrick lastBrick;
@@ -16,7 +17,7 @@ public class BlsParser {
         try {
             contents = new Scanner(bls);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         nextBrick = null;
         lastBrick = null;

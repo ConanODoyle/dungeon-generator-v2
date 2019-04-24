@@ -46,6 +46,6 @@ public class TileSearch {
         double[] xyz = {topBrick.x, topBrick.y, (topBrick.z + botBrick.z)/2};
         double[] boxXYZ = {width, width, topBrick.z - botBrick.z};
 
-        return new TileBuild(octree.containerBoxSearch(xyz, boxXYZ), new double[]{topBrick.x, topBrick.y});
+        return new TileBuild(octree.containerBoxSearch(xyz, boxXYZ), new double[]{topBrick.x, topBrick.y, topBrick.z});
     }
 }

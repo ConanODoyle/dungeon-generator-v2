@@ -57,6 +57,13 @@ public class BlsBrick {
         y = yDiff;
     }
 
+    public BlsBrick getCopy() {
+        BlsBrick copy = new BlsBrick(uiname, x, y, z, angleID, rest);
+        copy.modifiers.addAll(modifiers);
+        copy.NTName = NTName;
+        return copy;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
