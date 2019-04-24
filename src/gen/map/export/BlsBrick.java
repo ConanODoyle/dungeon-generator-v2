@@ -32,6 +32,7 @@ public class BlsBrick {
         this.angleID = angleID;
         this.rest = rest;
         this.modifiers = new ArrayList<>();
+        this.NTName = "";
     }
 
     public void addModifier(String modifier) {
@@ -46,12 +47,14 @@ public class BlsBrick {
     public void rotate(int times, double axisX, double axisY) {
         double xDiff = x - axisX;
         double yDiff = y - axisY;
+        double temp;
         int direction = times > 0 ? 1 : -1;
 
         for (int i = 0; i < Math.abs(times); i++) {
+            temp = xDiff;
             xDiff = yDiff * -1 * direction;
-            yDiff = xDiff * direction;
-            angleID += direction;
+            yDiff = temp * direction;
+            angleID = (angleID - direction + 4) % 4;
         }
         x = xDiff;
         y = yDiff;
