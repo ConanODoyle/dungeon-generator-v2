@@ -64,8 +64,8 @@ public class TileBuildParserTest {
         TileBuild test0 = search.findTile("testTile0");
         TileBuild test1 = search.findTile("testTile1");
 
-        assertEquals(12, test0.getBricks().size());
-        assertEquals(12, test1.getBricks().size());
+        assertEquals(10, test0.getBricks().size());
+        assertEquals(10, test1.getBricks().size());
     }
 
     @Test
