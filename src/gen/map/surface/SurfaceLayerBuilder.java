@@ -1,17 +1,22 @@
 package gen.map.surface;
 
-import gen.map.export.BlsBuilder;
 import gen.map.MapTile;
+import gen.map.export.BlsBrick;
+import gen.map.export.MapLayerBuilder;
+import gen.map.lib.GridUtils;
+import gen.map.parser.TileBuild;
+import gen.map.parser.TileSearch;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-//Job: Understands how to convert a SurfaceLayer into a set of bricks
-public class SurfaceLayerBuilder extends BlsBuilder {
+//Job: Understands how to convert a SurfaceLayer into formatted .bls strings
+public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     //Job: Understands a 4-sided shape on a grid
     private class Rectangle {
-        private Point leftCorner; //top left corner
+        private Point leftCorner; //upper-left corner
         private int width;
         private int height;
 
@@ -26,9 +31,19 @@ public class SurfaceLayerBuilder extends BlsBuilder {
     private SurfaceLayer layer;
     private MapTile[][] copy;
     public static final double STARTING_HEIGHT = 100;
+    public static final String[] TILESETS = {
+            "ForestRoof16x", "ForestRoof32x", "ForestRoof48x", "ForestRoof64x",
+            "CliffRoof16x", "CliffRoof32x", "CliffRoof48x", "CliffRoof64x",
+            "ForestPath16x", "ForestPath32x", "ForestPath48x", "ForestPath64x",
+            "ForestFloor16x", "ForestFloor32x", "ForestFloor48x", "ForestFloor64x",
 
-    private ArrayList<Rectangle> treeCover = new ArrayList<>();
-    private ArrayList<Rectangle> cliffCover = new ArrayList<>();
+            "ForestWall", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
+    };
+    public static final String[] SPECIAL_TILES = {
+            "Town","Glen","Cave",
+    };
+
+    private ArrayList<BlsBrick> bricks = new ArrayList<>();
 
     public SurfaceLayerBuilder(SurfaceLayer layer) {
         this.layer = layer;
@@ -37,36 +52,132 @@ public class SurfaceLayerBuilder extends BlsBuilder {
     }
 
     public void generateBuild() {
-        //optimize tree and cliff coverage
-        calculateOptimumTreeCover();
-        calculateOptimumCliffCover();
+        //load the tilesets
+        HashMap<String, TileBuild> tileLibrary = new HashMap<>();
+        TileSearch search = new TileSearch("./resources/tilesets.bls");
+        for (String s : TILESETS) {
+            tileLibrary.put(s, search.findTile(s));
+        }
 
-        //
+        //optimize coverages
+        ArrayList<Rectangle> treeCover = calculateOptimumCover(SurfaceTile.FOREST);
+        ArrayList<Rectangle> cliffCover = calculateOptimumCover(SurfaceTile.CLIFF);
+        ArrayList<Rectangle> pathCover = calculateOptimumCover(SurfaceTile.FORESTPATH);
+        ArrayList<Rectangle> floorCover = calculateOptimumCover(SurfaceTile.FORESTFLOOR);
+
+        //plant the tiles
+        plantOptimizedTiles(treeCover, new String[]{
+                TILESETS[0], TILESETS[1], TILESETS[2], TILESETS[3]}, tileLibrary);
+        plantOptimizedTiles(cliffCover, new String[]{
+                TILESETS[4], TILESETS[5], TILESETS[6], TILESETS[7]}, tileLibrary);
+        plantOptimizedTiles(pathCover, new String[]{
+                TILESETS[8], TILESETS[9], TILESETS[10], TILESETS[11]}, tileLibrary);
+        plantOptimizedTiles(floorCover, new String[]{
+                TILESETS[12], TILESETS[13], TILESETS[14], TILESETS[15]}, tileLibrary);
+
+        //plant border cliff wall
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy.length; j++) {
+                if (copy[i][j] == SurfaceTile.TALLCLIFF) {
+                    ArrayList<BlsBrick> tallCliffTile = tileLibrary.get("TallCliffRoof16x").getBricks();
+                    for (BlsBrick b : tallCliffTile) {
+                        b.x += i * 8 + 4;
+                        b.y += j * 8 + 4;
+                    }
+                    bricks.addAll(tallCliffTile);
+                }
+            }
+        }
+
+        //plant walls
+        plantAllWalls(tileLibrary);
+    }
+
+    private void plantAllWalls(HashMap<String, TileBuild> tileLibrary) {
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[i].length; j++) {
+                if (copy[i][j].passable) {
+                    ArrayList<Point> adj = layer.getOrthoAdjacent(i, j);
+                    Point curr = new Point(i, j);
+                    for (Point p : adj) {
+                        int direction = GridUtils.getCompassDirectionTo(curr, p);
+                        if (!tileLibrary.containsKey(copy[p.x][p.y].name + "Wall")) {
+                            continue;
+                        }
+                        TileBuild adjTile = tileLibrary.get(copy[p.x][p.y].name + "Wall");
+                        ArrayList<BlsBrick> currTileBricks;
+                        switch (direction) {
+                            case GridUtils.NORTH: currTileBricks = adjTile.getRotatedBricks(1); break;
+                            case GridUtils.EAST: currTileBricks = adjTile.getRotatedBricks(0); break;
+                            case GridUtils.SOUTH: currTileBricks = adjTile.getRotatedBricks(3); break;
+                            case GridUtils.WEST: currTileBricks = adjTile.getRotatedBricks(2); break;
+                            default: throw new RuntimeException("Invalid direction!");
+                        }
+                        for (BlsBrick b : currTileBricks) {
+                            b.x += i * 8 + 4;
+                            b.y += j * 8 + 4;
+                        }
+                        bricks.addAll(currTileBricks);
+                    }
+                }
+            }
+        }
+    }
+
+    private void plantOptimizedTiles(ArrayList<Rectangle> coverage, String[] tiles, HashMap<String, TileBuild> tileLibrary) {
+        for (Rectangle rect : coverage) {
+            Point corner = new Point(rect.leftCorner);
+            //offset corner by tile size (16x16) and shift to center of rect
+            corner.x *= 8; corner.y *= 8;
+            corner.x += rect.width * 4; corner.y += rect.height * 4;
+
+            String tileChoice;
+            switch (rect.width) {
+                case 1: tileChoice = tiles[0]; break;
+                case 2: tileChoice = tiles[1]; break;
+                case 3: tileChoice = tiles[2]; break;
+                case 4: tileChoice = tiles[3]; break;
+                default: throw new RuntimeException("Width of optimized rectangle is not in range [1, 4]!");
+            }
+
+            TileBuild t = tileLibrary.get(tileChoice);
+
+            ArrayList<BlsBrick> currTileBricks = t.getBricks();
+            for (BlsBrick b : currTileBricks) {
+                b.x += corner.x;
+                b.y += corner.y;
+            }
+            bricks.addAll(currTileBricks);
+        }
     }
 
     @Override
     public String nextBrick() {
-        return null;
+        if (bricks.size() <= 0) {
+            return null;
+        }
+        BlsBrick curr = bricks.remove(0);
+        return curr.toStringOffset(offset.x, offset.y, STARTING_HEIGHT);
     }
 
-    private void calculateOptimumCliffCover() {
+    private ArrayList<Rectangle> calculateOptimumCover(MapTile type) {
         int[] sizes = {4, 3, 2, 1};
         boolean[][] collected = new boolean[copy.length][copy[0].length];
 
         int currSize;
         ArrayList<Point> curr = new ArrayList<>();
+        ArrayList<Rectangle> optimized = new ArrayList<>();
         for (int size : sizes) {
             currSize = size;
-            System.out.println("Calculating cliff coverage: size " + currSize);
             for (int i = 0; i < copy.length; i++) {
                 for (int j = 0; j < copy[i].length; j++) {
-                    if (copy[i][j] == SurfaceTile.CLIFF && !collected[i][j]) {
+                    if (copy[i][j] == type && !collected[i][j]) {
                         ArrayList<Point> rect = getRectanglePoints(i, j, currSize, currSize);
                         if (rect == null) {
                             continue;
                         }
                         for (Point p : rect) {
-                            if (copy[p.x][p.y] != SurfaceTile.CLIFF || collected[p.x][p.y]) {
+                            if (copy[p.x][p.y] != type || collected[p.x][p.y]) {
                                 curr.clear();
                                 break;
                             } else {
@@ -75,7 +186,7 @@ public class SurfaceLayerBuilder extends BlsBuilder {
                         }
 
                         if (curr.size() > 0) {
-                            cliffCover.add(new Rectangle(currSize, currSize, curr.get(0)));
+                            optimized.add(new Rectangle(currSize, currSize, curr.get(0)));
                             for (Point p : curr) {
                                 collected[p.x][p.y] = true;
                             }
@@ -85,44 +196,7 @@ public class SurfaceLayerBuilder extends BlsBuilder {
                 }
             }
         }
-    }
-
-    private void calculateOptimumTreeCover() {
-        int[] sizes = {4, 3, 2, 1};
-        boolean[][] collected = new boolean[copy.length][copy[0].length];
-
-        int currSize;
-        ArrayList<Point> curr = new ArrayList<>();
-        for (int size : sizes) {
-            currSize = size;
-            System.out.println("Calculating tree coverage: size " + currSize);
-            for (int i = 0; i < copy.length; i++) {
-                for (int j = 0; j < copy[i].length; j++) {
-                    if (copy[i][j] == SurfaceTile.FOREST && !collected[i][j]) {
-                        ArrayList<Point> rect = getRectanglePoints(i, j, currSize, currSize);
-                        if (rect == null) {
-                            continue;
-                        }
-                        for (Point p : rect) {
-                            if (copy[p.x][p.y] != SurfaceTile.FOREST || collected[p.x][p.y]) {
-                                curr.clear();
-                                break;
-                            } else {
-                                curr.add(p);
-                            }
-                        }
-
-                        if (curr.size() > 0) {
-                            treeCover.add(new Rectangle(currSize, currSize, curr.get(0)));
-                            for (Point p : curr) {
-                                collected[p.x][p.y] = true;
-                            }
-                            curr.clear();
-                        }
-                    }
-                }
-            }
-        }
+        return optimized;
     }
 
     private ArrayList<Point> getRectanglePoints(int x, int y, int width, int height) {

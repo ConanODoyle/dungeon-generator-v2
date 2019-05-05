@@ -1,6 +1,6 @@
 package gen.map;
 
-import gen.map.export.BlsBuilder;
+import gen.map.export.MapLayerBuilder;
 import gen.map.export.BlsFileExport;
 import gen.map.lib.PeekableScanner;
 import org.junit.Assert;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class MapExportTest {
+public class MapLayerExportTest {
 
     @Test
     public void PeekableScannerTest() {
@@ -116,7 +116,7 @@ public class MapExportTest {
         bls.setColorset("colorSet.txt");
 
         try {
-            bls.exportBlsFile("testExport.bls", new BlsBuilder.TestBuilder());
+            bls.exportBlsFile("testExport.bls", new MapLayerBuilder.TestBuilder());
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail("Exception in generating file");

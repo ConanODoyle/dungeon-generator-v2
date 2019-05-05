@@ -35,16 +35,20 @@ public class TileBuild {
             return getBricks();
         }
 
-        ArrayList<BlsBrick> result = new ArrayList<>();
+        ArrayList<BlsBrick> copy = new ArrayList<>();
         for (BlsBrick b : bricks) {
-            BlsBrick copy = b.getCopy();
-            copy.rotate(times, 0, 0);
-            result.add(0, copy);
+            BlsBrick brickCopy = b.getCopy();
+            brickCopy.rotate(times, 0, 0);
+            copy.add(0, brickCopy);
         }
-        return result;
+        return copy;
     }
 
     public ArrayList<BlsBrick> getBricks() {
-        return bricks;
+        ArrayList<BlsBrick> copy = new ArrayList<>();
+        for (BlsBrick b : bricks) {
+            copy.add(b.getCopy());
+        }
+        return copy;
     }
 }

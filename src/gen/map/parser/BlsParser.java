@@ -40,7 +40,7 @@ public class BlsParser {
                 if (lastBrick != null) {
                     lastBrick.addModifier(line);
                     if (line.substring(0, 4).equals("+-NT")) {
-                        lastBrick.NTName = line.substring(15);
+                        lastBrick.NTName = line.substring(15).toLowerCase();
                     }
                 }
                 continue;

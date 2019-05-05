@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 //Job: Understands how to export MapLayers in various formats
-public class MapExport {
+public class MapLayerExport {
 
     public static String[][] exportAsStringArray(MapLayer map) {
         String[][] render = new String[map.width][map.height];

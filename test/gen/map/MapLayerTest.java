@@ -1,6 +1,6 @@
 package gen.map;
 
-import gen.map.export.MapExport;
+import gen.map.export.MapLayerExport;
 import gen.map.surface.SurfaceLayer;
 import gen.map.surface.SurfaceTile;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class MapLayerTest {
         var height = 10;
         MapLayer l = new SurfaceLayer(width, height);
 
-        var render = MapExport.exportAsStringArray(l);
+        var render = MapLayerExport.exportAsStringArray(l);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 //Default no-tile-present should print #
@@ -43,12 +43,12 @@ public class MapLayerTest {
         long seed = r.nextLong();
 //        long seed = 5241523343413506799L;
         System.out.println("Using seed " + seed + " for generation...\n");
-        l.setSeed(seed);
+        l.seed = seed;
         l.generate();
 
         assertTrue(l.validateGeneration());
 
-        MapExport.exportAsImage(l, "SurfaceLayer", 5, 0);
+        MapLayerExport.exportAsImage(l, "SurfaceLayer", 5, 0);
     }
 
     @Test

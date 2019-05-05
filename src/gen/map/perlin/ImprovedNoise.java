@@ -8,7 +8,7 @@ package gen.map.perlin;
 import java.util.*;
 
 public final class ImprovedNoise {
-    private final int p[] = new int[512];
+    private final int[] p = new int[512];
     private boolean hasPermutation = false;
     public long seed;
 

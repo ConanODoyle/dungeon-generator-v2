@@ -1,6 +1,7 @@
 package gen.map;
 
-import gen.map.export.MapExport;
+import gen.map.export.MapLayerExport;
+import gen.map.surface.SurfaceLayerBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public abstract class MapLayer {
     public void printRender() {
         System.out.println("----------------");
 
-        String[][] render = MapExport.exportAsStringArray(this);
+        String[][] render = MapLayerExport.exportAsStringArray(this);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 System.out.print(render[i][j] + " ");
@@ -55,8 +56,8 @@ public abstract class MapLayer {
         int[] yOffset = {1, 0, -1, 0};
 
         for (int i = 0; i < xOffset.length; i++) {
-            if (x + xOffset[i] > 0 && x + xOffset[i] < width
-                    && y + yOffset[i] > 0 && y + yOffset[i] < height) {
+            if (x + xOffset[i] >= 0 && x + xOffset[i] < width
+                    && y + yOffset[i] >= 0 && y + yOffset[i] < height) {
                 result.add(new Point(x + xOffset[i], y + yOffset[i]));
             }
         }
@@ -102,10 +103,6 @@ public abstract class MapLayer {
             }
         }
         return copy;
-    }
-
-    public void setSeed(long seed) {
-        this.seed = seed;
     }
 
     @Override
@@ -164,4 +161,6 @@ public abstract class MapLayer {
                 if (tiles[i][j].passable) total++;
         return total;
     }
+
+    public abstract SurfaceLayerBuilder getBuilder();
 }

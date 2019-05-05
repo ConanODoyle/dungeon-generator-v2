@@ -1,7 +1,7 @@
 package gen.map;
 
 import gen.map.export.BlsBrick;
-import gen.map.export.BlsBuilder;
+import gen.map.export.MapLayerBuilder;
 import gen.map.export.BlsFileExport;
 import gen.map.parser.BlsParser;
 import gen.map.parser.TileBuild;
@@ -34,7 +34,7 @@ public class TileBuildParserTest {
         bls.setColorset("colorSet.txt");
 
         try {
-            bls.exportBlsFile("testExport.bls", new BlsBuilder.TestBuilder(builder.toString()));
+            bls.exportBlsFile("testExport.bls", new MapLayerBuilder.TestBuilder(builder.toString()));
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail("Exception in generating file");

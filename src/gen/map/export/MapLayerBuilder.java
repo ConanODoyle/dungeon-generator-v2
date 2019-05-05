@@ -4,9 +4,9 @@ import gen.map.lib.PeekableScanner;
 
 import java.io.File;
 
-//Job: Understands how to return    bricks as strings for bls export
-public abstract class BlsBuilder {
-    public static class TestBuilder extends BlsBuilder{
+//Job: Understands how to return formatted .bls strings
+public abstract class MapLayerBuilder {
+    public static class TestBuilder extends MapLayerBuilder {
         private PeekableScanner s;
 
         public TestBuilder() {

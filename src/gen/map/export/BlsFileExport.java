@@ -71,16 +71,17 @@ public class BlsFileExport {
         return result.toString();
     }
 
-    public void exportBlsFile(String filename, BlsBuilder builder) throws IOException {
+    public void exportBlsFile(String filename, MapLayerBuilder builder) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
         writer.write(exportBlsHeader());
         StringBuilder bricks = new StringBuilder();
-        String curr;
+        String curr = builder.nextBrick();
         int count = 0;
-        while ((curr = builder.nextBrick()) != null) {
+        while (curr!= null) {
             bricks.append(curr).append("\n");
             count++;
+            curr = builder.nextBrick();
         }
         writer.write("Linecount " + count + "\n");
         writer.write(bricks.toString());

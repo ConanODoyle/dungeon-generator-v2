@@ -67,6 +67,17 @@ public class BlsBrick {
         return copy;
     }
 
+    public String toStringOffset(double xOff, double yOff, double zOff) {
+        x += xOff;
+        y += yOff;
+        z += zOff;
+        String str = this.toString();
+        x -= xOff;
+        y -= yOff;
+        z -= zOff;
+        return str;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

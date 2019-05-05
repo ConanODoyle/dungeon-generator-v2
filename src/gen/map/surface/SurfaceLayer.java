@@ -364,6 +364,11 @@ public class SurfaceLayer extends MapLayer {
         return true;
     }
 
+    @Override
+    public SurfaceLayerBuilder getBuilder() {
+        return new SurfaceLayerBuilder(this);
+    }
+
     private void generateTown() {
         int wCenter = width / 2 + (width + 1) % 2 - 1;
         int hCenter = width / 2 + (width + 1) % 2 - 1;
