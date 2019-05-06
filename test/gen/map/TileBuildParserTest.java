@@ -3,6 +3,7 @@ package gen.map;
 import gen.map.export.BlsBrick;
 import gen.map.export.MapLayerBuilder;
 import gen.map.export.BlsFileExport;
+import gen.map.parser.BlsOctree;
 import gen.map.parser.BlsParser;
 import gen.map.parser.TileBuild;
 import gen.map.parser.TileSearch;
@@ -59,8 +60,19 @@ public class TileBuildParserTest {
     }
 
     @Test
+    public void ParseCountTest() {
+        BlsParser parser = new BlsParser("testExport_compare.bls");
+        BlsOctree o = parser.parseToOctTree();
+        assertEquals(695, o.size());
+
+        parser = new BlsParser("resources/tests/testTileset.bls");
+        o = parser.parseToOctTree();
+        assertEquals(6658, o.size());
+    }
+
+    @Test
     public void ParseIntoTilesTest() {
-        TileSearch search = new TileSearch("tileTest.bls");
+        TileSearch search = new TileSearch("resources/tests/tileTest.bls");
         TileBuild test0 = search.findTile("testTile0");
         TileBuild test1 = search.findTile("testTile1");
 
@@ -70,7 +82,7 @@ public class TileBuildParserTest {
 
     @Test
     public void TileRotationTest() {
-        TileSearch search = new TileSearch("tileTest.bls");
+        TileSearch search = new TileSearch("resources/tests/tileTest.bls");
         TileBuild test0 = search.findTile("testTile0");
         TileBuild test1 = search.findTile("testTile1");
 

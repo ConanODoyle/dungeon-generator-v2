@@ -2,40 +2,43 @@ package gen.map.parser;
 
 import gen.map.export.BlsBrick;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 //Job: Understands how to parse a save file into bricks
 @SuppressWarnings("WeakerAccess")
 public class BlsParser {
-    private Scanner contents;
+    private BufferedReader contents;
     private BlsBrick lastBrick;
     private BlsBrick nextBrick;
 
     public BlsParser(String s) {
         File bls = new File(s);
         try {
-            contents = new Scanner(bls);
+            contents = new BufferedReader(new FileReader(bls));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         nextBrick = null;
         lastBrick = null;
-        getNextBrick();
-        getNextBrick();
+        try {
+            getNextBrick();
+            getNextBrick();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void getNextBrick() {
+    private void getNextBrick() throws IOException {
         lastBrick = nextBrick;
         nextBrick = null;
-        if (!contents.hasNextLine()) {
-            return;
-        }
 
-        String line, name;
+        String line = null, name = null;
         Scanner ls;
-        while (contents.hasNextLine()) {
-            line = contents.nextLine();
+        while ((line = contents.readLine()) != null) {
             if (!line.contains("\"") || line.substring(0, 2).equals("+-")) {
                 if (lastBrick != null) {
                     lastBrick.addModifier(line);
@@ -61,7 +64,11 @@ public class BlsParser {
 
     public BlsBrick nextBrick() {
         BlsBrick result = lastBrick;
-        getNextBrick();
+        try {
+            getNextBrick();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
