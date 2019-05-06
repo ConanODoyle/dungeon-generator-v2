@@ -10,6 +10,7 @@ import gen.map.parser.TileSearch;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 //Job: Understands how to convert a SurfaceLayer into formatted .bls strings
 public class SurfaceLayerBuilder extends MapLayerBuilder {
@@ -37,7 +38,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             "ForestPath16x", "ForestPath32x", "ForestPath48x", "ForestPath64x",
             "ForestFloor16x", "ForestFloor32x", "ForestFloor48x", "ForestFloor64x",
 
-            "ForestWall", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
+            "ForestWall1", "ForestWall2", "ForestWall3", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
     };
     public static final String[] SPECIAL_TILES = {
             "Town","Glen","Cave",
@@ -54,7 +55,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
     public void generateBuild() {
         //load the tilesets
         HashMap<String, TileBuild> tileLibrary = new HashMap<>();
-        TileSearch search = new TileSearch("./resources/tilesets.bls");
+        TileSearch search = new TileSearch("resources/tilesets.bls");
         for (String s : TILESETS) {
             tileLibrary.put(s, search.findTile(s));
         }
@@ -94,6 +95,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
     }
 
     private void plantAllWalls(HashMap<String, TileBuild> tileLibrary) {
+        Random rand = new Random(layer.seed);
         for (int i = 0; i < copy.length; i++) {
             for (int j = 0; j < copy[i].length; j++) {
                 if (copy[i][j].passable) {
@@ -101,10 +103,15 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                     Point curr = new Point(i, j);
                     for (Point p : adj) {
                         int direction = GridUtils.getCompassDirectionTo(curr, p);
-                        if (!tileLibrary.containsKey(copy[p.x][p.y].name + "Wall")) {
+                        String name = copy[p.x][p.y].name + "Wall";
+                        if (name.equals("ForestWall")) {
+                            name = "ForestWall" + (rand.nextInt(2) + 1);
+                        }
+
+                        if (!tileLibrary.containsKey(name)) {
                             continue;
                         }
-                        TileBuild adjTile = tileLibrary.get(copy[p.x][p.y].name + "Wall");
+                        TileBuild adjTile = tileLibrary.get(name);
                         ArrayList<BlsBrick> currTileBricks;
                         switch (direction) {
                             case GridUtils.NORTH: currTileBricks = adjTile.getRotatedBricks(1); break;

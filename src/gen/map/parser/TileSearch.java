@@ -49,7 +49,7 @@ public class TileSearch {
         double[] xyz = {topBrick.x, topBrick.y, (topBrick.z + botBrick.z)/2};
         double[] boxXYZ = {width, width, topBrick.z - botBrick.z - 0.4};
 
-        return new TileBuild(octree.containerBoxSearch(xyz, boxXYZ), new double[]{xyz[0], xyz[1], topBrick.z});
+        return new TileBuild(octree.containerBoxSearch(xyz, boxXYZ), new double[]{xyz[0], xyz[1], topBrick.z - 0.1});
     }
 
     public TileBuild findSpecialTile(String tileName) {
