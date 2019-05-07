@@ -10,7 +10,7 @@ import java.util.*;
 
 //Job: Understands how to generate the surface layer
 public class SurfaceLayer extends MapLayer {
-    private final int TOWNSIZE = 10;
+    private final int TOWNSIZE = 14;
     private static final double MINAREA = 0.18;
 
     public SurfaceLayer(int width, int height) {

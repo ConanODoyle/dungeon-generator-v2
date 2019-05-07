@@ -31,8 +31,8 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
     private Point offset;
     private SurfaceLayer layer;
     private MapTile[][] copy;
-    public static final double STARTING_HEIGHT = 100;
-    public static final String[] TILESETS = {
+    private static final double STARTING_HEIGHT = 100;
+    private static final String[] TILESETS = {
             "ForestRoof16x", "ForestRoof32x", "ForestRoof48x", "ForestRoof64x",
             "CliffRoof16x", "CliffRoof32x", "CliffRoof48x", "CliffRoof64x",
             "ForestPath16x", "ForestPath32x", "ForestPath48x", "ForestPath64x",
@@ -40,25 +40,36 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
             "ForestWall1", "ForestWall2", "ForestWall3", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
     };
+    private static final String[] DETAILING = {
+            "TallPineTree", "ShortPineTree", "PineTree", "Petal", "Grass", "Flower",
+    };
     public static final String[] SPECIAL_TILES = {
             "Town","Glen","Cave",
     };
 
     private ArrayList<BlsBrick> bricks = new ArrayList<>();
 
-    public SurfaceLayerBuilder(SurfaceLayer layer) {
+    SurfaceLayerBuilder(SurfaceLayer layer) {
         this.layer = layer;
         this.copy = layer.getTiles();
         this.offset = new Point(0, 0);
     }
 
-    public void generateBuild() {
-        //load the tilesets
+    private HashMap<String, TileBuild> loadTilesets() {
         HashMap<String, TileBuild> tileLibrary = new HashMap<>();
         TileSearch search = new TileSearch("resources/tilesets.bls");
         for (String s : TILESETS) {
             tileLibrary.put(s, search.findTile(s));
         }
+        for (String s : DETAILING) {
+            tileLibrary.put(s, search.findTile(s));
+        }
+        return tileLibrary;
+    }
+
+    public void generateBuild() {
+        //load the tilesets
+        HashMap<String, TileBuild> tileLibrary = loadTilesets();
 
         //optimize coverages
         ArrayList<Rectangle> treeCover = calculateOptimumCover(SurfaceTile.FOREST);
@@ -92,6 +103,105 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
         //plant walls
         plantAllWalls(tileLibrary);
+
+        //generate detailing
+        plantTrees(tileLibrary);
+        plantGrass(tileLibrary);
+        plantFlowers(tileLibrary);
+    }
+
+    private void plantFlowers(HashMap<String, TileBuild> tileLibrary) {
+        Random rand = new Random(new Random(layer.seed).nextLong()); //don't want the random values being same as plantTrees
+        int flowerCount;
+        String[] flowerTypes = {"Flower"};
+        double xOffset, yOffset;
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[i].length; j++) {
+                if (copy[i][j] == SurfaceTile.FORESTFLOOR) {
+                    if (rand.nextDouble() > 0.9) {
+                        flowerCount = rand.nextInt(8);
+                    } else {
+                        flowerCount = 0;
+                    }
+                    for (int k = 0; k < flowerCount; k++) {
+                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                        TileBuild flowerBuild = tileLibrary.get(flowerTypes[rand.nextInt(flowerTypes.length)]);
+                        ArrayList<BlsBrick> currTileBricks = flowerBuild.getRotatedBricks(rand.nextInt(4));
+                        for (BlsBrick b : currTileBricks) {
+                            b.x += xOffset;
+                            b.y += yOffset;
+                        }
+                        bricks.addAll(currTileBricks);
+                    }
+                }
+            }
+        }
+    }
+
+    private void plantGrass(HashMap<String, TileBuild> tileLibrary) {
+        Random rand = new Random(new Random(layer.seed).nextLong()); //don't want the random values being same as plantTrees
+        int grassCount;
+        String[] grassTypes = {"Petal", "Grass"};
+        double xOffset, yOffset;
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[i].length; j++) {
+                if (copy[i][j] == SurfaceTile.FORESTPATH || copy[i][j] == SurfaceTile.FORESTFLOOR) {
+                    if (copy[i][j] == SurfaceTile.FORESTPATH) {
+                        grassCount = rand.nextInt(2) + 1;
+                    } else if (copy[i][j] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.7) {
+                        grassCount = rand.nextInt(3) + 1;
+                    } else {
+                        grassCount = 1;
+                    }
+                    for (int k = 0; k < grassCount; k++) {
+                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                        TileBuild grassBuild = tileLibrary.get(grassTypes[rand.nextInt(grassTypes.length)]);
+                        ArrayList<BlsBrick> currTileBricks = grassBuild.getRotatedBricks(rand.nextInt(4));
+                        for (BlsBrick b : currTileBricks) {
+                            b.x += xOffset;
+                            b.y += yOffset;
+                        }
+                        bricks.addAll(currTileBricks);
+                    }
+                }
+            }
+        }
+    }
+
+    private void plantTrees(HashMap<String, TileBuild> tileLibrary) {
+        Random rand = new Random(layer.seed);
+        int treeCount;
+        String[] treeTypes = {"TallPineTree", "PineTree", "ShortPineTree"};
+        double xOffset, yOffset;
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[i].length; j++) {
+                if (copy[i][j] == SurfaceTile.FORESTPATH || copy[i][j] == SurfaceTile.FORESTFLOOR) {
+                    if (copy[i][j] == SurfaceTile.FORESTPATH) {
+                        treeCount = rand.nextInt(2);
+                    } else if (copy[i][j] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.75) {
+                        treeCount = (int) (Math.sqrt(rand.nextInt(4)) - rand.nextDouble());
+                    } else {
+                        treeCount = 0;
+                    }
+                    for (int k = 0; k < treeCount; k++) {
+                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                        TileBuild treeBuild = tileLibrary.get(treeTypes[rand.nextInt(treeTypes.length)]);
+                        ArrayList<BlsBrick> currTileBricks = treeBuild.getRotatedBricks(rand.nextInt(4));
+                        for (BlsBrick b : currTileBricks) {
+                            b.x += xOffset;
+                            b.y += yOffset;
+                        }
+                        bricks.addAll(currTileBricks);
+                    }
+                }
+            }
+        }
     }
 
     private void plantAllWalls(HashMap<String, TileBuild> tileLibrary) {
@@ -104,8 +214,8 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                     for (Point p : adj) {
                         int direction = GridUtils.getCompassDirectionTo(curr, p);
                         String name = copy[p.x][p.y].name + "Wall";
-                        if (name.equals("ForestWall")) {
-                            name = "ForestWall" + (rand.nextInt(2) + 1);
+                        if (copy[p.x][p.y] == SurfaceTile.FOREST) {
+                            name = "ForestWall" + (rand.nextInt(3) + 1);
                         }
 
                         if (!tileLibrary.containsKey(name)) {
