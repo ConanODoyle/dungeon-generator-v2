@@ -14,8 +14,8 @@ public class MapLayerTest {
 
     @Test
     public void MapLayerInitializationTest() {
-        MapLayer l = new SurfaceLayer(10, 10);
-        assertEquals(l, new SurfaceLayer(10, 10));
+        MapLayer l = new SurfaceLayer(40, 40);
+        assertEquals(l, new SurfaceLayer(40, 40));
     }
 
     @Test
@@ -41,14 +41,14 @@ public class MapLayerTest {
 
         Random r = new Random();
         long seed = r.nextLong();
-//        long seed = 5241523343413506799L;
+//        long seed = -8459489275569364453L;
         System.out.println("Using seed " + seed + " for generation...\n");
         l.seed = seed;
         l.generate();
 
         assertTrue(l.validateGeneration());
 
-        MapLayerExport.exportAsImage(l, "SurfaceLayer", 5, 0);
+        MapLayerExport.exportAsImage(l, "SurfaceLayer", 10, 0);
     }
 
     @Test

@@ -15,6 +15,7 @@ public abstract class MapLayer {
     public final int height;
     public final int width;
     public final MapTile[][] tiles;
+    public final MapTile[][] extraTiles;
     protected boolean hasGenerated = false;
 
     public long seed;
@@ -24,9 +25,11 @@ public abstract class MapLayer {
         this.width = width;
         this.height = height;
         this.tiles = new MapTile[width][height];
+        this.extraTiles = new MapTile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = MapTile.EMPTY;
+                extraTiles[i][j] = MapTile.EMPTY;
             }
         }
         this.seed = new Random().nextLong();
@@ -81,28 +84,92 @@ public abstract class MapLayer {
         return result;
     }
 
-    public ArrayList<Point> getTilesByType(MapTile t) {
-        ArrayList<Point> result = new ArrayList<>();
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (tiles[i][j] == t) {
-                    result.add(new Point(i, j));
-                }
-            }
-        }
-
-        return result;
-    }
-
-    public MapTile[][] getTiles() {
+    private MapTile[][] getTilesArray(MapTile[][] array) {
         MapTile[][] copy = new MapTile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                copy[i][j] = tiles[i][j];
+                copy[i][j] = array[i][j];
             }
         }
         return copy;
+    }
+
+    public MapTile[][] getTilesArray() {
+        return getTilesArray(tiles);
+    }
+
+    public MapTile[][] getExtraTilesArray() {
+        return getTilesArray(extraTiles);
+    }
+
+    private ArrayList<Point> getTiles(MapTile[][] array, MapTile type) {
+        ArrayList<Point> foundTiles = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                if (array[i][j] == type) {
+                    foundTiles.add(new Point(i, j));
+                }
+            }
+        }
+        return foundTiles;
+    }
+
+    public ArrayList<Point> getTiles(MapTile type) {
+        return getTiles(tiles, type);
+    }
+
+    public ArrayList<Point> getExtraTiles(MapTile type) {
+        return getTiles(extraTiles, type);
+    }
+
+    private ArrayList<ArrayList<Point>> getTilesGroups(MapTile[][] array, MapTile type) {
+        ArrayList<ArrayList<Point>> siteSpots = new ArrayList<>();
+        boolean[][] visited = new boolean[array.length][array[0].length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                if (array[i][j] == type && !visited[i][j]) {
+                    ArrayList<Point> stack = new ArrayList<>(), currSite = new ArrayList<>();
+                    stack.add(new Point(i, j));
+                    while (stack.size() > 0) {
+                        Point curr = stack.remove(0);
+                        if (visited[curr.x][curr.y]) {
+                            continue;
+                        }
+                        currSite.add(curr);
+                        visited[curr.x][curr.y] = true;
+
+                        for (Point p : getOrthoAdjacent(curr.x, curr.y)) {
+                            if (array[p.x][p.y] == type && !visited[p.x][p.y]) {
+                                stack.add(p);
+                            }
+                        }
+                    }
+
+                    siteSpots.add(currSite);
+                }
+            }
+        }
+        return siteSpots;
+    }
+
+    public ArrayList<ArrayList<Point>> getTilesGroups(MapTile type) {
+        return getTilesGroups(tiles, type);
+    }
+
+    public ArrayList<ArrayList<Point>> getExtraTilesGroups(MapTile type) {
+        return getTilesGroups(extraTiles, type);
+    }
+
+    public ArrayList<Point> getPassableTiles() {
+        ArrayList<Point> open = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (tiles[i][j].passable) {
+                    open.add(new Point(i, j));
+                }
+            }
+        }
+        return open;
     }
 
     @Override

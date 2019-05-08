@@ -31,6 +31,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
     private Point offset;
     private SurfaceLayer layer;
     private MapTile[][] copy;
+    private MapTile[][] extraCopy;
     private static final double STARTING_HEIGHT = 100;
     private static final String[] TILESETS = {
             "ForestRoof16x", "ForestRoof32x", "ForestRoof48x", "ForestRoof64x",
@@ -40,8 +41,14 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
             "ForestWall1", "ForestWall2", "ForestWall3", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
     };
-    private static final String[] DETAILING = {
+    private static final String[] EXTRAS = {
             "TallPineTree", "ShortPineTree", "PineTree", "Petal", "Grass", "Flower",
+
+//            "GoblinWall1", "GoblinSkull1", "GoblinSkull2", "GoblinSkull3", "GoblinCampfire1", "GoblinCampfire2",
+//            "GoblinTower",
+//
+//            "RuinsWall1", "RuinsWall2", "RuinsStatue1", "RuinsStatue2", "RuinsStatue3", "RuinsStatue4", "RuinsStatue5",
+//            "RuinsStatue6", "RuinsStatue7",
     };
     public static final String[] SPECIAL_TILES = {
             "Town","Glen","Cave",
@@ -51,7 +58,8 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     SurfaceLayerBuilder(SurfaceLayer layer) {
         this.layer = layer;
-        this.copy = layer.getTiles();
+        this.copy = layer.getTilesArray();
+        this.extraCopy = layer.getExtraTilesArray();
         this.offset = new Point(0, 0);
     }
 
@@ -61,7 +69,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         for (String s : TILESETS) {
             tileLibrary.put(s, search.findTile(s));
         }
-        for (String s : DETAILING) {
+        for (String s : EXTRAS) {
             tileLibrary.put(s, search.findTile(s));
         }
         return tileLibrary;
@@ -101,142 +109,151 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             }
         }
 
+        Random rand = new Random(layer.seed);
+
         //plant walls
-        plantAllWalls(tileLibrary);
+        plantAllWalls(tileLibrary, rand);
+
+        //plant goblin camps
+//        plantGoblinCamps();
+
+        //plant ruins
+//        plantRuins();
 
         //generate detailing
-        plantTrees(tileLibrary);
-        plantGrass(tileLibrary);
-        plantFlowers(tileLibrary);
+        plantTrees(tileLibrary, rand);
+        plantGrass(tileLibrary, rand);
+        plantFlowers(tileLibrary, rand);
     }
 
-    private void plantFlowers(HashMap<String, TileBuild> tileLibrary) {
-        Random rand = new Random(new Random(layer.seed).nextLong()); //don't want the random values being same as plantTrees
+    private void plantGoblinCamps() {
+        ArrayList<ArrayList<Point>> goblinCamps = layer.getExtraTilesGroups(SurfaceTile.GOBLINCAMP);
+    }
+
+    private void plantRuins() {
+
+    }
+
+    private void plantFlowers(HashMap<String, TileBuild> tileLibrary, Random rand) {
         int flowerCount;
         String[] flowerTypes = {"Flower"};
         double xOffset, yOffset;
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = 0; j < copy[i].length; j++) {
-                if (copy[i][j] == SurfaceTile.FORESTFLOOR) {
-                    if (rand.nextDouble() > 0.9) {
-                        flowerCount = rand.nextInt(8);
-                    } else {
-                        flowerCount = 0;
-                    }
-                    for (int k = 0; k < flowerCount; k++) {
-                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
-                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
 
-                        TileBuild flowerBuild = tileLibrary.get(flowerTypes[rand.nextInt(flowerTypes.length)]);
-                        ArrayList<BlsBrick> currTileBricks = flowerBuild.getRotatedBricks(rand.nextInt(4));
-                        for (BlsBrick b : currTileBricks) {
-                            b.x += xOffset;
-                            b.y += yOffset;
-                        }
-                        bricks.addAll(currTileBricks);
-                    }
+        ArrayList<Point> flowerTiles = new ArrayList<>();
+        flowerTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
+
+        for (Point p : flowerTiles) {
+            if (rand.nextDouble() > 0.9) {
+                flowerCount = rand.nextInt(8);
+            } else {
+                flowerCount = 0;
+            }
+            for (int k = 0; k < flowerCount; k++) {
+                xOffset = p.x * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                yOffset = p.y * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                TileBuild flowerBuild = tileLibrary.get(flowerTypes[rand.nextInt(flowerTypes.length)]);
+                ArrayList<BlsBrick> currTileBricks = flowerBuild.getRotatedBricks(rand.nextInt(4));
+                for (BlsBrick b : currTileBricks) {
+                    b.x += xOffset;
+                    b.y += yOffset;
                 }
+                bricks.addAll(currTileBricks);
             }
         }
     }
 
-    private void plantGrass(HashMap<String, TileBuild> tileLibrary) {
-        Random rand = new Random(new Random(layer.seed).nextLong()); //don't want the random values being same as plantTrees
+    private void plantGrass(HashMap<String, TileBuild> tileLibrary, Random rand) {
         int grassCount;
         String[] grassTypes = {"Petal", "Grass"};
         double xOffset, yOffset;
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = 0; j < copy[i].length; j++) {
-                if (copy[i][j] == SurfaceTile.FORESTPATH || copy[i][j] == SurfaceTile.FORESTFLOOR) {
-                    if (copy[i][j] == SurfaceTile.FORESTPATH) {
-                        grassCount = rand.nextInt(2) + 1;
-                    } else if (copy[i][j] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.7) {
-                        grassCount = rand.nextInt(3) + 1;
-                    } else {
-                        grassCount = 1;
-                    }
-                    for (int k = 0; k < grassCount; k++) {
-                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
-                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
 
-                        TileBuild grassBuild = tileLibrary.get(grassTypes[rand.nextInt(grassTypes.length)]);
-                        ArrayList<BlsBrick> currTileBricks = grassBuild.getRotatedBricks(rand.nextInt(4));
-                        for (BlsBrick b : currTileBricks) {
-                            b.x += xOffset;
-                            b.y += yOffset;
-                        }
-                        bricks.addAll(currTileBricks);
-                    }
+        ArrayList<Point> grassTiles = new ArrayList<>();
+        grassTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
+        grassTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
+
+        for (Point p : grassTiles) {
+            if (copy[p.x][p.y] == SurfaceTile.FORESTPATH) {
+                grassCount = rand.nextInt(2) + 1;
+            } else if (copy[p.x][p.y] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.7) {
+                grassCount = rand.nextInt(3) + 1;
+            } else {
+                grassCount = 1;
+            }
+            for (int k = 0; k < grassCount; k++) {
+                xOffset = p.x * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                yOffset = p.y * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                TileBuild grassBuild = tileLibrary.get(grassTypes[rand.nextInt(grassTypes.length)]);
+                ArrayList<BlsBrick> currTileBricks = grassBuild.getRotatedBricks(rand.nextInt(4));
+                for (BlsBrick b : currTileBricks) {
+                    b.x += xOffset;
+                    b.y += yOffset;
                 }
+                bricks.addAll(currTileBricks);
             }
         }
     }
 
-    private void plantTrees(HashMap<String, TileBuild> tileLibrary) {
-        Random rand = new Random(layer.seed);
+    private void plantTrees(HashMap<String, TileBuild> tileLibrary, Random rand) {
         int treeCount;
         String[] treeTypes = {"TallPineTree", "PineTree", "ShortPineTree"};
         double xOffset, yOffset;
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = 0; j < copy[i].length; j++) {
-                if (copy[i][j] == SurfaceTile.FORESTPATH || copy[i][j] == SurfaceTile.FORESTFLOOR) {
-                    if (copy[i][j] == SurfaceTile.FORESTPATH) {
-                        treeCount = rand.nextInt(2);
-                    } else if (copy[i][j] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.75) {
-                        treeCount = (int) (Math.sqrt(rand.nextInt(4)) - rand.nextDouble());
-                    } else {
-                        treeCount = 0;
-                    }
-                    for (int k = 0; k < treeCount; k++) {
-                        xOffset = i * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
-                        yOffset = j * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
 
-                        TileBuild treeBuild = tileLibrary.get(treeTypes[rand.nextInt(treeTypes.length)]);
-                        ArrayList<BlsBrick> currTileBricks = treeBuild.getRotatedBricks(rand.nextInt(4));
-                        for (BlsBrick b : currTileBricks) {
-                            b.x += xOffset;
-                            b.y += yOffset;
-                        }
-                        bricks.addAll(currTileBricks);
-                    }
+        ArrayList<Point> grassTiles = new ArrayList<>();
+        grassTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
+        grassTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
+
+        for (Point p : grassTiles) {
+            if (copy[p.x][p.y] == SurfaceTile.FORESTPATH) {
+                treeCount = rand.nextInt(2);
+            } else if (copy[p.x][p.y] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.75) {
+                treeCount = (int) (Math.sqrt(rand.nextInt(4)) - rand.nextDouble());
+            } else {
+                treeCount = 0;
+            }
+            for (int k = 0; k < treeCount; k++) {
+                xOffset = p.x * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+                yOffset = p.y * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
+
+                TileBuild treeBuild = tileLibrary.get(treeTypes[rand.nextInt(treeTypes.length)]);
+                ArrayList<BlsBrick> currTileBricks = treeBuild.getRotatedBricks(rand.nextInt(4));
+                for (BlsBrick b : currTileBricks) {
+                    b.x += xOffset;
+                    b.y += yOffset;
                 }
+                bricks.addAll(currTileBricks);
             }
         }
     }
 
-    private void plantAllWalls(HashMap<String, TileBuild> tileLibrary) {
-        Random rand = new Random(layer.seed);
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = 0; j < copy[i].length; j++) {
-                if (copy[i][j].passable) {
-                    ArrayList<Point> adj = layer.getOrthoAdjacent(i, j);
-                    Point curr = new Point(i, j);
-                    for (Point p : adj) {
-                        int direction = GridUtils.getCompassDirectionTo(curr, p);
-                        String name = copy[p.x][p.y].name + "Wall";
-                        if (copy[p.x][p.y] == SurfaceTile.FOREST) {
-                            name = "ForestWall" + (rand.nextInt(3) + 1);
-                        }
-
-                        if (!tileLibrary.containsKey(name)) {
-                            continue;
-                        }
-                        TileBuild adjTile = tileLibrary.get(name);
-                        ArrayList<BlsBrick> currTileBricks;
-                        switch (direction) {
-                            case GridUtils.NORTH: currTileBricks = adjTile.getRotatedBricks(1); break;
-                            case GridUtils.EAST: currTileBricks = adjTile.getRotatedBricks(0); break;
-                            case GridUtils.SOUTH: currTileBricks = adjTile.getRotatedBricks(3); break;
-                            case GridUtils.WEST: currTileBricks = adjTile.getRotatedBricks(2); break;
-                            default: throw new RuntimeException("Invalid direction!");
-                        }
-                        for (BlsBrick b : currTileBricks) {
-                            b.x += i * 8 + 4;
-                            b.y += j * 8 + 4;
-                        }
-                        bricks.addAll(currTileBricks);
-                    }
+    private void plantAllWalls(HashMap<String, TileBuild> tileLibrary, Random rand) {
+        for (Point curr : layer.getPassableTiles()) {
+            ArrayList<Point> adj = layer.getOrthoAdjacent(curr.x, curr.y);
+            for (Point p : adj) {
+                int direction = GridUtils.getCompassDirectionTo(curr, p);
+                String name = copy[p.x][p.y].name + "Wall";
+                if (copy[p.x][p.y] == SurfaceTile.FOREST) {
+                    name = "ForestWall" + (rand.nextInt(3) + 1);
                 }
+
+                if (!tileLibrary.containsKey(name)) {
+                    continue;
+                }
+                TileBuild adjTile = tileLibrary.get(name);
+                ArrayList<BlsBrick> currTileBricks;
+                switch (direction) {
+                    case GridUtils.NORTH: currTileBricks = adjTile.getRotatedBricks(1); break;
+                    case GridUtils.EAST: currTileBricks = adjTile.getRotatedBricks(0); break;
+                    case GridUtils.SOUTH: currTileBricks = adjTile.getRotatedBricks(3); break;
+                    case GridUtils.WEST: currTileBricks = adjTile.getRotatedBricks(2); break;
+                    default: throw new RuntimeException("Invalid direction!");
+                }
+                for (BlsBrick b : currTileBricks) {
+                    b.x += curr.x * 8 + 4;
+                    b.y += curr.y * 8 + 4;
+                }
+                bricks.addAll(currTileBricks);
             }
         }
     }
@@ -286,29 +303,27 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         ArrayList<Rectangle> optimized = new ArrayList<>();
         for (int size : sizes) {
             currSize = size;
-            for (int i = 0; i < copy.length; i++) {
-                for (int j = 0; j < copy[i].length; j++) {
-                    if (copy[i][j] == type && !collected[i][j]) {
-                        ArrayList<Point> rect = getRectanglePoints(i, j, currSize, currSize);
-                        if (rect == null) {
-                            continue;
-                        }
-                        for (Point p : rect) {
-                            if (copy[p.x][p.y] != type || collected[p.x][p.y]) {
-                                curr.clear();
-                                break;
-                            } else {
-                                curr.add(p);
-                            }
-                        }
-
-                        if (curr.size() > 0) {
-                            optimized.add(new Rectangle(currSize, currSize, curr.get(0)));
-                            for (Point p : curr) {
-                                collected[p.x][p.y] = true;
-                            }
+            for (Point p : layer.getTiles(type)) {
+                if (!collected[p.x][p.y]) {
+                    ArrayList<Point> rect = getRectanglePoints(p.x, p.y, currSize, currSize);
+                    if (rect == null) {
+                        continue;
+                    }
+                    for (Point q : rect) {
+                        if (copy[q.x][q.y] != type || collected[q.x][q.y]) {
                             curr.clear();
+                            break;
+                        } else {
+                            curr.add(q);
                         }
+                    }
+
+                    if (curr.size() > 0) {
+                        optimized.add(new Rectangle(currSize, currSize, curr.get(0)));
+                        for (Point q : curr) {
+                            collected[q.x][q.y] = true;
+                        }
+                        curr.clear();
                     }
                 }
             }

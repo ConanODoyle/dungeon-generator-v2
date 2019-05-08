@@ -1,6 +1,7 @@
 package gen.map.export;
 
 import gen.map.MapLayer;
+import gen.map.MapTile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,9 +35,17 @@ public class MapLayerExport {
                 Color tileColor = map.tiles[i][j].color;
                 g2d.setColor(tileColor);
                 g2d.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
+
+                if (map.extraTiles[i][j] != MapTile.EMPTY) {
+                    tileColor = map.extraTiles[i][j].color;
+                    g2d.setColor(tileColor);
+                    g2d.fillRect(j * tileSize + (int) Math.round(tileSize/12d), i * tileSize + (int) Math.round(tileSize/12d),
+                            tileSize*5/6, tileSize*5/6);
+                }
             }
         }
 
+        gridSize = tileSize * gridSize;
         if (gridSize > 0) {
             for (int i = 0; i < map.width * tileSize; i += gridSize) {
                 for (int j = 0; j < map.height * tileSize; j += gridSize) {

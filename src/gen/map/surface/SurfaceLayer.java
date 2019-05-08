@@ -43,10 +43,6 @@ public class SurfaceLayer extends MapLayer {
         ArrayList<Point> ends = generatePaths(rand);
         removeInaccessibleAreas();
 
-        //generate features
-        generateCaves(rand);
-        generateGlen(ends, rand);
-
         //check if map is big enough, if not, retry generation
         if (getTotalAccessibleArea() < MINAREA * height * width) {
             System.out.println("Generation did not generate a large enough map! Changing seed...");
@@ -55,7 +51,49 @@ public class SurfaceLayer extends MapLayer {
             return;
         }
 
+        //generate ruins, goblin tiles
+        generateExtraTiles(rand, SurfaceTile.GOBLINCAMP, rand.nextInt(4) + 2, 0.8);
+        generateExtraTiles(rand, SurfaceTile.RUINS, rand.nextInt(3) + 1, 0.7);
+
+        //generate features
+        generateCaves(rand);
+        generateGlen(ends, rand);
+
         hasGenerated = true;
+    }
+
+    private void generateExtraTiles(Random rand, MapTile type, int groupCount, double growChance) {
+        int curr, tries = 0;
+        ArrayList<Point> valid = getPassableTiles();
+        while (groupCount > 0 && tries++ < 10000) {
+            curr = rand.nextInt(valid.size());
+            Point currPoint = valid.remove(curr);
+            int x = currPoint.x;
+            int y = currPoint.y;
+            if (tiles[x][y].passable && distanceToClosestTile(x, y, SurfaceTile.TOWN) > 10
+                    && extraTiles[x][y] != type) {
+                extraTiles[x][y] = type;
+                ArrayList<Point> nextadj, adj = getOrthoAdjacent(x, y);
+                for (int i = 0; i < adj.size();) {
+                    Point p = adj.remove(0);
+                    if (!tiles[p.x][p.y].passable || extraTiles[p.x][p.y] == type) {
+                        continue;
+                    }
+                    extraTiles[p.x][p.y] = type;
+                    nextadj = getOrthoAdjacent(p.x, p.y);
+                    for (Point q : nextadj) {
+                        if (rand.nextDouble() > growChance) {
+                            adj.add(q);
+                        }
+                    }
+                }
+                groupCount--;
+            }
+        }
+
+        if (tries >= 10000) {
+            System.out.println("Failed to generate all " + type.name + " groups! Groups left: " + groupCount);
+        }
     }
 
     private void generateGlen(ArrayList<Point> ends, Random rand) {
@@ -98,7 +136,7 @@ public class SurfaceLayer extends MapLayer {
     }
 
     private void generateCaves(Random rand) {
-        ArrayList<Point> cliffs = getTilesByType(SurfaceTile.CLIFF);
+        ArrayList<Point> cliffs = getTiles(SurfaceTile.CLIFF);
         ArrayList<Point> validCaves = new ArrayList<>();
 
         for (Point p : cliffs) {
