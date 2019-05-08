@@ -2,18 +2,24 @@ package gen.map;
 
 import gen.map.export.BlsFileExport;
 import gen.map.export.MapLayerBuilder;
+import gen.map.export.MapLayerExport;
 import gen.map.surface.SurfaceLayer;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertTrue;
 
 public class LayerBuilderTest {
 
     @Test
     public void SurfaceLayerBuilderTest() {
         SurfaceLayer m = new SurfaceLayer(180, 180);
-        m.seed = 6078492303428244842L;
+//        m.seed = 6078495303428244842L;
+        System.out.println("Seed: " + m.seed);
         m.generate();
 
         MapLayerBuilder builder = m.getBuilder();
@@ -28,5 +34,13 @@ public class LayerBuilderTest {
             e.printStackTrace();
             Assert.fail("Could not create file");
         }
+        MapLayerExport.exportAsImage(m, "testSurfaceLayerMap", 10, 0);
+    }
+
+    @Test
+    public void ArraylistContainsTest() {
+        ArrayList<Point> test = new ArrayList<>();
+        test.add(new Point(10, 20));
+        assertTrue(test.contains(new Point(10, 20)));
     }
 }

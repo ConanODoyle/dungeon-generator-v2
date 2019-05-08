@@ -2,10 +2,7 @@ package gen.map.parser;
 
 import gen.map.export.BlsBrick;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 //Job: Understands how to parse a save file into bricks
@@ -18,7 +15,7 @@ public class BlsParser {
     public BlsParser(String s) {
         File bls = new File(s);
         try {
-            contents = new BufferedReader(new FileReader(bls));
+            contents = new BufferedReader( new InputStreamReader(new FileInputStream(bls), "windows-1256"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

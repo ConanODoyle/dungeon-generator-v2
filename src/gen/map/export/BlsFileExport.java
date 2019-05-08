@@ -73,8 +73,9 @@ public class BlsFileExport {
 
     public void exportBlsFile(String filename, MapLayerBuilder builder) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(filename),"windows-1256");
 
-        writer.write(exportBlsHeader());
+        out.write(exportBlsHeader());
         StringBuilder bricks = new StringBuilder();
         String curr = builder.nextBrick();
         int count = 0;
@@ -83,9 +84,9 @@ public class BlsFileExport {
             count++;
             curr = builder.nextBrick();
         }
-        writer.write("Linecount " + count + "\n");
-        writer.write(bricks.toString());
+        out.write("Linecount " + count + "\n");
+        out.write(bricks.toString());
 
-        writer.close();
+        out.close();
     }
 }

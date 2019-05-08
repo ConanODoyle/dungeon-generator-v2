@@ -52,8 +52,8 @@ public class SurfaceLayer extends MapLayer {
         }
 
         //generate ruins, goblin tiles
-        generateExtraTiles(rand, SurfaceTile.GOBLINCAMP, rand.nextInt(4) + 2, 0.8);
-        generateExtraTiles(rand, SurfaceTile.RUINS, rand.nextInt(3) + 1, 0.7);
+        generateExtraTiles(rand, SurfaceTile.GOBLINCAMP, rand.nextInt(7) + 5, 0.32);
+        generateExtraTiles(rand, SurfaceTile.RUINS, rand.nextInt(10) + 3, 0.26);
 
         //generate features
         generateCaves(rand);
@@ -82,7 +82,7 @@ public class SurfaceLayer extends MapLayer {
                     extraTiles[p.x][p.y] = type;
                     nextadj = getOrthoAdjacent(p.x, p.y);
                     for (Point q : nextadj) {
-                        if (rand.nextDouble() > growChance) {
+                        if (rand.nextDouble() < growChance) {
                             adj.add(q);
                         }
                     }

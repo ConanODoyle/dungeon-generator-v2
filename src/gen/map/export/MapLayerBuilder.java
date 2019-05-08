@@ -1,8 +1,11 @@
 package gen.map.export;
 
 import gen.map.lib.PeekableScanner;
+import gen.map.parser.TileBuild;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Random;
 
 //Job: Understands how to return formatted .bls strings
 public abstract class MapLayerBuilder {
@@ -41,7 +44,29 @@ public abstract class MapLayerBuilder {
         }
     }
 
+    public ArrayList<BlsBrick> bricks = new ArrayList<>();
+
     public abstract void generateBuild();
     public abstract String nextBrick();
 
+
+    public void buildTileAt(Random rand, TileBuild tileBuild, double offsetX, double offsetY) {
+        TileBuild adjTile = tileBuild;
+        ArrayList<BlsBrick> currTileBricks = adjTile.getRotatedBricks(rand.nextInt(4));
+        for (BlsBrick b : currTileBricks) {
+            b.x += offsetX;
+            b.y += offsetY;
+        }
+        bricks.addAll(currTileBricks);
+    }
+
+    public void buildTileAt(Random rand, TileBuild tileBuild, double offsetX, double offsetY, int rotation) {
+        TileBuild adjTile = tileBuild;
+        ArrayList<BlsBrick> currTileBricks = adjTile.getRotatedBricks(rotation);
+        for (BlsBrick b : currTileBricks) {
+            b.x += offsetX;
+            b.y += offsetY;
+        }
+        bricks.addAll(currTileBricks);
+    }
 }
