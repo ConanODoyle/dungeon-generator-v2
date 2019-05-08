@@ -172,6 +172,35 @@ public abstract class MapLayer {
         return open;
     }
 
+    public int removeInaccessibleAreas(int startX, int startY, MapTile replace) {
+        boolean[][] accessible = new boolean[width][height];
+        ArrayList<Point> queue = new ArrayList<>();
+        queue.add(new Point(startX, startY));
+
+        while (queue.size() > 0) {
+            Point curr = queue.remove(0);
+            accessible[curr.x][curr.y] = true;
+            ArrayList<Point> adjacent = getOrthoAdjacent(curr.x, curr.y);
+            for (Point p : adjacent) {
+                if (!accessible[p.x][p.y] && tiles[p.x][p.y].passable) {
+                    accessible[p.x][p.y] = true;
+                    queue.add(p);
+                }
+            }
+        }
+
+        int totalRemoved = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (!accessible[i][j] && tiles[i][j].passable) {
+                    tiles[i][j] = replace;
+                    totalRemoved++;
+                }
+            }
+        }
+        return totalRemoved;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof MapLayer)) {

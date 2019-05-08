@@ -11,7 +11,7 @@ import java.util.*;
 //Job: Understands how to generate the surface layer
 public class SurfaceLayer extends MapLayer {
     private final int TOWNSIZE = 14;
-    private static final double MINAREA = 0.18;
+    private static final double MIN_AREA = 0.18;
 
     public SurfaceLayer(int width, int height) {
         super(width, height);
@@ -41,10 +41,10 @@ public class SurfaceLayer extends MapLayer {
         generateCliffs(rand);
         generateTown();
         ArrayList<Point> ends = generatePaths(rand);
-        removeInaccessibleAreas();
+        removeInaccessibleAreas(width / 2, height / 2, SurfaceTile.FOREST);
 
         //check if map is big enough, if not, retry generation
-        if (getTotalAccessibleArea() < MINAREA * height * width) {
+        if (getTotalAccessibleArea() < MIN_AREA * height * width) {
             System.out.println("Generation did not generate a large enough map! Changing seed...");
             seed = rand.nextLong();
             generate();
@@ -231,38 +231,6 @@ public class SurfaceLayer extends MapLayer {
         return noise;
     }
 
-    public int removeInaccessibleAreas() {
-        boolean[][] mask = new boolean[width][height];
-        int startX = width / 2, startY = height / 2; //town always in center
-        ArrayList<Point> queue = new ArrayList<>();
-        queue.add(new Point(startX, startY));
-
-        while (queue.size() > 0) {
-            Point curr = queue.remove(0);
-            mask[curr.x][curr.y] = true;
-            ArrayList<Point> adjacent = getOrthoAdjacent(curr.x, curr.y);
-            for (Point p : adjacent) {
-                if (!mask[p.x][p.y] && tiles[p.x][p.y].passable
-                        && p.x > 0 && p.x < width - 1
-                        && p.y > 0 && p.y < height - 1) {
-                    mask[p.x][p.y] = true;
-                    queue.add(p);
-                }
-            }
-        }
-
-        int totalRemoved = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (!mask[i][j] && tiles[i][j].passable) {
-                    tiles[i][j] = SurfaceTile.FOREST;
-                    totalRemoved++;
-                }
-            }
-        }
-        return totalRemoved;
-    }
-
     private ArrayList<Point> generatePaths(Random rand) {
         ArrayList<Point> unlinkedEnds = new ArrayList<>();
         int mod = (int) Math.ceil(Math.sqrt(width * height) / 40);
@@ -395,7 +363,7 @@ public class SurfaceLayer extends MapLayer {
         if (pathCount <= 0) {
             return false;
         }
-        if (accessibleCount < MINAREA * width * height) {
+        if (accessibleCount < MIN_AREA * width * height) {
             return false;
         }
 

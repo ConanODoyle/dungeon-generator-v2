@@ -20,8 +20,8 @@ public class MapLayerTest {
 
     @Test
     public void MapLayerRenderTest() {
-        var width = 10;
-        var height = 10;
+        var width = 20;
+        var height = 20;
         MapLayer l = new SurfaceLayer(width, height);
 
         var render = MapLayerExport.exportAsStringArray(l);
@@ -53,25 +53,33 @@ public class MapLayerTest {
 
     @Test
     public void SurfaceLayerRemoveInaccessibleAreaTest() {
-        var width = 12;
-        var height = 12;
+        var width = 20;
+        var height = 20;
         SurfaceLayer l = new SurfaceLayer(width, height);
         var X = SurfaceTile.FOREST;
         var o = SurfaceTile.FORESTFLOOR;
 
         MapTile[][] src = new MapTile[][]{
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, o, o, o, o, X, o, o, o},
-                {X, X, o, X, o, o, o, o, X, o, o, o},
-                {X, X, o, X, o, o, o, o, X, o, o, o},
-                {X, X, o, X, o, o, o, o, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
-                {X, X, o, X, X, X, X, X, X, o, o, o},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, o, o, o, o, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, o, o, o, o, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, o, o, o, o, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, o, o, o, o, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
+                {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
         };
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -79,7 +87,10 @@ public class MapLayerTest {
             }
         }
 
-        var removed = l.removeInaccessibleAreas();
-        assertEquals(12 * 4, removed);
+        var removed = l.removeInaccessibleAreas(10, 10, X);
+//        for (String[] a : MapLayerExport.exportAsStringArray(l)) {
+//            System.out.println(Arrays.toString(a));
+//        }
+        assertEquals(20 + 16, removed);
     }
 }
