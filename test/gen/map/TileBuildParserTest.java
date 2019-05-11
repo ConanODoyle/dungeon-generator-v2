@@ -81,6 +81,14 @@ public class TileBuildParserTest {
     }
 
     @Test
+    public void ParseSpecialTilesTest() {
+        TileSearch search = new TileSearch("resources/tests/specialTileTest.bls");
+        TileBuild test0 = search.findSpecialTile("TempleRuins");
+
+        assertEquals(130, test0.getBricks().size());
+    }
+
+    @Test
     public void TileRotationTest() {
         TileSearch search = new TileSearch("resources/tests/tileTest.bls");
         TileBuild test0 = search.findTile("testTile0");

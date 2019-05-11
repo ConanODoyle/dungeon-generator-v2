@@ -8,11 +8,9 @@ import gen.map.parser.TileBuild;
 import gen.map.parser.TileSearch;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
-//Job: Understands how to convert a SurfaceLayer into formatted .bls strings
+//Job: Understands how to convert a SurfaceLayer into a list of formatted .bls strings
 public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     //Job: Understands a 4-sided shape on a grid
@@ -39,19 +37,31 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             "ForestPath16x", "ForestPath32x", "ForestPath48x", "ForestPath64x",
             "ForestFloor16x", "ForestFloor32x", "ForestFloor48x", "ForestFloor64x",
 
-            "ForestWall1", "ForestWall2", "ForestWall3", "CliffWall", "TallCliffWall", "TallCliffRoof16x",
+            "ForestWall1", "ForestWall2", "ForestWall3",
+            "CliffWall1", "CliffWall2", "CliffWall3", "CliffWallCorner", "CliffWallEnd", "CliffWallCornerFiller",
+            "TallCliffRoof16x",
     };
     private static final String[] EXTRAS = {
-            "TallPineTree", "ShortPineTree", "PineTree", "Petal", "Grass", "Flower",
+            "TallPineTree", "ShortPineTree", "PineTree",
+            "Petal", "RedFlower", "WhiteFlower", "PinkFlower", "YellowFlower",
+            "Mushrooms", "SmallRock", "BigRock",
 
             "GoblinWall1", "GoblinSkull1", "GoblinSkull2", "GoblinSkull3", "GoblinCampfire1", "GoblinCampfire2",
-            "GoblinTower",
+            "GoblinTower", "GoblinHut1", "GoblinHut2", "GoblinShrine1",
 
             "RuinsWall1", "RuinsWall2", "RuinsStatue1", "RuinsStatue2", "RuinsStatue3", "RuinsStatue4", "RuinsStatue5",
             "RuinsStatue6", "RuinsStatue7",
+
+            "Tent",
+            "Well1", "Well2", "AbandFire", "Fence1", "Fence2", "Fence3",
     };
-    public static final String[] SPECIAL_TILES = {
-            "Town","Glen","Cave",
+    private static final String[] SPECIAL_TILES = {
+//            "Town","Glen","Cave",
+
+            "ShrineRuins1", "ShrineRuins2",
+            "House1", "House2",
+
+            "GoblinTent",
     };
 
     SurfaceLayerBuilder(SurfaceLayer layer) {
@@ -69,6 +79,9 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         }
         for (String s : EXTRAS) {
             tileLibrary.put(s, search.findTile(s));
+        }
+        for (String s : SPECIAL_TILES) {
+            tileLibrary.put(s, search.findSpecialTile(s));
         }
         return tileLibrary;
     }
@@ -112,16 +125,98 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         //plant walls
         plantAllWalls(tileLibrary, rand);
 
-        //plant goblin camps
+        //plant goblin camps, ruins, and settlements
         plantGoblinCamps(tileLibrary, rand);
-
-        //plant ruins
         plantRuins(tileLibrary, rand);
+        plantSettlements(tileLibrary, rand);
 
         //generate detailing
-        plantTrees(tileLibrary, rand);
+        HashSet<Point> occupied = new HashSet<>();
+        occupied.addAll(layer.getExtraTiles(SurfaceTile.GOBLINCAMP));
+        occupied.addAll(layer.getExtraTiles(SurfaceTile.RUINS));
+        occupied.addAll(layer.getExtraTiles(SurfaceTile.SETTLEMENT));
+        plantMushrooms(tileLibrary, rand, occupied);
+        plantRocks(tileLibrary, rand, occupied);
+        plantTrees(tileLibrary, rand, occupied);
         plantGrass(tileLibrary, rand);
         plantFlowers(tileLibrary, rand);
+    }
+
+
+    //Camps
+    private void plantSettlements(HashMap<String, TileBuild> tileLibrary, Random rand) {
+        ArrayList<ArrayList<Point>> goblinCamps = layer.getExtraTilesGroups(SurfaceTile.SETTLEMENT);
+        String[] structures = {"AbandFire", "Well1", "Well2"};
+        String[] houses = {"House1", "House2"};
+        String[] fences = {"Fence1", "Fence2", "Fence3"};
+
+        for (ArrayList<Point> camp : goblinCamps) {
+            //create fences
+            HashSet<Point> fenceAdjacent = new HashSet<>();
+            for (Point curr : camp) {
+                ArrayList<Point> adj = layer.getOrthoAdjacent(curr.x, curr.y);
+                for (Point p : adj) {
+                    if (fenceAdjacent.contains(p)) {
+                        continue;
+                    }
+                    int direction = GridUtils.getCompassDirectionTo(curr, p);
+                    String name;
+                    if (!camp.contains(p) && copy[p.x][p.y].passable && rand.nextDouble() > 0.6) {
+                        name = fences[rand.nextInt(fences.length)];
+                    } else {
+                        continue;
+                    }
+
+                    TileBuild adjTile = tileLibrary.get(name);
+                    int rotation;
+                    switch (direction) {
+                        case GridUtils.NORTH: rotation = 1; break;
+                        case GridUtils.EAST: rotation = 0; break;
+                        case GridUtils.SOUTH: rotation = 3; break;
+                        case GridUtils.WEST: rotation = 2; break;
+                        default: throw new RuntimeException("Invalid direction!");
+                    }
+                    fenceAdjacent.add(curr);
+                    buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+                }
+            }
+
+            //create houses
+            if (camp.size() > 4) {
+                boolean cannotFind = false;
+                int numHouses = rand.nextInt((camp.size() - 4) / 4) + 1;
+                while (numHouses-- > 0 && !cannotFind) {
+                    cannotFind = true;
+                    Collections.shuffle(camp, rand);
+                    for (Point p : camp) {
+                        ArrayList<Point> rect = getRectanglePoints(p.x, p.y, 2, 2);
+                        if (rect == null || rect.size() != 4 || !camp.containsAll(rect)) {
+                            continue;
+                        }
+                        int rot = rand.nextInt(4);
+                        switch (rot) {
+                            case 0: rect.remove(0); rect.remove(1); break;
+                            case 1: rect.remove(0); rect.remove(0); break;
+                            case 2: rect.remove(1); rect.remove(2); break;
+                            case 3: rect.remove(2); rect.remove(2); break;
+                        }
+
+                        if (camp.containsAll(rect)) {
+                            buildTileAt(rand, tileLibrary.get(houses[rand.nextInt(houses.length)]),(p.x + 1) * 8,(p.y + 1) * 8, rot);
+                            camp.removeAll(rect);
+                            cannotFind = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (camp.size() >= 3) {// && rand.nextDouble() > 0.7) {
+                Point curr = camp.remove(rand.nextInt(camp.size()));
+                buildTileAt(rand, tileLibrary.get(structures[rand.nextInt(structures.length)]), curr.x * 8 + 4, curr.y * 8 + 4);
+            }
+
+        }
     }
 
     private void plantGoblinCamps(HashMap<String, TileBuild> tileLibrary, Random rand) {
@@ -129,6 +224,8 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         String[] walls = {"GoblinWall1",};
         String[] towers = {"GoblinTower",};
         String[] campfires = {"GoblinCampfire1", "GoblinCampfire2"};
+        String[] tents = {"GoblinTent"};
+        String[] structures = {"GoblinShrine1", "GoblinHut1", "GoblinHut2"};
 
         for (ArrayList<Point> camp : goblinCamps) {
             //create border walls
@@ -156,16 +253,47 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                 }
             }
 
-            if (camp.size() > 4) {
-                for (int i = 0; i < rand.nextInt(2) + 1; i++) {
+            //create towers
+            if (camp.size() >= 3) {
+                for (int i = 0; i < rand.nextInt(2) + (camp.size() > 6 ? 1 : 0); i++) {
                     Point curr = camp.remove(rand.nextInt(camp.size()));
                     buildTileAt(rand, tileLibrary.get(towers[rand.nextInt(towers.length)]), curr.x * 8 + 4, curr.y * 8 + 4);
                 }
             }
 
-            if (camp.size() > 4 && rand.nextDouble() > 0.7) {
+            //create campfires
+            if (camp.size() >= 3) {// && rand.nextDouble() > 0.7) {
                 Point curr = camp.remove(rand.nextInt(camp.size()));
                 buildTileAt(rand, tileLibrary.get(campfires[rand.nextInt(campfires.length)]), curr.x * 8 + 4, curr.y * 8 + 4);
+            }
+
+            //create tents/huts
+            if (camp.size() >= 6) {
+                for (Point p : camp) {
+                    ArrayList<Point> rect = getRectanglePoints(p.x, p.y, 2, 2);
+                    if (rect == null || rect.size() != 4 || !camp.containsAll(rect)) {
+                        continue;
+                    }
+                    int rot = rand.nextInt(4);
+                    switch (rot) {
+                        case 0: rect.remove(0); rect.remove(1); break;
+                        case 1: rect.remove(0); rect.remove(0); break;
+                        case 2: rect.remove(1); rect.remove(2); break;
+                        case 3: rect.remove(2); rect.remove(2); break;
+                    }
+
+                    if (camp.containsAll(rect)) {
+                        buildTileAt(rand, tileLibrary.get(tents[rand.nextInt(tents.length)]),(p.x + 1) * 8,(p.y + 1) * 8, rot);
+                        camp.removeAll(rect);
+                        break;
+                    }
+                }
+            }
+
+            while (camp.size() > 6) {
+                camp.remove(rand.nextInt(camp.size()));
+                Point curr = camp.remove(rand.nextInt(camp.size()));
+                buildTileAt(rand, tileLibrary.get(structures[rand.nextInt(structures.length)]), curr.x * 8 + 4, curr.y * 8 + 4);
             }
         }
     }
@@ -175,6 +303,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         String[] walls = {"RuinsWall1", "RuinsWall2",};
         String[] statues = {"RuinsStatue1", "RuinsStatue2", "RuinsStatue3", "RuinsStatue4", "RuinsStatue5",
                 "RuinsStatue6", "RuinsStatue7",};
+        String[] special = {"ShrineRuins1", "ShrineRuins2",};
 
         for (ArrayList<Point> camp : ruins) {
             //create border walls
@@ -203,6 +332,17 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             }
 
             if (camp.size() > 4) {
+                for (Point p : camp) {
+                    ArrayList<Point> rect = getRectanglePoints(p.x, p.y, 2, 2);
+                    if (rect != null && camp.containsAll(rect)) {
+                        buildTileAt(rand, tileLibrary.get(special[rand.nextInt(special.length)]),(p.x + 1) * 8,(p.y + 1) * 8);
+                        camp.removeAll(rect);
+                        break;
+                    }
+                }
+            }
+
+            if (camp.size() > 4) {
                 for (int i = 0; i < rand.nextInt(2) + 1; i++) {
                     Point curr = camp.remove(rand.nextInt(camp.size()));
                     buildTileAt(rand, tileLibrary.get(statues[rand.nextInt(statues.length)]), curr.x * 8 + 4, curr.y * 8 + 4);
@@ -211,9 +351,11 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         }
     }
 
+
+    //Foliage
     private void plantFlowers(HashMap<String, TileBuild> tileLibrary, Random rand) {
         int flowerCount;
-        String[] flowerTypes = {"Flower"};
+        String[] flowerTypes = {"RedFlower", "WhiteFlower", "PinkFlower", "YellowFlower"};
         double xOffset, yOffset;
 
         ArrayList<Point> flowerTiles = new ArrayList<>(layer.getTiles(SurfaceTile.FORESTFLOOR));
@@ -235,7 +377,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     private void plantGrass(HashMap<String, TileBuild> tileLibrary, Random rand) {
         int grassCount;
-        String[] grassTypes = {"Petal", "Grass"};
+        String[] grassTypes = {"Petal"};
         double xOffset, yOffset;
 
         ArrayList<Point> grassTiles = new ArrayList<>();
@@ -243,13 +385,14 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         grassTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
 
         for (Point p : grassTiles) {
-            if (copy[p.x][p.y] == SurfaceTile.FORESTPATH) {
-                grassCount = rand.nextInt(2) + 1;
-            } else if (copy[p.x][p.y] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.7) {
+            if (copy[p.x][p.y] == SurfaceTile.FORESTPATH && rand.nextDouble() > 0.7) {
+                grassCount = rand.nextInt(2);
+            } else if (copy[p.x][p.y] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.8) {
                 grassCount = rand.nextInt(3) + 1;
             } else {
-                grassCount = 1;
+                continue;
             }
+
             for (int k = 0; k < grassCount; k++) {
                 xOffset = p.x * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
                 yOffset = p.y * 8 + 4 + ((double) rand.nextInt(17) / 2 - 4);
@@ -259,7 +402,53 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         }
     }
 
-    private void plantTrees(HashMap<String, TileBuild> tileLibrary, Random rand) {
+    private void plantRocks(HashMap<String, TileBuild> tileLibrary, Random rand, HashSet<Point> occupied) {
+        String[] rockTypes = {"SmallRock", "BigRock"};
+        double xOffset, yOffset;
+
+        ArrayList<Point> rockTiles = new ArrayList<>();
+        rockTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
+        rockTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
+
+        for (Point p : rockTiles) {
+            if (occupied.contains(p)) {
+                continue;
+            } else if (rand.nextDouble() > 0.01) {
+                continue;
+            }
+            occupied.add(p);
+
+            xOffset = p.x * 8 + 4 + ((double) rand.nextInt(5) / 2 - 1);
+            yOffset = p.y * 8 + 4 + ((double) rand.nextInt(5) / 2 - 1);
+
+            buildTileAt(rand, tileLibrary.get(rockTypes[rand.nextInt(rockTypes.length)]), xOffset, yOffset);
+        }
+    }
+
+    private void plantMushrooms(HashMap<String, TileBuild> tileLibrary, Random rand, HashSet<Point> occupied) {
+        String[] mushroomTypes = {"Mushrooms"};
+        double xOffset, yOffset;
+
+        ArrayList<Point> mushroomTiles = new ArrayList<>();
+        mushroomTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
+        mushroomTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
+
+        for (Point p : mushroomTiles) {
+            if (occupied.contains(p)) {
+                continue;
+            } else if (rand.nextDouble() > 0.003) {
+                continue;
+            }
+            occupied.add(p);
+
+            xOffset = p.x * 8 + 4 + ((double) rand.nextInt(13) / 2 - 3);
+            yOffset = p.y * 8 + 4 + ((double) rand.nextInt(13) / 2 - 3);
+
+            buildTileAt(rand, tileLibrary.get(mushroomTypes[rand.nextInt(mushroomTypes.length)]), xOffset, yOffset);
+        }
+    }
+
+    private void plantTrees(HashMap<String, TileBuild> tileLibrary, Random rand, HashSet<Point> occupied) {
         int treeCount;
         String[] treeTypes = {"TallPineTree", "PineTree", "ShortPineTree"};
         double xOffset, yOffset;
@@ -267,16 +456,18 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         ArrayList<Point> treeTiles = new ArrayList<>();
         treeTiles.addAll(layer.getTiles(SurfaceTile.FORESTFLOOR));
         treeTiles.addAll(layer.getTiles(SurfaceTile.FORESTPATH));
-        treeTiles.removeAll(layer.getExtraTiles(SurfaceTile.GOBLINCAMP));
-        treeTiles.removeAll(layer.getExtraTiles(SurfaceTile.RUINS));
 
         for (Point p : treeTiles) {
+            if (occupied.contains(p)) {
+                continue;
+            }
+
             if (copy[p.x][p.y] == SurfaceTile.FORESTPATH) {
                 treeCount = rand.nextInt(2);
             } else if (copy[p.x][p.y] == SurfaceTile.FORESTFLOOR && rand.nextDouble() > 0.75) {
                 treeCount = (int) (Math.sqrt(rand.nextInt(4)) - rand.nextDouble());
             } else {
-                treeCount = 0;
+                continue;
             }
             for (int k = 0; k < treeCount; k++) {
                 xOffset = p.x * 8 + 4 + ((double) rand.nextInt(15) / 2 - 3.5);
@@ -287,14 +478,24 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         }
     }
 
+
+    //Walls and roofs
     private void plantAllWalls(HashMap<String, TileBuild> tileLibrary, Random rand) {
+        String[] forestWalls = {"ForestWall1", "ForestWall2", "ForestWall3"};
+        String[] cliffWalls = {"CliffWall1", "CliffWall2", "CliffWall3"};
+        String[] cliffLWalls = {"CliffWallCorner", };
+        String[] cliffUWalls = {"CliffWallEnd", };
+        String[] cliffCornerWalls = {"CliffWallCornerFiller", };
+
         for (Point curr : layer.getPassableTiles()) {
             ArrayList<Point> adj = layer.getOrthoAdjacent(curr.x, curr.y);
             for (Point p : adj) {
                 int direction = GridUtils.getCompassDirectionTo(curr, p);
-                String name = copy[p.x][p.y].name + "Wall";
+                String name;
                 if (copy[p.x][p.y] == SurfaceTile.FOREST) {
-                    name = "ForestWall" + (rand.nextInt(3) + 1);
+                    name = forestWalls[rand.nextInt(forestWalls.length)];
+                } else {
+                    continue;
                 }
 
                 if (!tileLibrary.containsKey(name)) {
@@ -310,6 +511,130 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                     default: throw new RuntimeException("Invalid direction!");
                 }
                 buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+            }
+        }
+
+
+        //Cliff walls
+        ArrayList<Point> cliffCheck = layer.getPassableTiles();
+        cliffCheck.addAll(layer.getTiles(SurfaceTile.FOREST));
+        for (Point curr : cliffCheck) {
+            ArrayList<Point> adj = layer.getOrthoAdjacent(curr.x, curr.y);
+            boolean[] cliffOccupied = new boolean[4];
+            int numOccupied = 0;
+            for (Point p : adj) {
+                int direction = GridUtils.getCompassDirectionTo(curr, p);
+
+                if (copy[p.x][p.y] == SurfaceTile.CLIFF || copy[p.x][p.y] == SurfaceTile.TALLCLIFF) {
+                    switch (direction) {
+                        case GridUtils.NORTH: cliffOccupied[0] = true; numOccupied++; break;
+                        case GridUtils.EAST: cliffOccupied[1] = true; numOccupied++; break;
+                        case GridUtils.SOUTH: cliffOccupied[2] = true; numOccupied++; break;
+                        case GridUtils.WEST: cliffOccupied[3] = true; numOccupied++; break;
+                        default: throw new RuntimeException("Invalid direction!");
+                    }
+                }
+            }
+
+            if (numOccupied == 1) {
+                //Get direction of wall space, put wall adjacent to that space
+                String name = cliffWalls[rand.nextInt(cliffWalls.length)];
+                int rotation = 0;
+                for (int i = 0; i < 4; i++) {
+                    if (cliffOccupied[i]) {
+                        rotation = i + 1;
+                        break;
+                    }
+                }
+                TileBuild adjTile = tileLibrary.get(name);
+                switch (rotation) {
+                    case GridUtils.NORTH: rotation = 1; break;
+                    case GridUtils.EAST: rotation = 0; break;
+                    case GridUtils.SOUTH: rotation = 3; break;
+                    case GridUtils.WEST: rotation = 2; break;
+                    default: throw new RuntimeException("Invalid direction!");
+                }
+                buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+            } else if (numOccupied == 3) {
+                //Get direction of empty space, put U tile facing that space
+                String name = cliffUWalls[rand.nextInt(cliffUWalls.length)];
+                int rotation = 0;
+                for (int i = 0; i < 4; i++) {
+                    if (!cliffOccupied[i]) {
+                        rotation = i + 1;
+                        break;
+                    }
+                }
+                TileBuild adjTile = tileLibrary.get(name);
+                switch (rotation) {
+                    case GridUtils.NORTH: rotation = 3; break;
+                    case GridUtils.EAST: rotation = 2; break;
+                    case GridUtils.SOUTH: rotation = 1; break;
+                    case GridUtils.WEST: rotation = 0; break;
+                    default: throw new RuntimeException("Invalid direction!");
+                }
+                buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+            } else if (numOccupied == 2) {
+                int firstRotation = -1;
+                int rotation = 0;
+                for (int i = 0; i < 4; i++) {
+                    if (!cliffOccupied[i]) {
+                        rotation = i + 1;
+                        if (firstRotation < 0) {
+                            firstRotation = rotation;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                //check if walls are adjacent
+                if (((firstRotation) % 4) + 1 == rotation || ((rotation) % 4 + 1) == firstRotation) {
+                    //they are adjacent, using corner
+                    String name = cliffLWalls[rand.nextInt(cliffLWalls.length)];
+
+                    TileBuild adjTile = tileLibrary.get(name);
+                    switch (rotation) {
+                        case GridUtils.EAST: rotation = 3; break;
+                        case GridUtils.SOUTH: rotation = 2; break;
+                        case GridUtils.WEST:
+                            if (firstRotation == GridUtils.SOUTH) {
+                                rotation = 1;
+                                break;
+                            } else if (firstRotation == GridUtils.NORTH) {
+                                rotation = 0;
+                                break;
+                            }
+                        default: throw new RuntimeException("Invalid double direction for cliff corner!");
+                    }
+                    buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+                } else {
+                    //they are not adjacent, using two single walls
+                    String name = cliffWalls[rand.nextInt(cliffWalls.length)];
+                    TileBuild adjTile = tileLibrary.get(name);
+                    switch (rotation) {
+                        case GridUtils.NORTH: rotation = 1; break;
+                        case GridUtils.EAST: rotation = 0; break;
+                        case GridUtils.SOUTH: rotation = 3; break;
+                        case GridUtils.WEST: rotation = 2; break;
+                        default: throw new RuntimeException("Invalid direction!");
+                    }
+                    buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, rotation);
+                    buildTileAt(rand, adjTile, curr.x * 8 + 4, curr.y * 8 + 4, (rotation + 2) % 4);
+                }
+            }
+
+            if (numOccupied < 3) { //generate corner pieces
+                //check for corners
+                int[] xOffset = {1, 1, -1, -1};
+                int[] yOffset = {-1, 1, 1, -1};
+
+                for (int i = 0; i < 4; i++) {
+                    String name = cliffCornerWalls[rand.nextInt(cliffCornerWalls.length)];
+                    MapTile diag = copy[curr.x + xOffset[i]][curr.y + yOffset[i]];
+                    if (diag == SurfaceTile.CLIFF || diag == SurfaceTile.TALLCLIFF) {
+                        buildTileAt(rand, tileLibrary.get(name), curr.x * 8 + 4, curr.y * 8 + 4, i);
+                    }
+                }
             }
         }
     }
@@ -340,6 +665,9 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             bricks.addAll(currTileBricks);
         }
     }
+
+
+
 
     @Override
     public String nextBrick() {

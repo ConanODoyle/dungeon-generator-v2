@@ -259,4 +259,14 @@ public abstract class MapLayer {
     }
 
     public abstract SurfaceLayerBuilder getBuilder();
+
+    public ArrayList<Point> getAllTiles() {
+        ArrayList<Point> result = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                result.add(new Point(i, j));
+            }
+        }
+        return result;
+    }
 }

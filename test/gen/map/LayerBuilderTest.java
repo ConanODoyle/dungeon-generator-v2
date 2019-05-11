@@ -18,7 +18,7 @@ public class LayerBuilderTest {
     @Test
     public void SurfaceLayerBuilderTest() {
         SurfaceLayer m = new SurfaceLayer(180, 180);
-//        m.seed = 6078495303428244842L;
+        m.seed = 6511287661274410794L;
         System.out.println("Seed: " + m.seed);
         m.generate();
 

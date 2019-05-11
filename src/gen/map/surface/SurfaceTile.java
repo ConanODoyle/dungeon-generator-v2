@@ -17,8 +17,9 @@ public class SurfaceTile extends MapTile {
     public static SurfaceTile GLEN = new SurfaceTile("G", "Glen", new Color(0, 200, 220), true);
     public static SurfaceTile CAVE = new SurfaceTile("C", "Cave", new Color(150,150,150), true);
 
-    public static SurfaceTile GOBLINCAMP = new SurfaceTile("C", "GoblinCamp", new Color(100,60,220), true);
-    public static SurfaceTile RUINS = new SurfaceTile("C", "Ruins", new Color(190,100,100), true);
+    public static SurfaceTile GOBLINCAMP = new SurfaceTile("G", "GoblinCamp", new Color(100,60,220), true);
+    public static SurfaceTile RUINS = new SurfaceTile("R", "Ruins", new Color(190,100,100), true);
+    public static SurfaceTile SETTLEMENT = new SurfaceTile("S", "Settlement", new Color(190,190,100), true);
 
     public SurfaceTile(String render, String name, Color color, boolean passable) {
         super(render, name, color, passable);

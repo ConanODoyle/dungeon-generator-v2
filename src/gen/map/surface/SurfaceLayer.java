@@ -54,6 +54,7 @@ public class SurfaceLayer extends MapLayer {
         //generate ruins, goblin tiles
         generateExtraTiles(rand, SurfaceTile.GOBLINCAMP, rand.nextInt(7) + 5, 0.32);
         generateExtraTiles(rand, SurfaceTile.RUINS, rand.nextInt(10) + 3, 0.26);
+        generateExtraTiles(rand, SurfaceTile.SETTLEMENT, rand.nextInt(3), 0.34, getTiles(SurfaceTile.FORESTFLOOR));
 
         //generate features
         generateCaves(rand);
@@ -63,8 +64,11 @@ public class SurfaceLayer extends MapLayer {
     }
 
     private void generateExtraTiles(Random rand, MapTile type, int groupCount, double growChance) {
+        generateExtraTiles(rand, type, groupCount, growChance, getPassableTiles());
+    }
+
+    private void generateExtraTiles(Random rand, MapTile type, int groupCount, double growChance, ArrayList<Point> valid) {
         int curr, tries = 0;
-        ArrayList<Point> valid = getPassableTiles();
         while (groupCount > 0 && tries++ < 10000) {
             curr = rand.nextInt(valid.size());
             Point currPoint = valid.remove(curr);

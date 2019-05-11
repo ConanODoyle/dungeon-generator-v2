@@ -6,8 +6,8 @@ import java.awt.*;
 public class GridUtils {
     public static final int NORTH = 1;
     public static final int EAST = 2;
-    public static final int WEST = 3;
-    public static final int SOUTH = 4;
+    public static final int SOUTH = 3;
+    public static final int WEST = 4;
     public static final int NONE = 0;
 
     public static int getCompassDirectionTo(Point start, Point end) {
