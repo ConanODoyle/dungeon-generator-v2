@@ -1,14 +1,9 @@
 package gen.map;
 
-import gen.map.perlin.ImprovedNoise;
+import gen.lib.ImprovedNoise;
 import org.junit.Test;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import gen.map.perlin.PerlinUtils;
+import gen.lib.PerlinUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

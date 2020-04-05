@@ -1,8 +1,8 @@
 package gen.map;
 
-import gen.map.export.MapLayerBuilder;
-import gen.map.export.BlsFileExport;
-import gen.map.lib.PeekableScanner;
+import gen.export.MapLayerBuilder;
+import gen.export.BlsFileExport;
+import gen.lib.PeekableScanner;
 import org.junit.Assert;
 import org.junit.Test;
 

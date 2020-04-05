@@ -1,6 +1,6 @@
-package gen.map.parser;
+package gen.parser;
 
-import gen.map.export.BlsBrick;
+import gen.export.BlsBrick;
 
 //Job: Understands how to retrieve a tile from an octree
 public class TileSearch {

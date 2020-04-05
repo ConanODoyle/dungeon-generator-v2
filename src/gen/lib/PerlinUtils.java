@@ -1,4 +1,4 @@
-package gen.map.perlin;
+package gen.lib;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

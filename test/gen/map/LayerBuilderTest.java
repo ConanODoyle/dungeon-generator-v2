@@ -1,8 +1,9 @@
 package gen.map;
 
-import gen.map.export.BlsFileExport;
-import gen.map.export.MapLayerBuilder;
-import gen.map.export.MapLayerExport;
+import gen.Main;
+import gen.export.BlsFileExport;
+import gen.export.MapLayerBuilder;
+import gen.export.MapLayerExport;
 import gen.map.surface.SurfaceLayer;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class LayerBuilderTest {
 
         BlsFileExport exporter = new BlsFileExport();
 
-        exporter.setColorset("colorSet.txt");
+        exporter.setColorset(Main.tilesetPath);
         try {
             exporter.exportBlsFile("testSurfaceLayerMap.bls", builder);
         } catch (IOException e) {

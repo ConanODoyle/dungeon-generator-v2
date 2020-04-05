@@ -1,12 +1,12 @@
 package gen.map;
 
-import gen.map.export.BlsBrick;
-import gen.map.export.MapLayerBuilder;
-import gen.map.export.BlsFileExport;
-import gen.map.parser.BlsOctree;
-import gen.map.parser.BlsParser;
-import gen.map.parser.TileBuild;
-import gen.map.parser.TileSearch;
+import gen.export.BlsBrick;
+import gen.export.MapLayerBuilder;
+import gen.export.BlsFileExport;
+import gen.parser.BlsOctree;
+import gen.parser.BlsParser;
+import gen.parser.TileBuild;
+import gen.parser.TileSearch;
 import org.junit.Assert;
 import org.junit.Test;
 

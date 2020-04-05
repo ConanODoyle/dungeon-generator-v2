@@ -1,7 +1,7 @@
 package gen.map;
 
-import gen.map.export.MapLayerExport;
-import gen.map.surface.SurfaceLayerBuilder;
+import gen.export.MapLayerBuilder;
+import gen.export.MapLayerExport;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -106,7 +106,7 @@ public abstract class MapLayer {
         ArrayList<Point> foundTiles = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[0].length; j++) {
-                if (array[i][j] == type) {
+                if (array[i][j].equals(type)) {
                     foundTiles.add(new Point(i, j));
                 }
             }
@@ -127,7 +127,7 @@ public abstract class MapLayer {
         boolean[][] visited = new boolean[array.length][array[0].length];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[0].length; j++) {
-                if (array[i][j] == type && !visited[i][j]) {
+                if (array[i][j].equals(type) && !visited[i][j]) {
                     ArrayList<Point> stack = new ArrayList<>(), currSite = new ArrayList<>();
                     stack.add(new Point(i, j));
                     while (stack.size() > 0) {
@@ -139,7 +139,7 @@ public abstract class MapLayer {
                         visited[curr.x][curr.y] = true;
 
                         for (Point p : getOrthoAdjacent(curr.x, curr.y)) {
-                            if (array[p.x][p.y] == type && !visited[p.x][p.y]) {
+                            if (array[p.x][p.y].equals(type) && !visited[p.x][p.y]) {
                                 stack.add(p);
                             }
                         }
@@ -160,6 +160,16 @@ public abstract class MapLayer {
         return getTilesGroups(extraTiles, type);
     }
 
+    public ArrayList<Point> getAllTiles() {
+        ArrayList<Point> result = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                result.add(new Point(i, j));
+            }
+        }
+        return result;
+    }
+
     public ArrayList<Point> getPassableTiles() {
         ArrayList<Point> open = new ArrayList<>();
         for (int i = 0; i < width; i++) {
@@ -172,7 +182,7 @@ public abstract class MapLayer {
         return open;
     }
 
-    public int removeInaccessibleAreas(int startX, int startY, MapTile replace) {
+    public int replaceInaccessibleAreas(int startX, int startY, MapTile replace) {
         boolean[][] accessible = new boolean[width][height];
         ArrayList<Point> queue = new ArrayList<>();
         queue.add(new Point(startX, startY));
@@ -219,7 +229,6 @@ public abstract class MapLayer {
 
     public abstract boolean validateGeneration();
 
-    @SuppressWarnings("unused")
     protected int distanceToClosestTile(int x, int y, MapTile tileType) {
         int[] xmod = {0, 1, 1, 1, 0, -1, -1, -1};
         int[] ymod = {1, 1, 0, -1, -1, -1, 0, 1};
@@ -236,7 +245,7 @@ public abstract class MapLayer {
                 int xadj = curr.x + xmod[mod];
                 int yadj = curr.y + ymod[mod];
                 if (xadj > 0 && xadj < width && yadj > 0 && yadj < height
-                        && tiles[xadj][yadj] != tileType) {
+                        && !tiles[xadj][yadj].equals(tileType)) {
                     if (!checked.contains(new Point(xadj, yadj)))
                         checked.add(new Point(xadj, yadj));
                 } else {
@@ -258,15 +267,5 @@ public abstract class MapLayer {
         return total;
     }
 
-    public abstract SurfaceLayerBuilder getBuilder();
-
-    public ArrayList<Point> getAllTiles() {
-        ArrayList<Point> result = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                result.add(new Point(i, j));
-            }
-        }
-        return result;
-    }
+    public abstract MapLayerBuilder getBuilder();
 }

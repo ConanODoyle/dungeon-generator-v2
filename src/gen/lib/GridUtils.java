@@ -1,4 +1,4 @@
-package gen.map.lib;
+package gen.lib;
 
 import java.awt.*;
 

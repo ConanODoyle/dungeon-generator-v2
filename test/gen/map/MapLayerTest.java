@@ -1,6 +1,6 @@
 package gen.map;
 
-import gen.map.export.MapLayerExport;
+import gen.export.MapLayerExport;
 import gen.map.surface.SurfaceLayer;
 import gen.map.surface.SurfaceTile;
 import org.junit.Test;
@@ -56,8 +56,8 @@ public class MapLayerTest {
         var width = 20;
         var height = 20;
         SurfaceLayer l = new SurfaceLayer(width, height);
-        var X = SurfaceTile.FOREST;
-        var o = SurfaceTile.FORESTFLOOR;
+        var X = SurfaceTile.Forest();
+        var o = SurfaceTile.ForestFloor();
 
         MapTile[][] src = new MapTile[][]{
                 {X, X, o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, X, X},
@@ -87,7 +87,7 @@ public class MapLayerTest {
             }
         }
 
-        var removed = l.removeInaccessibleAreas(10, 10, X);
+        var removed = l.replaceInaccessibleAreas(10, 10, X);
 //        for (String[] a : MapLayerExport.exportAsStringArray(l)) {
 //            System.out.println(Arrays.toString(a));
 //        }

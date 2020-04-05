@@ -1,6 +1,6 @@
-package gen.map.parser;
+package gen.parser;
 
-import gen.map.export.BlsBrick;
+import gen.export.BlsBrick;
 
 import java.util.ArrayList;
 import java.util.HashMap;

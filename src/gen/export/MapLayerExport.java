@@ -1,4 +1,4 @@
-package gen.map.export;
+package gen.export;
 
 import gen.map.MapLayer;
 import gen.map.MapTile;

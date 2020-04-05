@@ -1,11 +1,13 @@
 package gen.map.surface;
 
+import gen.lib.ImprovedNoise;
+import gen.lib.Pair;
+import gen.lib.PerlinUtils;
 import gen.map.MapLayer;
 import gen.map.MapTile;
-import gen.map.perlin.ImprovedNoise;
-import gen.map.perlin.PerlinUtils;
 
 import java.awt.*;
+import java.util.Queue;
 import java.util.*;
 
 //Job: Understands how to generate the surface layer
@@ -27,13 +29,13 @@ public class SurfaceLayer extends MapLayer {
 
         //first create a border
         for (int i = 0; i < width; i++) {
-            tiles[i][0] = SurfaceTile.TALLCLIFF;
-            tiles[i][height - 1] = SurfaceTile.TALLCLIFF;
+            tiles[i][0] = SurfaceTile.TallCliff();
+            tiles[i][height - 1] = SurfaceTile.TallCliff();
         }
 
         for (int i = 0; i < height; i++) {
-            tiles[0][i] = SurfaceTile.TALLCLIFF;
-            tiles[width - 1][i] = SurfaceTile.TALLCLIFF;
+            tiles[0][i] = SurfaceTile.TallCliff();
+            tiles[width - 1][i] = SurfaceTile.TallCliff();
         }
 
         //generate map elements
@@ -41,7 +43,7 @@ public class SurfaceLayer extends MapLayer {
         generateCliffs(rand);
         generateTown();
         ArrayList<Point> ends = generatePaths(rand);
-        removeInaccessibleAreas(width / 2, height / 2, SurfaceTile.FOREST);
+        replaceInaccessibleAreas(width / 2, height / 2, SurfaceTile.Forest());
 
         //check if map is big enough, if not, retry generation
         if (getTotalAccessibleArea() < MIN_AREA * height * width) {
@@ -52,35 +54,78 @@ public class SurfaceLayer extends MapLayer {
         }
 
         //generate ruins, goblin tiles
-        generateExtraTiles(rand, SurfaceTile.GOBLINCAMP, rand.nextInt(7) + 5, 0.32);
-        generateExtraTiles(rand, SurfaceTile.RUINS, rand.nextInt(10) + 3, 0.26);
-        generateExtraTiles(rand, SurfaceTile.SETTLEMENT, rand.nextInt(3), 0.34, getTiles(SurfaceTile.FORESTFLOOR));
+        growSurfaceTiles(rand, SurfaceTile.GoblinCamp(), rand.nextInt(7) + 5, 0.32);
+        growSurfaceTiles(rand, SurfaceTile.Ruins(), rand.nextInt(10) + 3, 0.26);
+        growSurfaceTiles(rand, SurfaceTile.Settlement(), rand.nextInt(3), 0.34, getTiles(SurfaceTile.ForestFloor()));
 
         //generate features
-        generateCaves(rand);
+        //no caves rn cause ???
+//        generateCaves(rand);
         generateGlen(ends, rand);
+
+        //generate spawners
+        generateSpawners(rand);
 
         hasGenerated = true;
     }
 
-    private void generateExtraTiles(Random rand, MapTile type, int groupCount, double growChance) {
-        generateExtraTiles(rand, type, groupCount, growChance, getPassableTiles());
+    private void generateSpawners(Random rand) {
+        ArrayList<Point> passable = getPassableTiles();
+        for (Point p : passable) {
+            int x = p.x;
+            int y = p.y;
+            SurfaceTile t = null, te = null;
+            if (tiles[x][y] == null) {
+                continue;
+            }
+
+            if (tiles[x][y] instanceof SurfaceTile) {
+                t = (SurfaceTile) tiles[x][y];
+            }
+            if (extraTiles[x][y] instanceof SurfaceTile) {
+                te = (SurfaceTile) extraTiles[x][y];
+            }
+
+            if (t.spawnerChance > 0 && rand.nextDouble() < t.spawnerChance) {
+                t.hasSpawner = true;
+            } else if (te != null && te.spawnerChance > 0 && rand.nextDouble() < te.spawnerChance) {
+                t.hasSpawner = true;
+            }
+        }
     }
 
-    private void generateExtraTiles(Random rand, MapTile type, int groupCount, double growChance, ArrayList<Point> valid) {
+    public ArrayList<Pair<Point, MapTile>> getSpawnerPoints() {
+        ArrayList<Point> passable = getPassableTiles();
+        ArrayList<Pair<Point, MapTile>> result = new ArrayList<>();
+        for (Point p : passable) {
+            int x = p.x;
+            int y = p.y;
+            SurfaceTile t = (SurfaceTile) tiles[x][y];
+            if (t.hasSpawner) {
+                result.add(new Pair<>(p, t));
+            }
+        }
+        return result;
+    }
+
+    private void growSurfaceTiles(Random rand, MapTile type, int groupCount, double growChance) {
+        growSurfaceTiles(rand, type, groupCount, growChance, getPassableTiles());
+    }
+
+    private void growSurfaceTiles(Random rand, MapTile type, int groupCount, double growChance, ArrayList<Point> valid) {
         int curr, tries = 0;
         while (groupCount > 0 && tries++ < 10000) {
             curr = rand.nextInt(valid.size());
             Point currPoint = valid.remove(curr);
             int x = currPoint.x;
             int y = currPoint.y;
-            if (tiles[x][y].passable && distanceToClosestTile(x, y, SurfaceTile.TOWN) > 10
-                    && extraTiles[x][y] != type) {
+            if (tiles[x][y].passable && distanceToClosestTile(x, y, SurfaceTile.Town()) > 10
+                    && !extraTiles[x][y].equals(type)) {
                 extraTiles[x][y] = type;
                 ArrayList<Point> nextadj, adj = getOrthoAdjacent(x, y);
                 for (int i = 0; i < adj.size();) {
                     Point p = adj.remove(0);
-                    if (!tiles[p.x][p.y].passable || extraTiles[p.x][p.y] == type) {
+                    if (!tiles[p.x][p.y].passable || extraTiles[p.x][p.y].equals(type)) {
                         continue;
                     }
                     extraTiles[p.x][p.y] = type;
@@ -119,8 +164,8 @@ public class SurfaceLayer extends MapLayer {
 
             validGlens.add(p);
             for (Point a : local) {
-                if (tiles[a.x][a.y] != SurfaceTile.FORESTPATH
-                        && tiles[a.x][a.y] != SurfaceTile.FOREST) {
+                if (!tiles[a.x][a.y].equals(SurfaceTile.ForestPath())
+                        && !tiles[a.x][a.y].equals(SurfaceTile.Forest())) {
                     validGlens.remove(p);
                 }
             }
@@ -133,14 +178,14 @@ public class SurfaceLayer extends MapLayer {
 
         Point p = validGlens.get(rand.nextInt(validGlens.size()));
         for (Point g : getAdjacent(p.x, p.y)) {
-            tiles[g.x][g.y] = SurfaceTile.GLEN;
+            tiles[g.x][g.y] = SurfaceTile.Glen();
         }
-        tiles[p.x][p.y] = SurfaceTile.GLEN;
+        tiles[p.x][p.y] = SurfaceTile.Glen();
         System.out.println("    Generated glen at " + p.x + "," + p.y);
     }
 
     private void generateCaves(Random rand) {
-        ArrayList<Point> cliffs = getTiles(SurfaceTile.CLIFF);
+        ArrayList<Point> cliffs = getTiles(SurfaceTile.Cliff());
         ArrayList<Point> validCaves = new ArrayList<>();
 
         for (Point p : cliffs) {
@@ -160,10 +205,10 @@ public class SurfaceLayer extends MapLayer {
         int numCaves = rand.nextInt((int) Math.sqrt(validCaves.size())) + (int) Math.sqrt(validCaves.size());
         for (int i = 0; i < numCaves; i++) {
             Point curr = validCaves.remove(rand.nextInt(validCaves.size()));
-            tiles[curr.x][curr.y] = SurfaceTile.CAVE;
+            tiles[curr.x][curr.y] = SurfaceTile.Cave();
             for (Point p : getAdjacent(curr.x, curr.y)) {
-                if (tiles[p.x][p.y] == SurfaceTile.CAVE) {
-                    tiles[curr.x][curr.y] = SurfaceTile.CLIFF;
+                if (tiles[p.x][p.y].equals(SurfaceTile.Cave())) {
+                    tiles[curr.x][curr.y] = SurfaceTile.Cliff();
                     i--;
                     break;
                 }
@@ -171,7 +216,7 @@ public class SurfaceLayer extends MapLayer {
         }
     }
 
-    private double[][] generateForest(Random rand) {
+    private void generateForest(Random rand) {
         ImprovedNoise base = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust2 = new ImprovedNoise(rand.nextLong());
@@ -194,17 +239,16 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 1; i < noise.length - 1; i++) {
             for (int j = 1; j < noise[0].length - 1; j++) {
                 if (noise[i][j] > cutoff) {
-                    tiles[i][j] = SurfaceTile.FORESTFLOOR;
+                    tiles[i][j] = SurfaceTile.ForestFloor();
                 } else {
-                    tiles[i][j] = SurfaceTile.FOREST;
+                    tiles[i][j] = SurfaceTile.Forest();
                 }
             }
         }
 
-        return noise;
     }
 
-    private double[][] generateCliffs(Random rand) {
+    private void generateCliffs(Random rand) {
         ImprovedNoise base = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust = new ImprovedNoise(rand.nextLong());
         ImprovedNoise adjust2 = new ImprovedNoise(rand.nextLong());
@@ -227,12 +271,11 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 1; i < noise.length - 1; i++) {
             for (int j = 1; j < noise[0].length - 1; j++) {
                 if (noise[i][j] > cutoff) {
-                    tiles[i][j] = SurfaceTile.CLIFF;
+                    tiles[i][j] = SurfaceTile.Cliff();
                 }
             }
         }
 
-        return noise;
     }
 
     private ArrayList<Point> generatePaths(Random rand) {
@@ -309,10 +352,10 @@ public class SurfaceLayer extends MapLayer {
 
         for (Point p : path) {
             MapTile curr = tiles[p.x][p.y];
-            if (curr != SurfaceTile.TOWN
-                    && curr != SurfaceTile.FORESTFLOOR
-                    && curr != SurfaceTile.CLIFF) {
-                tiles[p.x][p.y] = SurfaceTile.FORESTPATH;
+            if (!curr.equals(SurfaceTile.Town())
+                    && !curr.equals(SurfaceTile.ForestFloor())
+                    && !curr.equals(SurfaceTile.Cliff())) {
+                tiles[p.x][p.y] = SurfaceTile.ForestPath();
             }
         }
     }
@@ -325,14 +368,14 @@ public class SurfaceLayer extends MapLayer {
 
         //check for border cliffs
         for (int i = 0; i < width; i++) {
-            if (tiles[i][0] != SurfaceTile.TALLCLIFF
-                    || tiles[i][height - 1] != SurfaceTile.TALLCLIFF) {
+            if (!tiles[i][0].equals(SurfaceTile.TallCliff())
+                    || !tiles[i][height - 1].equals(SurfaceTile.TallCliff())) {
                 return false;
             }
         }
         for (int i = 0; i < height; i++) {
-            if (tiles[0][i] != SurfaceTile.TALLCLIFF
-                    || tiles[width - 1][i] != SurfaceTile.TALLCLIFF) {
+            if (!tiles[0][i].equals(SurfaceTile.TallCliff())
+                    || !tiles[width - 1][i].equals(SurfaceTile.TallCliff())) {
                 return false;
             }
         }
@@ -340,7 +383,7 @@ public class SurfaceLayer extends MapLayer {
         //check for town at center
         int wCenter = width / 2 + (width + 1) % 2 - 1;
         int hCenter = width / 2 + (width + 1) % 2 - 1;
-        if (tiles[wCenter][hCenter] != SurfaceTile.TOWN) {
+        if (!tiles[wCenter][hCenter].equals(SurfaceTile.Town())) {
             return false;
         }
 
@@ -349,12 +392,12 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 //check for empty tiles
-                if (tiles[i][j] == MapTile.EMPTY) {
+                if (tiles[i][j].equals(MapTile.EMPTY)) {
                     return false;
                 }
 
                 //check for pathtiles (should have at least some)
-                if (tiles[i][j] == SurfaceTile.FORESTPATH) {
+                if (tiles[i][j].equals(SurfaceTile.ForestPath())) {
                     pathCount++;
                 }
 
@@ -384,7 +427,7 @@ public class SurfaceLayer extends MapLayer {
         int hCenter = width / 2 + (width + 1) % 2 - 1;
         for (int i = 0; i < TOWNSIZE; i++) {
             for (int j = 0; j < TOWNSIZE; j++) {
-                tiles[wCenter - TOWNSIZE/2 + i][hCenter - TOWNSIZE/2 + j] = SurfaceTile.TOWN;
+                tiles[wCenter - TOWNSIZE/2 + i][hCenter - TOWNSIZE/2 + j] = SurfaceTile.Town();
             }
         }
     }

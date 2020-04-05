@@ -1,7 +1,7 @@
-package gen.map.export;
+package gen.export;
 
-import gen.map.lib.PeekableScanner;
-import gen.map.parser.TileBuild;
+import gen.lib.PeekableScanner;
+import gen.parser.TileBuild;
 
 import java.io.File;
 import java.util.ArrayList;

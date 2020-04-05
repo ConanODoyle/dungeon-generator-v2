@@ -1,7 +1,7 @@
 package gen.map;
 
-import gen.map.export.BlsBrick;
-import gen.map.parser.BlsOctree;
+import gen.export.BlsBrick;
+import gen.parser.BlsOctree;
 import org.junit.Test;
 
 import java.util.ArrayList;

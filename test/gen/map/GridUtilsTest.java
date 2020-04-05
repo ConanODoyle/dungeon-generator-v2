@@ -1,6 +1,6 @@
 package gen.map;
 
-import gen.map.lib.GridUtils;
+import gen.lib.GridUtils;
 import org.junit.Test;
 
 import java.awt.*;
