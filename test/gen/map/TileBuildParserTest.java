@@ -1,5 +1,6 @@
 package gen.map;
 
+import gen.Main;
 import gen.export.BlsBrick;
 import gen.export.MapLayerBuilder;
 import gen.export.BlsFileExport;
@@ -32,7 +33,7 @@ public class TileBuildParserTest {
 
         BlsFileExport bls = new BlsFileExport();
 
-        bls.setColorset("colorSet.txt");
+        bls.setColorset(Main.colorsetPath);
 
         try {
             bls.exportBlsFile("testExport.bls", new MapLayerBuilder.TestBuilder(builder.toString()));
