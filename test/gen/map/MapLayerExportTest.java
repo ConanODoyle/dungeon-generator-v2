@@ -1,5 +1,6 @@
 package gen.map;
 
+import gen.Main;
 import gen.export.MapLayerBuilder;
 import gen.export.BlsFileExport;
 import gen.lib.PeekableScanner;
@@ -32,7 +33,7 @@ public class MapLayerExportTest {
         bls.addToDescription("Description Line 1");
         bls.addToDescription("Author: Conan");
 
-        bls.setColorset("colorSet.txt");
+        bls.setColorset(Main.colorsetPath);
 
         String header = bls.exportBlsHeader();
         assertEquals(
@@ -111,7 +112,7 @@ public class MapLayerExportTest {
     public void BlsFileExportTest() throws IOException {
         BlsFileExport bls = new BlsFileExport();
 
-        bls.setColorset("colorSet.txt");
+        bls.setColorset(Main.colorsetPath);
 
         try {
             bls.exportBlsFile("testExport.bls", new MapLayerBuilder.TestBuilder());
