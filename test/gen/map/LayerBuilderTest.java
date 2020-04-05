@@ -28,7 +28,7 @@ public class LayerBuilderTest {
 
         BlsFileExport exporter = new BlsFileExport();
 
-        exporter.setColorset(Main.tilesetPath);
+        exporter.setColorset(Main.colorsetPath);
         try {
             exporter.exportBlsFile("testSurfaceLayerMap.bls", builder);
         } catch (IOException e) {

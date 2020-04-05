@@ -32,8 +32,8 @@ public class BlsFileExport {
         while (reader.hasNextLine()) {
             count++;
             if (!reader.hasNextDouble()) {
-//                System.out.println("Skipping \"" + reader.nextBrick() + "\" (line " + count + ")");
-                reader.nextLine();
+                String next = reader.nextLine();
+//                System.out.println("Skipping \"" + next + "\" (line " + count + ")");
                 continue;
             }
             //assume format is 4 numbers in range [0, 255] (RGBA)
