@@ -20,7 +20,7 @@ public class SurfaceTile extends MapTile {
     private static SurfaceTile RUINS = new SurfaceTile("R", "Ruins", new Color(190,100,100), true);
     private static SurfaceTile SETTLEMENT = new SurfaceTile("S", "Settlement", new Color(190,190,100), true);
 
-    private static SurfaceTile BOSSROOM = new SurfaceTile("S", "Settlement", new Color(190,190,100), true);
+    private static SurfaceTile BOSSENTRANCE = new SurfaceTile("B", "BossEntrance", new Color(255, 0, 0), true);
 
     public final SurfaceTile parent;
 
@@ -51,10 +51,10 @@ public class SurfaceTile extends MapTile {
     public static boolean isGlen(MapTile t) { return t.parent == GLEN; }
     public static boolean isCave(MapTile t) { return t.parent == CAVE; }
 
-    public static boolean GoblinCamp(MapTile t) { return t.parent == GOBLINCAMP; }
-    public static boolean Ruins(MapTile t) { return t.parent == RUINS; }
-    public static boolean Settlement(MapTile t) { return t.parent == SETTLEMENT; }
-    public static boolean Bossroom(MapTile t) { return t.parent == BOSSROOM; }
+    public static boolean isGoblinCamp(MapTile t) { return t.parent == GOBLINCAMP; }
+    public static boolean isRuins(MapTile t) { return t.parent == RUINS; }
+    public static boolean isSettlement(MapTile t) { return t.parent == SETTLEMENT; }
+    public static boolean isBossEntrance(MapTile t) { return t.parent == BOSSENTRANCE; }
 
     public static SurfaceTile Forest() { return new SurfaceTile(FOREST); }
     public static SurfaceTile ForestPath() { return new SurfaceTile(FORESTPATH); }
@@ -68,5 +68,5 @@ public class SurfaceTile extends MapTile {
     public static SurfaceTile GoblinCamp() { return new SurfaceTile(GOBLINCAMP); }
     public static SurfaceTile Ruins() { return new SurfaceTile(RUINS); }
     public static SurfaceTile Settlement() { return new SurfaceTile(SETTLEMENT); }
-    public static SurfaceTile Bossroom() { return new SurfaceTile(BOSSROOM); }
+    public static SurfaceTile BossEntrance() { return new SurfaceTile(BOSSENTRANCE); }
 }

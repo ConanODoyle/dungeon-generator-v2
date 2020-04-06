@@ -3,7 +3,6 @@ package gen.map;
 import java.awt.*;
 
 //Job: Understands a map tile's basic structure
-@SuppressWarnings("WeakerAccess")
 public abstract class MapTile {
     public static MapTile EMPTY = new MapTile("#", "Empty", Color.BLACK, false) {
     };
@@ -33,7 +32,7 @@ public abstract class MapTile {
         this.parent = copy;
     }
 
-    public static boolean isEmpty(MapTile t) { return t.parent == EMPTY; }
+    public static boolean isEmpty(MapTile t) { return t == null || t == EMPTY || t.parent == EMPTY; }
 
     @Override
     public boolean equals(Object o) {

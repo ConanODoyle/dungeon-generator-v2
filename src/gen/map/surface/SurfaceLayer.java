@@ -1,5 +1,6 @@
 package gen.map.surface;
 
+import gen.lib.GridUtils;
 import gen.lib.ImprovedNoise;
 import gen.lib.Pair;
 import gen.lib.PerlinUtils;
@@ -59,7 +60,7 @@ public class SurfaceLayer extends MapLayer {
         //generate ruins, goblin tiles
         growSurfaceTiles(rand, SurfaceTile.GoblinCamp(), rand.nextInt(7) + 5, 0.32);
         growSurfaceTiles(rand, SurfaceTile.Ruins(), rand.nextInt(10) + 3, 0.26);
-        growSurfaceTiles(rand, SurfaceTile.Settlement(), rand.nextInt(3), 0.34, getTiles(SurfaceTile.ForestFloor()));
+        growSurfaceTiles(rand, SurfaceTile.Settlement(), rand.nextInt(3) + 2, 0.38, getTiles(SurfaceTile.ForestFloor()));
 
         //generate features
         //no caves rn cause ???
@@ -68,25 +69,128 @@ public class SurfaceLayer extends MapLayer {
 
         generateSpawners(rand);
 
-        generateBossTeleport(rand);
+        if (!generateBossTeleport(rand)) {
+            System.out.println("Boss room entrance generation failed! Changing seed...");
+            seed = rand.nextLong();
+            generate();
+            return;
+        }
 
         hasGenerated = true;
     }
 
-    private void generateBossTeleport(Random rand) {
+    private boolean generateBossTeleport(Random rand) {
         ArrayList<Point> passable = getPassableTiles();
         ArrayList<Point> validLocations = new ArrayList<>();
+        ArrayList<int[]> validLocationArrays = new ArrayList<>();
+        int wCenter = width / 2 + (width + 1) % 2 - 1;
+        int hCenter = height / 2 + (height + 1) % 2 - 1;
 
         for (Point p : passable) {
+            if (Math.abs(p.x - wCenter) + Math.abs(p.y - hCenter) < width / 2 - 5
+                    || !isEmpty(specialTiles[p.x][p.y]))
+                continue;
+
             ArrayList<Point> local = getOrthoAdjacent(p.x, p.y);
-            int forestCount = 0, forestWallCount = 0;
+            boolean failed = false;
+            int[] forestWall = {0, 0, 0, 0};
             for (Point a : local) {
-                if (isForest(tiles[a.x][a.y]))
-                    forestWallCount++;
-                if (isForestFloor(tiles[a.x][a.y]) || isForestPath(tiles[a.x][a.y]))
-                    forestCount++;
+                if (isForest(tiles[a.x][a.y])) {
+                    forestWall[GridUtils.getCompassDirectionTo(p, a) - 1] = 1;
+                } else if (!tiles[a.x][a.y].passable
+                        || (!isEmpty(specialTiles[a.x][a.y]) && !isBossEntrance(specialTiles[a.x][a.y]))) {
+                    //adjacent to non-forest wall/non boss entrance
+                    failed = true;
+                    break;
+                }
+            }
+
+            if (failed)
+                continue;
+
+            failed = true;
+            for (int i = 0; i < forestWall.length; i++) {
+                int opposite = (i + 2) % forestWall.length;
+                if (forestWall[i] == 1 && forestWall[opposite] == 0) { //wall not opposite to wall
+                    failed = false;
+                } else if (forestWall[i] == 1 && forestWall[opposite] == 1) { //wall opposite to wall
+                    failed = true;
+                    break;
+                }
+            }
+
+            if (!failed) {
+                validLocations.add(p);
+                validLocationArrays.add(forestWall);
+                specialTiles[p.x][p.y] = SurfaceTile.BossEntrance();
             }
         }
+
+        //only keep paired locations that are adjacent to a wall on the same side
+        for (int i = 0; i < validLocations.size(); i++) {
+            Point p = validLocations.get(i);
+            ArrayList<Point> local = getOrthoAdjacent(p.x, p.y);
+            int[] aWalls, pWalls = validLocationArrays.get(i);
+            boolean failed = true;
+            outer:
+            for (Point a : local) {
+                if (isBossEntrance(specialTiles[a.x][a.y])) {
+                    aWalls = validLocationArrays.get(validLocations.indexOf(a));
+                    for (int j = 0; j < pWalls.length; j++) {
+                        if (aWalls[j] == 1 && pWalls[j] == 1) {
+                            failed = false;
+                            break outer;
+                        }
+                    }
+                }
+            }
+            if (failed) {
+                specialTiles[p.x][p.y] = MapTile.EMPTY;
+                validLocations.remove(i);
+                validLocationArrays.remove(i);
+                i--;
+            }
+        }
+
+        boolean picked = false;
+        while (!picked && validLocations.size() > 0) {
+            int idx = rand.nextInt(validLocations.size());
+            Point p = validLocations.remove(idx);
+            int[] aWalls, pWalls = validLocationArrays.remove(idx);
+
+            Point adj = null;
+            ArrayList<Point> local = getOrthoAdjacent(p.x, p.y);
+            boolean failed = true;
+            outer:
+            for (Point a : local) {
+                if (isBossEntrance(specialTiles[a.x][a.y])) {
+                    aWalls = validLocationArrays.get(validLocations.indexOf(a));
+                    for (int j = 0; j < pWalls.length; j++) {
+                        if (aWalls[j] == 1 && pWalls[j] == 1) {
+                            adj = a;
+                            failed = false;
+                            break outer;
+                        }
+                    }
+                }
+            }
+            if (failed) {
+                specialTiles[p.x][p.y] = MapTile.EMPTY;
+            } else {
+                validLocations.remove(adj);
+                picked = true;
+            }
+        }
+
+        if (!picked) {
+            System.out.println("Failed to generate boss room entrance!");
+        } else {
+            System.out.println("Boss room generation succeeded, removing excess special tiles...");
+            for (Point p : validLocations) {
+                specialTiles[p.x][p.y] = MapTile.EMPTY;
+            }
+        }
+        return picked;
     }
 
     private void generateSpawners(Random rand) {
@@ -102,8 +206,8 @@ public class SurfaceLayer extends MapLayer {
             if (tiles[x][y] instanceof SurfaceTile) {
                 t = (SurfaceTile) tiles[x][y];
             }
-            if (extraTiles[x][y] instanceof SurfaceTile) {
-                te = (SurfaceTile) extraTiles[x][y];
+            if (specialTiles[x][y] instanceof SurfaceTile) {
+                te = (SurfaceTile) specialTiles[x][y];
             }
 
             if (t.spawnerChance > 0 && rand.nextDouble() < t.spawnerChance) {
@@ -121,7 +225,7 @@ public class SurfaceLayer extends MapLayer {
             int x = p.x;
             int y = p.y;
             MapTile t = tiles[x][y];
-            MapTile te = extraTiles[x][y];
+            MapTile te = specialTiles[x][y];
             if (te != null && te.hasSpawner) {
                 result.add(new Pair<>(p, te));
             } else if (t.hasSpawner) {
@@ -142,16 +246,16 @@ public class SurfaceLayer extends MapLayer {
             Point currPoint = valid.remove(curr);
             int x = currPoint.x;
             int y = currPoint.y;
-            if (tiles[x][y].passable && distanceToClosestTile(x, y, SurfaceTile.Town()) > 10
-                    && !extraTiles[x][y].equals(type)) {
-                extraTiles[x][y] = type;
+            if (tiles[x][y].passable && distanceToClosestTile(x, y, SurfaceTile.Town()) > 20
+                    && !specialTiles[x][y].equals(type)) {
+                specialTiles[x][y] = type;
                 ArrayList<Point> nextadj, adj = getOrthoAdjacent(x, y);
                 for (int i = 0; i < adj.size();) {
                     Point p = adj.remove(0);
-                    if (!tiles[p.x][p.y].passable || extraTiles[p.x][p.y].equals(type)) {
+                    if (!tiles[p.x][p.y].passable || specialTiles[p.x][p.y].equals(type)) {
                         continue;
                     }
-                    extraTiles[p.x][p.y] = type;
+                    specialTiles[p.x][p.y] = type;
                     nextadj = getOrthoAdjacent(p.x, p.y);
                     for (Point q : nextadj) {
                         if (rand.nextDouble() < growChance) {

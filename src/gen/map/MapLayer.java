@@ -15,7 +15,7 @@ public abstract class MapLayer {
     public final int height;
     public final int width;
     public final MapTile[][] tiles;
-    public final MapTile[][] extraTiles;
+    public final MapTile[][] specialTiles;
     protected boolean hasGenerated = false;
 
     public long seed;
@@ -25,11 +25,11 @@ public abstract class MapLayer {
         this.width = width;
         this.height = height;
         this.tiles = new MapTile[width][height];
-        this.extraTiles = new MapTile[width][height];
+        this.specialTiles = new MapTile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = MapTile.EMPTY;
-                extraTiles[i][j] = MapTile.EMPTY;
+                specialTiles[i][j] = MapTile.EMPTY;
             }
         }
         this.seed = new Random().nextLong();
@@ -99,7 +99,7 @@ public abstract class MapLayer {
     }
 
     public MapTile[][] getExtraTilesArray() {
-        return getTilesArray(extraTiles);
+        return getTilesArray(specialTiles);
     }
 
     private ArrayList<Point> getTiles(MapTile[][] array, MapTile type) {
@@ -119,7 +119,7 @@ public abstract class MapLayer {
     }
 
     public ArrayList<Point> getExtraTiles(MapTile type) {
-        return getTiles(extraTiles, type);
+        return getTiles(specialTiles, type);
     }
 
     private ArrayList<ArrayList<Point>> getTilesGroups(MapTile[][] array, MapTile type) {
@@ -157,7 +157,7 @@ public abstract class MapLayer {
     }
 
     public ArrayList<ArrayList<Point>> getExtraTilesGroups(MapTile type) {
-        return getTilesGroups(extraTiles, type);
+        return getTilesGroups(specialTiles, type);
     }
 
     public ArrayList<Point> getAllTiles() {
@@ -246,6 +246,36 @@ public abstract class MapLayer {
                 int yadj = curr.y + ymod[mod];
                 if (xadj > 0 && xadj < width && yadj > 0 && yadj < height
                         && !tiles[xadj][yadj].equals(tileType)) {
+                    if (!checked.contains(new Point(xadj, yadj)))
+                        checked.add(new Point(xadj, yadj));
+                } else {
+                    found = true;
+                    closest = new Point(xadj, yadj);
+                    break;
+                }
+            }
+        }
+        int foundx = closest.x, foundy = closest.y;
+        return Math.abs(foundx - x) + Math.abs(foundy - y);
+    }
+
+    protected int distanceToClosestSpecialTile(int x, int y, MapTile tileType) {
+        int[] xmod = {0, 1, 1, 1, 0, -1, -1, -1};
+        int[] ymod = {1, 1, 0, -1, -1, -1, 0, 1};
+        ArrayList<Point> checked = new ArrayList<>();
+
+        int currindex = 0;
+        boolean found = false;
+        Point closest = null;
+        checked.add(new Point(x, y));
+        while (!found) {
+            Point curr = checked.get(currindex);
+            currindex++;
+            for (int mod = 0; mod < xmod.length; mod++) {
+                int xadj = curr.x + xmod[mod];
+                int yadj = curr.y + ymod[mod];
+                if (xadj > 0 && xadj < width && yadj > 0 && yadj < height
+                        && !specialTiles[xadj][yadj].equals(tileType)) {
                     if (!checked.contains(new Point(xadj, yadj)))
                         checked.add(new Point(xadj, yadj));
                 } else {

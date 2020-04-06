@@ -36,8 +36,8 @@ public class MapLayerExport {
                 g2d.setColor(tileColor);
                 g2d.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
 
-                if (map.extraTiles[i][j] != MapTile.EMPTY) {
-                    tileColor = map.extraTiles[i][j].color;
+                if (map.specialTiles[i][j] != MapTile.EMPTY) {
+                    tileColor = map.specialTiles[i][j].color;
                     g2d.setColor(tileColor);
                     g2d.fillRect(j * tileSize + (int) Math.round(tileSize/12d), i * tileSize + (int) Math.round(tileSize/12d),
                             tileSize*5/6, tileSize*5/6);

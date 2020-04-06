@@ -67,7 +67,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             "ShrineRuins1", "ShrineRuins2",
             "House1", "House2",
 
-            "GoblinTent",
+            "GoblinTent", "TrollBossEntrance",
     };
 
     SurfaceLayerBuilder(SurfaceLayer layer) {
@@ -173,12 +173,12 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     //Camps
     private void plantSettlements(HashMap<String, TileBuild> tileLibrary, Random rand) {
-        ArrayList<ArrayList<Point>> goblinCamps = layer.getExtraTilesGroups(SurfaceTile.Settlement());
+        ArrayList<ArrayList<Point>> settlementTiles = layer.getExtraTilesGroups(SurfaceTile.Settlement());
         String[] structures = {"AbandFire", "Well1", "Well2"};
         String[] houses = {"House1", "House2"};
         String[] fences = {"Fence1", "Fence2", "Fence3"};
 
-        for (ArrayList<Point> camp : goblinCamps) {
+        for (ArrayList<Point> camp : settlementTiles) {
             //create fences
             HashSet<Point> fenceAdjacent = new HashSet<>();
             for (Point curr : camp) {
@@ -212,7 +212,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             //create houses
             if (camp.size() > 4) {
                 boolean cannotFind = false;
-                int numHouses = rand.nextInt((camp.size() - 4) / 4) + 1;
+                int numHouses = rand.nextInt(Math.max((camp.size() - 4) / 4, 1)) + 1;
                 while (numHouses-- > 0 && !cannotFind) {
                     cannotFind = true;
                     Collections.shuffle(camp, rand);
