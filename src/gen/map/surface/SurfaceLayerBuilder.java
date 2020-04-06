@@ -12,6 +12,8 @@ import gen.parser.TileSearch;
 import java.awt.*;
 import java.util.*;
 
+import static gen.lib.GridUtils.getRectanglePoints;
+
 //Job: Understands how to convert a SurfaceLayer into a list of formatted .bls strings
 public class SurfaceLayerBuilder extends MapLayerBuilder {
 
@@ -740,23 +742,5 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             }
         }
         return optimized;
-    }
-
-    private ArrayList<Point> getRectanglePoints(int x, int y, int width, int height) {
-        ArrayList<Point> result = new ArrayList<>();
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height;j ++) {
-                int currX = x + i;
-                int currY = y + j;
-                if (currX >= copy.length || currY >= copy[0].length) {
-                    return null;
-                } else {
-                    result.add(new Point(currX, currY));
-                }
-            }
-        }
-
-        return result;
     }
 }

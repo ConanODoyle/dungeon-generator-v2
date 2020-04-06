@@ -14,6 +14,9 @@ public abstract class MapTile {
     public final boolean passable;
     public final MapTile parent;
 
+    public boolean hasSpawner = false;
+    public double spawnerChance;
+
     public MapTile(String render, String name, Color color, boolean passable) {
         this.renderString = render;
         this.name = name;
@@ -30,6 +33,7 @@ public abstract class MapTile {
         this.parent = copy;
     }
 
+    public static boolean isEmpty(MapTile t) { return t.parent == EMPTY; }
 
     @Override
     public boolean equals(Object o) {

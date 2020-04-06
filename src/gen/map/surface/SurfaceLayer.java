@@ -10,6 +10,9 @@ import java.awt.*;
 import java.util.Queue;
 import java.util.*;
 
+import static gen.map.MapTile.isEmpty;
+import static gen.map.surface.SurfaceTile.*;
+
 //Job: Understands how to generate the surface layer
 public class SurfaceLayer extends MapLayer {
     private final int TOWNSIZE = 14;
@@ -63,10 +66,27 @@ public class SurfaceLayer extends MapLayer {
 //        generateCaves(rand);
         generateGlen(ends, rand);
 
-        //generate spawners
         generateSpawners(rand);
 
+        generateBossTeleport(rand);
+
         hasGenerated = true;
+    }
+
+    private void generateBossTeleport(Random rand) {
+        ArrayList<Point> passable = getPassableTiles();
+        ArrayList<Point> validLocations = new ArrayList<>();
+
+        for (Point p : passable) {
+            ArrayList<Point> local = getOrthoAdjacent(p.x, p.y);
+            int forestCount = 0, forestWallCount = 0;
+            for (Point a : local) {
+                if (isForest(tiles[a.x][a.y]))
+                    forestWallCount++;
+                if (isForestFloor(tiles[a.x][a.y]) || isForestPath(tiles[a.x][a.y]))
+                    forestCount++;
+            }
+        }
     }
 
     private void generateSpawners(Random rand) {
@@ -100,8 +120,11 @@ public class SurfaceLayer extends MapLayer {
         for (Point p : passable) {
             int x = p.x;
             int y = p.y;
-            SurfaceTile t = (SurfaceTile) tiles[x][y];
-            if (t.hasSpawner) {
+            MapTile t = tiles[x][y];
+            MapTile te = extraTiles[x][y];
+            if (te != null && te.hasSpawner) {
+                result.add(new Pair<>(p, te));
+            } else if (t.hasSpawner) {
                 result.add(new Pair<>(p, t));
             }
         }
@@ -164,8 +187,8 @@ public class SurfaceLayer extends MapLayer {
 
             validGlens.add(p);
             for (Point a : local) {
-                if (!tiles[a.x][a.y].equals(SurfaceTile.ForestPath())
-                        && !tiles[a.x][a.y].equals(SurfaceTile.Forest())) {
+                if (!isForestPath(tiles[a.x][a.y])
+                        && !isForest(tiles[a.x][a.y])) {
                     validGlens.remove(p);
                 }
             }
@@ -207,7 +230,7 @@ public class SurfaceLayer extends MapLayer {
             Point curr = validCaves.remove(rand.nextInt(validCaves.size()));
             tiles[curr.x][curr.y] = SurfaceTile.Cave();
             for (Point p : getAdjacent(curr.x, curr.y)) {
-                if (tiles[p.x][p.y].equals(SurfaceTile.Cave())) {
+                if (isCave(tiles[p.x][p.y])) {
                     tiles[curr.x][curr.y] = SurfaceTile.Cliff();
                     i--;
                     break;
@@ -352,9 +375,9 @@ public class SurfaceLayer extends MapLayer {
 
         for (Point p : path) {
             MapTile curr = tiles[p.x][p.y];
-            if (!curr.equals(SurfaceTile.Town())
-                    && !curr.equals(SurfaceTile.ForestFloor())
-                    && !curr.equals(SurfaceTile.Cliff())) {
+            if (!isTown(curr)
+                    && !isForestFloor(curr)
+                    && !isCliff(curr)) {
                 tiles[p.x][p.y] = SurfaceTile.ForestPath();
             }
         }
@@ -368,14 +391,14 @@ public class SurfaceLayer extends MapLayer {
 
         //check for border cliffs
         for (int i = 0; i < width; i++) {
-            if (!tiles[i][0].equals(SurfaceTile.TallCliff())
-                    || !tiles[i][height - 1].equals(SurfaceTile.TallCliff())) {
+            if (!isTallCliff(tiles[i][0])
+                    || !isTallCliff(tiles[i][height - 1] )) {
                 return false;
             }
         }
         for (int i = 0; i < height; i++) {
-            if (!tiles[0][i].equals(SurfaceTile.TallCliff())
-                    || !tiles[width - 1][i].equals(SurfaceTile.TallCliff())) {
+            if (!isTallCliff(tiles[0][i])
+                    || !isTallCliff(tiles[width - 1][i])) {
                 return false;
             }
         }
@@ -383,7 +406,7 @@ public class SurfaceLayer extends MapLayer {
         //check for town at center
         int wCenter = width / 2 + (width + 1) % 2 - 1;
         int hCenter = width / 2 + (width + 1) % 2 - 1;
-        if (!tiles[wCenter][hCenter].equals(SurfaceTile.Town())) {
+        if (!isTown(tiles[wCenter][hCenter])) {
             return false;
         }
 
@@ -392,12 +415,12 @@ public class SurfaceLayer extends MapLayer {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 //check for empty tiles
-                if (tiles[i][j].equals(MapTile.EMPTY)) {
+                if (isEmpty(tiles[i][j])) {
                     return false;
                 }
 
                 //check for pathtiles (should have at least some)
-                if (tiles[i][j].equals(SurfaceTile.ForestPath())) {
+                if (isForestPath(tiles[i][j])) {
                     pathCount++;
                 }
 
@@ -424,7 +447,7 @@ public class SurfaceLayer extends MapLayer {
 
     private void generateTown() {
         int wCenter = width / 2 + (width + 1) % 2 - 1;
-        int hCenter = width / 2 + (width + 1) % 2 - 1;
+        int hCenter = height / 2 + (height + 1) % 2 - 1;
         for (int i = 0; i < TOWNSIZE; i++) {
             for (int j = 0; j < TOWNSIZE; j++) {
                 tiles[wCenter - TOWNSIZE/2 + i][hCenter - TOWNSIZE/2 + j] = SurfaceTile.Town();

@@ -20,8 +20,8 @@ public class SurfaceTile extends MapTile {
     private static SurfaceTile RUINS = new SurfaceTile("R", "Ruins", new Color(190,100,100), true);
     private static SurfaceTile SETTLEMENT = new SurfaceTile("S", "Settlement", new Color(190,190,100), true);
 
-    public boolean hasSpawner = false;
-    public double spawnerChance;
+    private static SurfaceTile BOSSROOM = new SurfaceTile("S", "Settlement", new Color(190,190,100), true);
+
     public final SurfaceTile parent;
 
     private SurfaceTile(String render, String name, Color color, boolean passable) {
@@ -42,6 +42,20 @@ public class SurfaceTile extends MapTile {
         }
     }
 
+    public static boolean isForest(MapTile t) { return t.parent == FOREST; }
+    public static boolean isForestPath(MapTile t) { return t.parent == FORESTPATH; }
+    public static boolean isForestFloor(MapTile t) { return t.parent == FORESTFLOOR; }
+    public static boolean isCliff(MapTile t) { return t.parent == CLIFF; }
+    public static boolean isTallCliff(MapTile t) { return t.parent == TALLCLIFF; }
+    public static boolean isTown(MapTile t) { return t.parent == TOWN; }
+    public static boolean isGlen(MapTile t) { return t.parent == GLEN; }
+    public static boolean isCave(MapTile t) { return t.parent == CAVE; }
+
+    public static boolean GoblinCamp(MapTile t) { return t.parent == GOBLINCAMP; }
+    public static boolean Ruins(MapTile t) { return t.parent == RUINS; }
+    public static boolean Settlement(MapTile t) { return t.parent == SETTLEMENT; }
+    public static boolean Bossroom(MapTile t) { return t.parent == BOSSROOM; }
+
     public static SurfaceTile Forest() { return new SurfaceTile(FOREST); }
     public static SurfaceTile ForestPath() { return new SurfaceTile(FORESTPATH); }
     public static SurfaceTile ForestFloor() { return new SurfaceTile(FORESTFLOOR); }
@@ -54,4 +68,5 @@ public class SurfaceTile extends MapTile {
     public static SurfaceTile GoblinCamp() { return new SurfaceTile(GOBLINCAMP); }
     public static SurfaceTile Ruins() { return new SurfaceTile(RUINS); }
     public static SurfaceTile Settlement() { return new SurfaceTile(SETTLEMENT); }
+    public static SurfaceTile Bossroom() { return new SurfaceTile(BOSSROOM); }
 }

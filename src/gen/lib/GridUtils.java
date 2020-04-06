@@ -1,6 +1,7 @@
 package gen.lib;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 //Job: Provides various useful utility functions for determining the properties between two points
 public class GridUtils {
@@ -28,5 +29,19 @@ public class GridUtils {
             }
         }
         return NONE;
+    }
+
+    public static ArrayList<Point> getRectanglePoints(int x, int y, int width, int height) {
+        ArrayList<Point> result = new ArrayList<>();
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height;j ++) {
+                int currX = x + i;
+                int currY = y + j;
+                result.add(new Point(currX, currY));
+            }
+        }
+
+        return result;
     }
 }
