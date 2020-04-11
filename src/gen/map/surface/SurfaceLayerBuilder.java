@@ -12,6 +12,7 @@ import gen.parser.TileSearch;
 import java.awt.*;
 import java.util.*;
 
+import static gen.lib.GridUtils.getCompassDirectionTo;
 import static gen.lib.GridUtils.getRectanglePoints;
 
 //Job: Understands how to convert a SurfaceLayer into a list of formatted .bls strings
@@ -59,7 +60,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             "Tent",
             "Well1", "Well2", "AbandFire", "Fence1", "Fence2", "Fence3",
 
-            "spawner", "goblinspawner",
+            "sp", "goblinsp",
     };
     private static final String[] SPECIAL_TILES = {
 //            "Town","Glen","Cave",
@@ -139,6 +140,9 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         //place spawners
         plantSpawners(tileLibrary, rand);
 
+        //place bossroom entrance
+        plantBossEntrance(tileLibrary, rand);
+
         //generate detailing
         HashSet<Point> occupied = new HashSet<>();
         occupied.addAll(layer.getExtraTiles(SurfaceTile.GoblinCamp()));
@@ -149,6 +153,47 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
         plantTrees(tileLibrary, rand, occupied);
         plantGrass(tileLibrary, rand);
         plantFlowers(tileLibrary, rand);
+    }
+
+    private void plantBossEntrance(HashMap<String, TileBuild> tileLibrary, Random rand) {
+        TileBuild bossEntrance = tileLibrary.get("TrollBossEntrance");
+        ArrayList<Point> location = layer.getExtraTiles(SurfaceTile.BossEntrance());
+        Point bottomCorner, a = location.get(0), b = location.get(1);
+
+        if (a.x < b.x || a.y < b.y) {
+            bottomCorner = a;
+        } else {
+            bottomCorner = b;
+        }
+
+        int[] forestWallsA = {0, 0, 0, 0}; //nesw
+        int[] forestWallsB = {0, 0, 0, 0};
+        ArrayList<Point> adjacent = layer.getOrthoAdjacent(a.x, a.y);
+        adjacent.remove(b);
+        for (Point p : adjacent) {
+            int dir = getCompassDirectionTo(a, p);
+            if (!layer.tiles[p.x][p.y].passable) {
+                forestWallsA[dir - 1] = 1;
+            }
+        }
+        adjacent = layer.getOrthoAdjacent(b.x, b.y);
+        adjacent.remove(a);
+        for (Point p : adjacent) {
+            int dir = getCompassDirectionTo(b, p);
+            if (!layer.tiles[p.x][p.y].passable) {
+                forestWallsB[dir - 1] = 1;
+            }
+        }
+        int rot = 0;
+        for (int i = 0; i < forestWallsA.length; i++) {
+            if (forestWallsA[i] == forestWallsB[i] && forestWallsA[i] == 1) {
+                //round correct rotation
+                rot = (i + 1) % 4;
+                break;
+            }
+        }
+        buildTileAt(rand, bossEntrance,(bottomCorner.x + 1) * 8,(bottomCorner.y + 1) * 8, rot);
+
     }
 
     private void plantSpawners(HashMap<String, TileBuild> tileLibrary, Random rand) {
@@ -163,9 +208,9 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             yOffset = p.y * 8 + 4;
 
             if (t.equals(goblinCamp)) {
-                buildTileAt(rand, tileLibrary.get("goblinspawner"), xOffset, yOffset);
+                buildTileAt(rand, tileLibrary.get("goblinsp"), xOffset, yOffset);
             } else {
-                buildTileAt(rand, tileLibrary.get("spawner"), xOffset, yOffset);
+                buildTileAt(rand, tileLibrary.get("sp"), xOffset, yOffset);
             }
         }
     }
