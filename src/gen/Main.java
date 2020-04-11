@@ -76,7 +76,7 @@ public class Main {
 
 
         try {
-            exporter.exportBlsFile("testSurfaceLayerMap.bls", builder);
+            exporter.exportBlsFile(outputPath, builder);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Could not create file");
