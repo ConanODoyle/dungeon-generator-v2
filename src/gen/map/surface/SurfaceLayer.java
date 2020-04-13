@@ -210,9 +210,9 @@ public class SurfaceLayer extends MapLayer {
                 te = (SurfaceTile) specialTiles[x][y];
             }
 
-            if (t.spawnerChance > 0 && rand.nextDouble() < t.spawnerChance) {
-                t.hasSpawner = true;
-            } else if (te != null && te.spawnerChance > 0 && rand.nextDouble() < te.spawnerChance) {
+            if (te != null && te.spawnerChance > 0 && rand.nextDouble() < te.spawnerChance) {
+                te.hasSpawner = true;
+            } else if (t.spawnerChance > 0 && rand.nextDouble() < t.spawnerChance) {
                 t.hasSpawner = true;
             }
         }
