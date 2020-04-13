@@ -268,20 +268,11 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                             continue;
                         }
                         int rot = rand.nextInt(4);
-                        System.out.println("Generating house at " + p.toString() + " with rotation " + rot);
-                        System.out.println("Rect: ");
-                        for (Point q : rect) {
-                            System.out.println("  1: " + q.toString());
-                        }
                         switch (rot) {
                             case 0: rect.remove(2); rect.remove(0); break;
                             case 1: rect.remove(3); rect.remove(2); break;
                             case 2: rect.remove(3); rect.remove(1); break;
                             case 3: rect.remove(1); rect.remove(0); break;
-                        }
-                        System.out.println("Rect after removal: ");
-                        for (Point q : rect) {
-                            System.out.println("  1: " + q.toString());
                         }
 
                         if (camp.containsAll(rect)) {
