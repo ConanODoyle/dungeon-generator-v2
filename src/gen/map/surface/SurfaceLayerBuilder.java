@@ -60,7 +60,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             "Tent",
             "Well1", "Well2", "AbandFire", "Fence1", "Fence2", "Fence3",
 
-            "sp", "goblinsp",
+            "forestspawner", "goblinspawner",
     };
     private static final String[] SPECIAL_TILES = {
 //            "Town","Glen","Cave",
@@ -209,9 +209,9 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
             yOffset = p.y * 8 + 4;
 
             if (t.equals(goblinCamp)) {
-                buildTileAt(rand, tileLibrary.get("goblinsp"), xOffset, yOffset);
+                buildTileAt(rand, tileLibrary.get("goblinspawner"), xOffset, yOffset);
             } else {
-                buildTileAt(rand, tileLibrary.get("sp"), xOffset, yOffset);
+                buildTileAt(rand, tileLibrary.get("forestspawner"), xOffset, yOffset);
             }
         }
     }
