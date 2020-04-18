@@ -16,11 +16,9 @@ public class CaveLayer extends MapLayer {
     public CaveLayer(int width, int height) {
         super(width, height);
         caveTiles = new MapTile[DEPTH][width][height];
-        for (int i = 0; i < DEPTH; i++) {
-            for (int j = 0; j < width; j++) {
-                for (int k = 0; k < height; k++) {
-                    caveTiles[i][j][k] = MapTile.EMPTY;
-                }
+        for (int j = 0; j < width; j++) {
+            for (int k = 0; k < height; k++) {
+                tiles[j][k] = CaveTile.Rock();
             }
         }
     }
@@ -41,6 +39,24 @@ public class CaveLayer extends MapLayer {
         ArrayList<Point> ends = generatePaths(rand);
 
         replaceInaccessibleAreas(ends.get(0).x, ends.get(0).y, CaveTile.Rock());
+        removeHiddenTiles(ends.get(0).x, ends.get(0).y, CaveTile.Rock());
+    }
+
+    private void removeHiddenTiles(int x, int y, CaveTile type) {
+        ArrayList<Point> exists = getTiles(type);
+        for (Point p : exists) {
+            boolean hasAccessibleAdjacent = false;
+            ArrayList<Point> adj = getOrthoAdjacent(p.x, p.y);
+            for (Point q : adj) {
+                if (tiles[q.x][q.y].passable) {
+                    hasAccessibleAdjacent = true;
+                    break;
+                }
+            }
+            if (!hasAccessibleAdjacent) {
+                tiles[p.x][p.y] = MapTile.EMPTY;
+            }
+        }
     }
 
 
@@ -96,7 +112,7 @@ public class CaveLayer extends MapLayer {
 
     private ArrayList<Point> generatePaths(Random rand) {
         ArrayList<Point> unlinkedEnds = new ArrayList<>();
-        int mod = (int) Math.ceil(Math.sqrt(width * height) / 1);
+        int mod = (int) Math.ceil(Math.sqrt(width * height) / 4);
         int totalPaths = rand.nextInt(4 + mod) + 8 + mod / 2;
         double bigStep = 0.024;
         double smallStep = 0.16;//03 / 2;
@@ -122,7 +138,6 @@ public class CaveLayer extends MapLayer {
                     || Math.abs(dx - sx) + Math.abs(dy - sy) > 60);
 
             generateCavePath(sx, sy, dx, dy, rand);
-            tiles[sx][sy] = CaveTile.BossEntrance();
             sx = dx;
             sy = dy;
         }
@@ -133,7 +148,6 @@ public class CaveLayer extends MapLayer {
     private void generateCavePath(int sx, int sy, int dx, int dy, Random rand) {
 //        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
         int moveX = dx - sx, moveY = dy - sy;
-        tiles[sx][sy] = CaveTile.BossEntrance();
 
         //generate straight paths between x, y
         //don't make massive straight lines though, occasionally turn and truncate
@@ -178,7 +192,6 @@ public class CaveLayer extends MapLayer {
                 }
             }
         }
-        tiles[sx][sy] = CaveTile.BossEntrance();
     }
 
 

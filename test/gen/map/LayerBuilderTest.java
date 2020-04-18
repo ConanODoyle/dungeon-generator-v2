@@ -46,18 +46,18 @@ public class LayerBuilderTest {
         System.out.println("Seed: " + m.seed);
         m.generate();
 
-//        MapLayerBuilder builder = m.getBuilder();
-//        builder.generateBuild();
-//
-//        BlsFileExport exporter = new BlsFileExport();
-//
-//        exporter.setColorset(Main.colorsetPath);
-//        try {
-//            exporter.exportBlsFile("testCaveLayerMap.bls", builder);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Assert.fail("Could not create file");
-//        }
+        MapLayerBuilder builder = m.getBuilder();
+        builder.generateBuild();
+
+        BlsFileExport exporter = new BlsFileExport();
+
+        exporter.setColorset(Main.colorsetPath);
+        try {
+            exporter.exportBlsFile("testCaveLayerMap.bls", builder);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create file");
+        }
         MapLayerExport.exportAsImage(m, "testCaveLayerMap", 10, 0);
     }
 

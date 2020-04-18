@@ -2,10 +2,11 @@ package gen.map.surface;
 
 import gen.Main;
 import gen.lib.Pair;
+import gen.lib.Rectangle;
+import gen.lib.GridUtils;
 import gen.map.MapTile;
 import gen.export.BlsBrick;
 import gen.export.MapLayerBuilder;
-import gen.lib.GridUtils;
 import gen.parser.TileBuild;
 import gen.parser.TileSearch;
 
@@ -19,17 +20,7 @@ import static gen.lib.GridUtils.getRectanglePoints;
 public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     //Job: Understands a 4-sided shape on a grid
-    private class Rectangle {
-        private Point leftCorner; //upper-left corner
-        private int width;
-        private int height;
 
-        private Rectangle(int width, int height, Point corner) {
-            this.width = width;
-            this.height = height;
-            this.leftCorner = new Point(corner);
-        }
-    }
 
     private Point offset;
     private SurfaceLayer layer;
@@ -114,10 +105,11 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
                 TILESETS[12], TILESETS[13], TILESETS[14], TILESETS[15]}, tileLibrary);
 
         //plant border cliff wall
+        ArrayList<BlsBrick> tallCliffTile;
         for (int i = 0; i < copy.length; i++) {
             for (int j = 0; j < copy.length; j++) {
                 if (copy[i][j].equals(SurfaceTile.TallCliff())) {
-                    ArrayList<BlsBrick> tallCliffTile = tileLibrary.get("TallCliffRoof16x").getBricks();
+                    tallCliffTile = tileLibrary.get("TallCliffRoof16x").getBricks();
                     for (BlsBrick b : tallCliffTile) {
                         b.x += i * 8 + 4;
                         b.y += j * 8 + 4;
