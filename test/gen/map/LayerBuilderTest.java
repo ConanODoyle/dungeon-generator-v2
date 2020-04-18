@@ -4,6 +4,7 @@ import gen.Main;
 import gen.export.BlsFileExport;
 import gen.export.MapLayerBuilder;
 import gen.export.MapLayerExport;
+import gen.map.cave.CaveLayer;
 import gen.map.surface.SurfaceLayer;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,6 +37,28 @@ public class LayerBuilderTest {
             Assert.fail("Could not create file");
         }
         MapLayerExport.exportAsImage(m, "testSurfaceLayerMap", 10, 0);
+    }
+
+    @Test
+    public void CaveLayerBuilderTest() {
+        CaveLayer m = new CaveLayer(180, 180);
+        m.seed = 6511287661274410794L;
+        System.out.println("Seed: " + m.seed);
+        m.generate();
+
+//        MapLayerBuilder builder = m.getBuilder();
+//        builder.generateBuild();
+//
+//        BlsFileExport exporter = new BlsFileExport();
+//
+//        exporter.setColorset(Main.colorsetPath);
+//        try {
+//            exporter.exportBlsFile("testCaveLayerMap.bls", builder);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Assert.fail("Could not create file");
+//        }
+        MapLayerExport.exportAsImage(m, "testCaveLayerMap", 10, 0);
     }
 
     @Test

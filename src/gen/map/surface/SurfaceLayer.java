@@ -441,7 +441,8 @@ public class SurfaceLayer extends MapLayer {
 
     //Generate a path between the two points, preferring higher values in noise
     private void generateForestPath(int sx, int sy, int dx, int dy, double[][] noise) {
-//        System.out.println("Generating path from (" + sx + "," + sy + ") to (" + dx + "," + dy + ")");
+        // priority queue where it uses the noise + distance from destination as heuristic
+        // heuristic = (distx^2 + disty^2) * (4 + (noiseValue + 1) * 2); since noise can be negative
         Queue<Point> search = new PriorityQueue<>((o1, o2) -> {
             double o1value = Math.sqrt(Math.pow(dx - o1.x, 2) + Math.pow(dy - o1.y, 2)) * (4 + (noise[o1.x][o1.y] + 1) * 2);
             double o2value = Math.sqrt(Math.pow(dx - o2.x, 2) + Math.pow(dy - o2.y, 2)) * (4 + (noise[o2.x][o2.y] + 1) * 2);

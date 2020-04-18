@@ -6,14 +6,40 @@ import java.awt.*;
 
 public class CaveTile extends MapTile {
     public static CaveTile ROCK = new CaveTile("X", "Rock", new Color(30,30,30), false);
-    public static CaveTile CAVE = new CaveTile(".", "Cave", new Color(30,30,30), false);
-    public static CaveTile LEVEL1CAVE = new CaveTile(".", "L1Cave", new Color(160,120,100), false);
-    public static CaveTile LEVEL2CAVE = new CaveTile(".", "L2Cave", new Color(130,110,80), false);
-    public static CaveTile LEVEL3CAVE = new CaveTile(".", "L3Cave", new Color(110,90,60), false);
-    public static CaveTile LEVEL4CAVE = new CaveTile(".", "L4Cave", new Color(90,70,40), false);
-    public static CaveTile LEVEL5CAVE = new CaveTile(".", "L5Cave", new Color(70,50,20), false);
+    public static CaveTile HIGHCAVE = new CaveTile(".", "HighCave", new Color(130,110,80), true);
+    public static CaveTile CAVE = new CaveTile(".", "Cave", new Color(110,90,60), true);
+    public static CaveTile LOWCAVE = new CaveTile(".", "LowCave", new Color(90,70,40), true);
+    public static CaveTile MINESHAFT = new CaveTile(".", "Mineshaft", new Color(60,80,170), true);
+
+    private static CaveTile BOSSENTRANCE = new CaveTile("B", "BossEntrance", new Color(255, 0, 0), true);
 
     private CaveTile(String render, String name, Color color, boolean passable) {
         super(render, name, color, passable);
     }
+
+    private CaveTile(CaveTile copy) {
+        super(copy);
+        hasSpawner = copy.hasSpawner;
+        switch (copy.name) {
+            case "L1Cave":
+            case "L2CAve":
+            case "L3Cave": spawnerChance = 1; break;
+            default: spawnerChance = 0;
+        }
+    }
+
+    public static boolean isRock(MapTile t) { return t.parent == ROCK; }
+    public static boolean isHighCave(MapTile t) { return t.parent == HIGHCAVE; }
+    public static boolean isCave(MapTile t) { return t.parent == CAVE; }
+    public static boolean isLowCave(MapTile t) { return t.parent == LOWCAVE; }
+
+    public static boolean isBossEntrance(MapTile t) { return t.parent == BOSSENTRANCE; }
+
+    public static CaveTile Rock() { return new CaveTile(ROCK); }
+    public static CaveTile HighCave() { return new CaveTile(HIGHCAVE); }
+    public static CaveTile Cave() { return new CaveTile(CAVE); }
+    public static CaveTile LowCave() { return new CaveTile(LOWCAVE); }
+    public static CaveTile Mineshaft() { return new CaveTile(MINESHAFT); }
+
+    public static CaveTile BossEntrance() { return new CaveTile(BOSSENTRANCE); }
 }

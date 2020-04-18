@@ -22,16 +22,12 @@ public class SurfaceTile extends MapTile {
 
     private static SurfaceTile BOSSENTRANCE = new SurfaceTile("B", "BossEntrance", new Color(255, 0, 0), true);
 
-    public final SurfaceTile parent;
-
     private SurfaceTile(String render, String name, Color color, boolean passable) {
         super(render, name, color, passable);
-        parent = null;
     }
 
     private SurfaceTile(SurfaceTile copy) {
         super(copy);
-        parent = copy;
         hasSpawner = copy.hasSpawner;
         switch (copy.name) {
             case "ForestPath": spawnerChance = 0.5; break;

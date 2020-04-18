@@ -31,6 +31,7 @@ public class ImprovedNoiseTest {
             }
         }
         System.out.println("Min:" + min + " Max:" + max);
+        System.out.println("Sqrt(N/4):" + Math.sqrt(3.0)/2.0);
 
 
         double[][] perlin = noise.generate2DNoise(numsteps, numsteps, step);
