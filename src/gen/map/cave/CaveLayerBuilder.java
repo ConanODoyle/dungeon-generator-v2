@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import static gen.lib.GridUtils.getCompassDirectionTo;
 import static gen.lib.GridUtils.getRectanglePoints;
 
 public class CaveLayerBuilder extends MapLayerBuilder {
@@ -93,7 +94,79 @@ public class CaveLayerBuilder extends MapLayerBuilder {
             }
         }
 
+        plantMineshafts(tileLibrary);
+
         Random rand = new Random(layer.seed);
+    }
+
+    private void plantMineshafts(HashMap<String, TileBuild> tileLibrary) {
+        TileBuild mineshaft = tileLibrary.get("Mineshaft");
+        TileBuild mineshaftR = tileLibrary.get("Mineshaft_R");
+        TileBuild mineshaftT = tileLibrary.get("Mineshaft_T");
+        TileBuild mineshaftX = tileLibrary.get("Mineshaft_X");
+        TileBuild curr = null;
+
+        ArrayList<Point> mineshafts = layer.getTiles(CaveTile.Mineshaft());
+        int[] passable = new int[4];
+        int totalPassable, rot = 0;
+        for (Point p : mineshafts) {
+            ArrayList<Point> adj = layer.getOrthoAdjacent(p.x, p.y);
+            passable[0] = 0; passable[1] = 0; passable[2] = 0; passable[3] = 0;
+            totalPassable = 0;
+            for (Point q : adj) {
+                int dir = getCompassDirectionTo(p, q);
+                if (copy[q.x][q.y].passable) {
+                    passable[dir - 1] = 1;
+                    totalPassable++;
+                }
+            }
+
+            if (totalPassable == 1) {
+                curr = mineshaft;
+                if (passable[1] == 1 || passable[3] == 1) {
+                    //east/west
+                    rot = 0;
+                } else {
+                    rot = 1;
+                }
+            } else if (totalPassable == 4) {
+                curr = mineshaftX;
+                rot = 0;
+            } else if (totalPassable == 3) {
+                curr = mineshaftT;
+                if (passable[0] == 0) rot = 0;
+                if (passable[1] == 0) rot = 3;
+                if (passable[2] == 0) rot = 2;
+                if (passable[3] == 0) rot = 1;
+            } else if (totalPassable == 2) {
+                int open1 = -1;
+                for (int i = 0; i < 4; i++) {
+                    if (passable[i] == 1) {
+                        open1 = i;
+                        if (passable[(i + 1) % 4] == 1) {
+                            curr = mineshaftR;
+                        } else if (passable[(i + 4 - 1) % 4] == 1) {
+                            open1 = (i + 4 -1) % 4;
+                            curr = mineshaftR;
+                        } else {
+                            curr = mineshaft;
+                            open1 += 1;
+                        }
+                        break;
+                    }
+                }
+                if (open1 < 0) {
+                    throw new IllegalStateException("Mineshaft has no adjacent passable tiles!");
+                }
+                rot = (4 - open1 + 2) % 4;
+            }
+
+            if (curr == null) {
+                throw new IllegalStateException("No mineshaft tile type selected!");
+            }
+
+            buildTileAt(curr, p.x * 8 + 4, p.y * 8 + 4, rot);
+        }
     }
 
     private ArrayList<Rectangle> calculateOptimumCover(MapTile type) {

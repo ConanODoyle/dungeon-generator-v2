@@ -60,7 +60,7 @@ public abstract class MapLayerBuilder {
         bricks.addAll(currTileBricks);
     }
 
-    public void buildTileAt(Random rand, TileBuild tileBuild, double offsetX, double offsetY, int rotation) {
+    public void buildTileAt(TileBuild tileBuild, double offsetX, double offsetY, int rotation) {
         TileBuild adjTile = tileBuild;
         ArrayList<BlsBrick> currTileBricks = adjTile.getRotatedBricks(rotation);
         for (BlsBrick b : currTileBricks) {

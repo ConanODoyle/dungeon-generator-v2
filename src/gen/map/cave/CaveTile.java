@@ -5,11 +5,11 @@ import gen.map.MapTile;
 import java.awt.*;
 
 public class CaveTile extends MapTile {
-    public static CaveTile ROCK = new CaveTile("X", "Rock", new Color(30,30,30), false);
-    public static CaveTile HIGHCAVE = new CaveTile(".", "HighCave", new Color(130,110,80), true);
-    public static CaveTile CAVE = new CaveTile(".", "Cave", new Color(110,90,60), true);
-    public static CaveTile LOWCAVE = new CaveTile(".", "LowCave", new Color(90,70,40), true);
-    public static CaveTile MINESHAFT = new CaveTile(".", "Mineshaft", new Color(60,80,170), true);
+    private static CaveTile ROCK = new CaveTile("X", "Rock", new Color(30,30,30), false);
+    private static CaveTile HIGHCAVE = new CaveTile(".", "HighCave", new Color(130,110,80), true);
+    private static CaveTile CAVE = new CaveTile(".", "Cave", new Color(110,90,60), true);
+    private static CaveTile LOWCAVE = new CaveTile(".", "LowCave", new Color(90,70,40), true);
+    private static CaveTile MINESHAFT = new CaveTile(".", "Mineshaft", new Color(60,80,170), true);
 
     private static CaveTile BOSSENTRANCE = new CaveTile("B", "BossEntrance", new Color(255, 0, 0), true);
 
@@ -21,9 +21,9 @@ public class CaveTile extends MapTile {
         super(copy);
         hasSpawner = copy.hasSpawner;
         switch (copy.name) {
-            case "L1Cave":
-            case "L2CAve":
-            case "L3Cave": spawnerChance = 1; break;
+            case "HighCave":
+            case "Cave":
+            case "LowCave": spawnerChance = 1; break;
             default: spawnerChance = 0;
         }
     }
