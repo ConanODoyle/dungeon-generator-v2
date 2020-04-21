@@ -65,7 +65,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
     SurfaceLayerBuilder(SurfaceLayer layer) {
         this.layer = layer;
         this.copy = layer.getTilesArray();
-        this.extraCopy = layer.getExtraTilesArray();
+        this.extraCopy = layer.getSpecialTilesArray();
         this.offset = new Point(0, 0);
     }
 
@@ -137,10 +137,10 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
         //generate detailing
         HashSet<Point> occupied = new HashSet<>();
-        occupied.addAll(layer.getExtraTiles(SurfaceTile.GoblinCamp()));
-        occupied.addAll(layer.getExtraTiles(SurfaceTile.Ruins()));
-        occupied.addAll(layer.getExtraTiles(SurfaceTile.Settlement()));
-        occupied.addAll(layer.getExtraTiles(SurfaceTile.BossEntrance()));
+        occupied.addAll(layer.getSpecialTiles(SurfaceTile.GoblinCamp()));
+        occupied.addAll(layer.getSpecialTiles(SurfaceTile.Ruins()));
+        occupied.addAll(layer.getSpecialTiles(SurfaceTile.Settlement()));
+        occupied.addAll(layer.getSpecialTiles(SurfaceTile.BossEntrance()));
 
         int total = 0;
         total += plantMushrooms(tileLibrary, rand, occupied);
@@ -155,7 +155,7 @@ public class SurfaceLayerBuilder extends MapLayerBuilder {
 
     private void plantBossEntrance(HashMap<String, TileBuild> tileLibrary) {
         TileBuild bossEntrance = tileLibrary.get("TrollBossEntrance");
-        ArrayList<Point> location = layer.getExtraTiles(SurfaceTile.BossEntrance());
+        ArrayList<Point> location = layer.getSpecialTiles(SurfaceTile.BossEntrance());
         Point bottomCorner, a = location.get(0), b = location.get(1);
 
         if (a.x < b.x || a.y < b.y) {

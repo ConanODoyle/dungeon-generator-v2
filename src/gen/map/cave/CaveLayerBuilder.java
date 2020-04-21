@@ -11,10 +11,10 @@ import gen.parser.TileSearch;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
-import static gen.lib.GridUtils.getCompassDirectionTo;
-import static gen.lib.GridUtils.getRectanglePoints;
+import static gen.lib.GridUtils.*;
 
 public class CaveLayerBuilder extends MapLayerBuilder {
     private Point offset;
@@ -28,7 +28,8 @@ public class CaveLayerBuilder extends MapLayerBuilder {
             "CaveFloor16_high", "CaveFloor32_high", "CaveFloor48_high", "CaveFloor64_high",
             "RockWall",
 
-            "Mineshaft", "Mineshaft_R", "Mineshaft_T", "Mineshaft_X",
+            "Mineshaft", "Mineshaft_R", "Mineshaft_T", "Mineshaft_X", "MineshaftBridge",
+            "CaveRampS", "CaveRampR", "CaveRampC",
     };
     private static final String[] EXTRAS = {
             "TallPineTree", "ShortPineTree", "PineTree",
@@ -43,7 +44,7 @@ public class CaveLayerBuilder extends MapLayerBuilder {
         super();
         this.layer = caveLayer;
         this.copy = layer.getTilesArray();
-        this.extraCopy = layer.getExtraTilesArray();
+        this.extraCopy = layer.getSpecialTilesArray();
         this.offset = new Point(1500, 1500);
     }
 
@@ -67,11 +68,15 @@ public class CaveLayerBuilder extends MapLayerBuilder {
         //load the tilesets
         HashMap<String, TileBuild> tileLibrary = loadTilesets();
 
+        //place transition tiles first, remove from copy[][] so they don't get optimize-planted
+        plantCaveTransitions(tileLibrary, CaveTile.Cave(), CaveTile.LowCave());
+
         //optimize coverages
         ArrayList<Rectangle> lowCave = calculateOptimumCover(CaveTile.LowCave());
         ArrayList<Rectangle> midCave = calculateOptimumCover(CaveTile.Cave());
         ArrayList<Rectangle> highCave = calculateOptimumCover(CaveTile.HighCave());
 
+        //place optimized tiles
         plantOptimizedTiles(lowCave, new String[]{
                 TILESETS[0], TILESETS[1], TILESETS[2], TILESETS[3]}, tileLibrary);
         plantOptimizedTiles(midCave, new String[]{
@@ -80,23 +85,157 @@ public class CaveLayerBuilder extends MapLayerBuilder {
                 TILESETS[8], TILESETS[9], TILESETS[10], TILESETS[11]}, tileLibrary);
 
         //plant all walls
-        ArrayList<BlsBrick> tile;
+        Random rand = new Random(layer.seed);
+        TileBuild tile;
         for (int i = 0; i < copy.length; i++) {
             for (int j = 0; j < copy.length; j++) {
                 if (copy[i][j].equals(CaveTile.Rock())) {
-                    tile = tileLibrary.get("RockWall").getBricks();
-                    for (BlsBrick b : tile) {
-                        b.x += i * 8 + 4;
-                        b.y += j * 8 + 4;
-                    }
-                    bricks.addAll(tile);
+                    tile = tileLibrary.get("RockWall");
+                    buildTileAt(rand, tile, i*8 + 4, j*8 + 4);
                 }
             }
         }
 
         plantMineshafts(tileLibrary);
 
-        Random rand = new Random(layer.seed);
+    }
+
+    private void plantCaveTransitions(HashMap<String, TileBuild> tileLibrary, MapTile type, MapTile lower) {
+        TileBuild rampS = tileLibrary.get("CaveRampS");
+        TileBuild rampR = tileLibrary.get("CaveRampR");
+        TileBuild rampC = tileLibrary.get("CaveRampC");
+        TileBuild curr = null;
+
+        //get list of tiles - all type tiles adjacent to a tile of the lower level
+        ArrayList<Point> edgeTiles = new ArrayList<>(), lowerTiles = layer.getTiles(lower);
+        HashSet<Point> visibleEdges = new HashSet<>();
+        for (Point p : lowerTiles) {
+            ArrayList<Point> adj = layer.getAdjacent(p.x, p.y);
+            for (Point q : adj) {
+                MapTile peek = copy[q.x][q.y];
+                if (peek.equals(type)) {
+                    visibleEdges.add(q);
+                }
+            }
+        }
+
+        //remove found edges not adjacent to rock or another tile
+        HashSet<Point> removePoints = new HashSet<>();
+        for (Point p : visibleEdges) {
+            ArrayList<Point> adj = layer.getOrthoAdjacent(p.x, p.y);
+            boolean remove = true;
+            for (Point q : adj) {
+                if (copy[q.x][q.y].equals(type) || copy[q.x][q.y].equals(CaveTile.Rock())) {
+                    remove = false;
+                    break;
+                }
+            }
+            if (remove) {
+                removePoints.add(p);
+            }
+        }
+
+        for (Point p : removePoints) {
+            visibleEdges.remove(p);
+        }
+
+        //plant edge tiles
+        removePoints.clear();
+        int[] sameAdj = new int[4], lowerEdgeAdj = new int[4];
+        int totalAdj, totalLowerAdj, rot = 0;
+        for (Point p : visibleEdges) {
+            ArrayList<Point> adj = layer.getOrthoAdjacent(p.x, p.y);
+            sameAdj[0] = 0; sameAdj[1] = 0; sameAdj[2] = 0; sameAdj[3] = 0;
+            lowerEdgeAdj[0] = 0; lowerEdgeAdj[1] = 0; lowerEdgeAdj[2] = 0; lowerEdgeAdj[3] = 0;
+            totalAdj = 0; totalLowerAdj = 0;
+            rot = 0;
+            for (Point q : adj) {
+                int dir = getCompassDirectionTo(p, q);
+                if (copy[q.x][q.y].equals(type) || !copy[q.x][q.y].passable) {
+                    sameAdj[dir - 1] = 1;
+                    totalAdj++;
+                }
+            }
+
+            adj = layer.getAdjacent(p.x, p.y);
+            adj.removeAll(layer.getOrthoAdjacent(p.x, p.y));
+            for (Point q : adj) {
+                int dir = getAdjacentDirectionTo(p, q);
+                if (copy[q.x][q.y].equals(lower) || !copy[q.x][q.y].passable) {
+                    sameAdj[dir / 2] = 1;
+                    totalLowerAdj++;
+                }
+            }
+
+            if (totalAdj == 1) {
+                curr = rampS;
+                for (int i = 0; i < 4; i++) {
+                    if (sameAdj[i] == 1) {
+                        rot = (i + 3) % 4;
+                        break;
+                    }
+                }
+
+            } else if (totalAdj == 4) {
+                if (totalLowerAdj != 1)
+                {
+                    curr = null;
+                }
+                else {
+                    curr = rampC;
+                    int open1 = -1;
+                    for (int i = 0; i < 4; i++) {
+                        if (lowerEdgeAdj[i] == 1) {
+                            open1 = i;
+                            if (lowerEdgeAdj[(i + 4 - 1) % 4] == 1) {
+                                open1 = (i + 4 - 1) % 4;
+                            } else {
+                                //dont transition sandwiched tiles
+                                curr = null;
+                                open1 += 1;
+                            }
+                            break;
+                        }
+                    }
+                    rot = (4 - open1) % 4;
+                }
+//                throw new IllegalStateException("Edge tile with 4 adjacent sides!");
+            } else if (totalAdj == 3) {
+                curr = rampS;
+                if (sameAdj[0] == 0) rot = 3;
+                if (sameAdj[1] == 0) rot = 2;
+                if (sameAdj[2] == 0) rot = 1;
+                if (sameAdj[3] == 0) rot = 0;
+            } else if (totalAdj == 2) {
+                int open1 = -1;
+                for (int i = 0; i < 4; i++) {
+                    if (sameAdj[i] == 1) {
+                        open1 = i;
+                        if (sameAdj[(i + 1) % 4] == 1) {
+                            curr = rampR;
+                        } else if (sameAdj[(i + 4 - 1) % 4] == 1) {
+                            open1 = (i + 4 -1) % 4;
+                            curr = rampR;
+                        } else {
+                            //dont transition sandwiched tiles
+                            curr = null;
+                            open1 += 1;
+                        }
+                        break;
+                    }
+                }
+                rot = (4 - open1) % 4;
+            }
+
+            if (curr != null) {
+//                throw new IllegalStateException("No mineshaft tile type selected!");
+                buildTileAt(curr, p.x * 8 + 4, p.y * 8 + 4, rot);
+                removePoints.add(p);
+            }
+        }
+        for (Point p : removePoints) {
+            copy[p.x][p.y] = lower;
+        }
     }
 
     private void plantMineshafts(HashMap<String, TileBuild> tileLibrary) {
@@ -106,9 +245,11 @@ public class CaveLayerBuilder extends MapLayerBuilder {
         TileBuild mineshaftX = tileLibrary.get("Mineshaft_X");
         TileBuild curr = null;
 
+        //plant in-wall mineshafts
         ArrayList<Point> mineshafts = layer.getTiles(CaveTile.Mineshaft());
         int[] passable = new int[4];
         int totalPassable, rot = 0;
+
         for (Point p : mineshafts) {
             ArrayList<Point> adj = layer.getOrthoAdjacent(p.x, p.y);
             passable[0] = 0; passable[1] = 0; passable[2] = 0; passable[3] = 0;
@@ -166,6 +307,14 @@ public class CaveLayerBuilder extends MapLayerBuilder {
             }
 
             buildTileAt(curr, p.x * 8 + 4, p.y * 8 + 4, rot);
+        }
+
+        //plant mineshaft bridges
+        ArrayList<Point> mineshaftBridges = layer.getSpecialTiles(CaveTile.Mineshaft());
+        mineshaftBridges.removeAll(mineshafts);
+        curr = tileLibrary.get("MineshaftBridge");
+        for (Point p : mineshaftBridges) {
+            buildTileAt(curr, p.x * 8 + 4, p.y * 8 + 4, 0);
         }
     }
 

@@ -112,7 +112,8 @@ public class CaveLayer extends MapLayer {
 
     private ArrayList<Point> generatePaths(Random rand) {
         ArrayList<Point> unlinkedEnds = new ArrayList<>();
-        int mod = (int) Math.ceil(Math.sqrt(width * height) / 4);
+        ArrayList<Point> ends = new ArrayList<>();
+        int mod = (int) Math.ceil(Math.sqrt(width * height) / 5);
         int totalPaths = rand.nextInt(4 + mod) + 8 + mod / 2;
         double bigStep = 0.024;
         double smallStep = 0.16;//03 / 2;
@@ -126,6 +127,7 @@ public class CaveLayer extends MapLayer {
         int sx = width / 2, sy = height / 2, dx, dy;
         unlinkedEnds.add(new Point(sx, sy));
         for (int i = 0; i < totalPaths; i++) {
+            ends.add(new Point(sx, sy));
             if (rand.nextDouble() > 1.2 && i > 0) { //randomly reset path linkage (if not first path)
                 unlinkedEnds.add(new Point(sx, sy));
                 sx = rand.nextInt(width - 2) + 1;
@@ -135,13 +137,25 @@ public class CaveLayer extends MapLayer {
                 dx = rand.nextInt(width - 2) + 1;
                 dy = rand.nextInt(height - 2) + 1;
             } while (Math.abs(dx - sx) + Math.abs(dy - sy) < 25
-                    || Math.abs(dx - sx) + Math.abs(dy - sy) > 60);
+                    || Math.abs(dx - sx) + Math.abs(dy - sy) > 60
+                    || shortestDistFromPoints(new Point(dx, dy), ends) < 8);
 
             generateCavePath(sx, sy, dx, dy, rand);
             sx = dx;
             sy = dy;
         }
         return unlinkedEnds;
+    }
+
+    private int shortestDistFromPoints(Point point, ArrayList<Point> points) {
+        int shortest = 100000;
+        for (Point p : points) {
+            int dist = Math.abs(p.x - point.x) + Math.abs(p.y - point.y);
+            if (shortest > dist) {
+                shortest = dist;
+            }
+        }
+        return shortest;
     }
 
     //Generate a path between the two points, preferring higher values in noise
@@ -161,6 +175,8 @@ public class CaveLayer extends MapLayer {
 
             if (tiles[sx][sy].equals(CaveTile.Rock()))
                 tiles[sx][sy] = CaveTile.Mineshaft();
+            else
+                specialTiles[sx][sy] = CaveTile.Mineshaft();
             total++;
 
             //force it to go the correct direction if we are already axis-aligned AND are close

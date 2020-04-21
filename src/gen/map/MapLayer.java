@@ -98,7 +98,7 @@ public abstract class MapLayer {
         return getTilesArray(tiles);
     }
 
-    public MapTile[][] getExtraTilesArray() {
+    public MapTile[][] getSpecialTilesArray() {
         return getTilesArray(specialTiles);
     }
 
@@ -118,7 +118,7 @@ public abstract class MapLayer {
         return getTiles(tiles, type);
     }
 
-    public ArrayList<Point> getExtraTiles(MapTile type) {
+    public ArrayList<Point> getSpecialTiles(MapTile type) {
         return getTiles(specialTiles, type);
     }
 
